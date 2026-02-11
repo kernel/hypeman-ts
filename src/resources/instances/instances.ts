@@ -221,7 +221,7 @@ export interface Instance {
   /**
    * Hypervisor running this instance
    */
-  hypervisor?: 'cloud-hypervisor' | 'qemu';
+  hypervisor?: 'cloud-hypervisor' | 'qemu' | 'vz';
 
   /**
    * Network configuration of the instance
@@ -446,7 +446,7 @@ export interface InstanceCreateParams {
   /**
    * Hypervisor to use for this instance. Defaults to server configuration.
    */
-  hypervisor?: 'cloud-hypervisor' | 'qemu';
+  hypervisor?: 'cloud-hypervisor' | 'qemu' | 'vz';
 
   /**
    * Network configuration for the instance
