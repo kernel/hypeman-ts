@@ -70,6 +70,7 @@ import {
   InstanceListResponse,
   InstanceLogsParams,
   InstanceLogsResponse,
+  InstanceStartParams,
   InstanceStatParams,
   Instances,
   PathInfo,
@@ -820,6 +821,7 @@ export declare namespace Hypeman {
     type InstanceLogsResponse as InstanceLogsResponse,
     type InstanceCreateParams as InstanceCreateParams,
     type InstanceLogsParams as InstanceLogsParams,
+    type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
   };
 

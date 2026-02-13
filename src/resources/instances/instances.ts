@@ -127,8 +127,8 @@ export class Instances extends APIResource {
    * const instance = await client.instances.start('id');
    * ```
    */
-  start(id: string, options?: RequestOptions): APIPromise<Instance> {
-    return this._client.post(path`/instances/${id}/start`, options);
+  start(id: string, body: InstanceStartParams, options?: RequestOptions): APIPromise<Instance> {
+    return this._client.post(path`/instances/${id}/start`, { body, ...options });
   }
 
   /**
@@ -202,6 +202,17 @@ export interface Instance {
    * Environment variables
    */
   env?: { [key: string]: string };
+
+  /**
+   * App exit code (null if VM hasn't exited)
+   */
+  exit_code?: number | null;
+
+  /**
+   * Human-readable description of exit (e.g., "command not found", "killed by signal
+   * 9 (SIGKILL) - OOM")
+   */
+  exit_message?: string;
 
   /**
    * GPU information attached to the instance
@@ -423,6 +434,12 @@ export interface InstanceCreateParams {
   name: string;
 
   /**
+   * Override image CMD (like docker run <image> <command>). Omit to use image
+   * default.
+   */
+  cmd?: Array<string>;
+
+  /**
    * Device IDs or names to attach for GPU/PCI passthrough
    */
   devices?: Array<string>;
@@ -432,6 +449,12 @@ export interface InstanceCreateParams {
    * based on CPU allocation if configured.
    */
   disk_io_bps?: string;
+
+  /**
+   * Override image entrypoint (like docker run --entrypoint). Omit to use image
+   * default.
+   */
+  entrypoint?: Array<string>;
 
   /**
    * Environment variables
@@ -554,6 +577,18 @@ export interface InstanceLogsParams {
   tail?: number;
 }
 
+export interface InstanceStartParams {
+  /**
+   * Override image CMD for this run. Omit to keep previous value.
+   */
+  cmd?: Array<string>;
+
+  /**
+   * Override image entrypoint for this run. Omit to keep previous value.
+   */
+  entrypoint?: Array<string>;
+}
+
 export interface InstanceStatParams {
   /**
    * Path to stat in the guest filesystem
@@ -578,6 +613,7 @@ export declare namespace Instances {
     type InstanceLogsResponse as InstanceLogsResponse,
     type InstanceCreateParams as InstanceCreateParams,
     type InstanceLogsParams as InstanceLogsParams,
+    type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
   };
 
