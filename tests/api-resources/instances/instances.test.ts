@@ -34,6 +34,7 @@ describe('resource instances', () => {
       gpu: { profile: 'L40S-1Q' },
       hotplug_size: '2GB',
       hypervisor: 'cloud-hypervisor',
+      metadata: { team: 'backend', purpose: 'staging' },
       network: {
         bandwidth_download: '1Gbps',
         bandwidth_upload: '1Gbps',

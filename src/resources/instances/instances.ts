@@ -224,6 +224,11 @@ export interface Instance {
   hypervisor?: 'cloud-hypervisor' | 'qemu' | 'vz';
 
   /**
+   * User-defined key-value metadata
+   */
+  metadata?: { [key: string]: string };
+
+  /**
    * Network configuration of the instance
    */
   network?: Instance.Network;
@@ -447,6 +452,11 @@ export interface InstanceCreateParams {
    * Hypervisor to use for this instance. Defaults to server configuration.
    */
   hypervisor?: 'cloud-hypervisor' | 'qemu' | 'vz';
+
+  /**
+   * User-defined key-value metadata for the instance
+   */
+  metadata?: { [key: string]: string };
 
   /**
    * Network configuration for the instance
