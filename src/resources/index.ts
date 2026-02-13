@@ -41,6 +41,7 @@ export {
   type InstanceLogsResponse,
   type InstanceCreateParams,
   type InstanceLogsParams,
+  type InstanceStartParams,
   type InstanceStatParams,
 } from './instances/instances';
 export {

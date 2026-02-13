@@ -28,8 +28,10 @@ describe('resource instances', () => {
     const response = await client.instances.create({
       image: 'docker.io/library/alpine:latest',
       name: 'my-workload-1',
+      cmd: ['echo', 'hello'],
       devices: ['l4-gpu'],
       disk_io_bps: '100MB/s',
+      entrypoint: ['/bin/sh', '-c'],
       env: { PORT: '3000', NODE_ENV: 'production' },
       gpu: { profile: 'L40S-1Q' },
       hotplug_size: '2GB',
@@ -147,7 +149,7 @@ describe('resource instances', () => {
 
   // Prism tests are disabled
   test.skip('start', async () => {
-    const responsePromise = client.instances.start('id');
+    const responsePromise = client.instances.start('id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
