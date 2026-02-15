@@ -30,6 +30,7 @@ describe('resource builds', () => {
       cache_scope: 'cache_scope',
       dockerfile: 'dockerfile',
       global_cache_key: 'global_cache_key',
+      image_name: 'image_name',
       is_admin_build: 'is_admin_build',
       secrets: 'secrets',
       timeout_seconds: 0,
