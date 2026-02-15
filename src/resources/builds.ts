@@ -231,6 +231,12 @@ export interface BuildCreateParams {
   global_cache_key?: string;
 
   /**
+   * Custom image name for the build output. When set, the image is pushed to
+   * {registry}/{image_name} instead of {registry}/builds/{id}.
+   */
+  image_name?: string;
+
+  /**
    * Set to "true" to grant push access to global cache (operator-only). Admin builds
    * can populate the shared global cache that all tenant builds read from.
    */
