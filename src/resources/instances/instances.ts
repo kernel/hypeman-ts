@@ -35,8 +35,11 @@ export class Instances extends APIResource {
    * const instances = await client.instances.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<InstanceListResponse> {
-    return this._client.get('/instances', options);
+  list(
+    query: InstanceListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<InstanceListResponse> {
+    return this._client.get('/instances', { query, ...options });
   }
 
   /**
@@ -556,6 +559,20 @@ export namespace InstanceCreateParams {
   }
 }
 
+export interface InstanceListParams {
+  /**
+   * Filter instances by metadata key-value pairs. Uses deepObject style:
+   * ?metadata[team]=backend&metadata[env]=staging Multiple entries are ANDed
+   * together. All specified key-value pairs must match.
+   */
+  metadata?: { [key: string]: string };
+
+  /**
+   * Filter instances by state (e.g., Running, Stopped)
+   */
+  state?: 'Created' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+}
+
 export interface InstanceLogsParams {
   /**
    * Continue streaming new lines after initial output
@@ -612,6 +629,7 @@ export declare namespace Instances {
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,
     type InstanceCreateParams as InstanceCreateParams,
+    type InstanceListParams as InstanceListParams,
     type InstanceLogsParams as InstanceLogsParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,

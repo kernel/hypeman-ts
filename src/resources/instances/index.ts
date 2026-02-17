@@ -9,6 +9,7 @@ export {
   type InstanceListResponse,
   type InstanceLogsResponse,
   type InstanceCreateParams,
+  type InstanceListParams,
   type InstanceLogsParams,
   type InstanceStartParams,
   type InstanceStatParams,
