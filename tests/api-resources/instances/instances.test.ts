@@ -72,6 +72,20 @@ describe('resource instances', () => {
   });
 
   // Prism tests are disabled
+  test.skip('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.instances.list(
+        {
+          metadata: { foo: 'string' },
+          state: 'Created',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Hypeman.NotFoundError);
+  });
+
+  // Prism tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.instances.delete('id');
     const rawResponse = await responsePromise.asResponse();
