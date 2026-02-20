@@ -8,7 +8,7 @@ const client = new Hypeman({
 });
 
 describe('resource instances', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.instances.create({
       image: 'docker.io/library/alpine:latest',
@@ -23,7 +23,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.instances.create({
       image: 'docker.io/library/alpine:latest',
@@ -59,7 +59,7 @@ describe('resource instances', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.instances.list();
     const rawResponse = await responsePromise.asResponse();
@@ -71,7 +71,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -85,7 +85,7 @@ describe('resource instances', () => {
     ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.instances.delete('id');
     const rawResponse = await responsePromise.asResponse();
@@ -97,7 +97,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('get', async () => {
     const responsePromise = client.instances.get('id');
     const rawResponse = await responsePromise.asResponse();
@@ -109,7 +109,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('logs', async () => {
     const responsePromise = client.instances.logs('id');
     const rawResponse = await responsePromise.asResponse();
@@ -121,7 +121,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('logs: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -137,7 +137,7 @@ describe('resource instances', () => {
     ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('restore', async () => {
     const responsePromise = client.instances.restore('id');
     const rawResponse = await responsePromise.asResponse();
@@ -149,7 +149,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('standby', async () => {
     const responsePromise = client.instances.standby('id');
     const rawResponse = await responsePromise.asResponse();
@@ -161,7 +161,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('start', async () => {
     const responsePromise = client.instances.start('id', {});
     const rawResponse = await responsePromise.asResponse();
@@ -173,7 +173,7 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('stat: only required params', async () => {
     const responsePromise = client.instances.stat('id', { path: 'path' });
     const rawResponse = await responsePromise.asResponse();
@@ -185,12 +185,12 @@ describe('resource instances', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('stat: required and optional params', async () => {
     const response = await client.instances.stat('id', { path: 'path', follow_links: true });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('stop', async () => {
     const responsePromise = client.instances.stop('id');
     const rawResponse = await responsePromise.asResponse();
