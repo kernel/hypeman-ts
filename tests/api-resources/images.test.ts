@@ -8,7 +8,7 @@ const client = new Hypeman({
 });
 
 describe('resource images', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.images.create({ name: 'docker.io/library/nginx:latest' });
     const rawResponse = await responsePromise.asResponse();
@@ -20,12 +20,12 @@ describe('resource images', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.images.create({ name: 'docker.io/library/nginx:latest' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.images.list();
     const rawResponse = await responsePromise.asResponse();
@@ -37,7 +37,7 @@ describe('resource images', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.images.delete('name');
     const rawResponse = await responsePromise.asResponse();
@@ -49,7 +49,7 @@ describe('resource images', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('get', async () => {
     const responsePromise = client.images.get('name');
     const rawResponse = await responsePromise.asResponse();
