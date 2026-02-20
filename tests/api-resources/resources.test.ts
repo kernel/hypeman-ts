@@ -8,7 +8,7 @@ const client = new Hypeman({
 });
 
 describe('resource resources', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('get', async () => {
     const responsePromise = client.resources.get();
     const rawResponse = await responsePromise.asResponse();

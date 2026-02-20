@@ -8,7 +8,7 @@ const client = new Hypeman({
 });
 
 describe('resource volumes', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('attach: only required params', async () => {
     const responsePromise = client.instances.volumes.attach('volumeId', {
       id: 'id',
@@ -23,7 +23,7 @@ describe('resource volumes', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('attach: required and optional params', async () => {
     const response = await client.instances.volumes.attach('volumeId', {
       id: 'id',
@@ -32,7 +32,7 @@ describe('resource volumes', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('detach: only required params', async () => {
     const responsePromise = client.instances.volumes.detach('volumeId', { id: 'id' });
     const rawResponse = await responsePromise.asResponse();
@@ -44,7 +44,7 @@ describe('resource volumes', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('detach: required and optional params', async () => {
     const response = await client.instances.volumes.detach('volumeId', { id: 'id' });
   });

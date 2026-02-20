@@ -8,7 +8,7 @@ const client = new Hypeman({
 });
 
 describe('resource ingresses', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.ingresses.create({
       name: 'my-api-ingress',
@@ -28,7 +28,7 @@ describe('resource ingresses', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.ingresses.create({
       name: 'my-api-ingress',
@@ -43,7 +43,7 @@ describe('resource ingresses', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.ingresses.list();
     const rawResponse = await responsePromise.asResponse();
@@ -55,7 +55,7 @@ describe('resource ingresses', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.ingresses.delete('id');
     const rawResponse = await responsePromise.asResponse();
@@ -67,7 +67,7 @@ describe('resource ingresses', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('get', async () => {
     const responsePromise = client.ingresses.get('id');
     const rawResponse = await responsePromise.asResponse();

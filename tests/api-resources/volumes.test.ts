@@ -8,7 +8,7 @@ const client = new Hypeman({
 });
 
 describe('resource volumes', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.volumes.create({ name: 'my-data-volume', size_gb: 10 });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource volumes', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.volumes.create({
       name: 'my-data-volume',
@@ -29,7 +29,7 @@ describe('resource volumes', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.volumes.list();
     const rawResponse = await responsePromise.asResponse();
@@ -41,7 +41,7 @@ describe('resource volumes', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.volumes.delete('id');
     const rawResponse = await responsePromise.asResponse();
@@ -53,7 +53,7 @@ describe('resource volumes', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createFromArchive: only required params', async () => {
     const responsePromise = client.volumes.createFromArchive(
       await toFile(Buffer.from('# my file contents'), 'README.md'),
@@ -68,7 +68,7 @@ describe('resource volumes', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createFromArchive: required and optional params', async () => {
     const response = await client.volumes.createFromArchive(
       await toFile(Buffer.from('# my file contents'), 'README.md'),
@@ -80,7 +80,7 @@ describe('resource volumes', () => {
     );
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('get', async () => {
     const responsePromise = client.volumes.get('id');
     const rawResponse = await responsePromise.asResponse();
