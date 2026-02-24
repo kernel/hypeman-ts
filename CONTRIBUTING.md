@@ -60,7 +60,7 @@ $ yarn link @onkernel/hypeman
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @onkernel/hypeman
+$ pnpm link --global @onkernel/hypeman
 ```
 
 ## Running tests
