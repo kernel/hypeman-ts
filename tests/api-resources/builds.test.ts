@@ -28,10 +28,12 @@ describe('resource builds', () => {
       source: await toFile(Buffer.from('# my file contents'), 'README.md'),
       base_image_digest: 'base_image_digest',
       cache_scope: 'cache_scope',
+      cpus: 0,
       dockerfile: 'dockerfile',
       global_cache_key: 'global_cache_key',
       image_name: 'image_name',
       is_admin_build: 'is_admin_build',
+      memory_mb: 0,
       secrets: 'secrets',
       timeout_seconds: 0,
     });

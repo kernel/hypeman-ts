@@ -219,6 +219,11 @@ export interface BuildCreateParams {
   cache_scope?: string;
 
   /**
+   * Number of vCPUs for builder VM (default 2)
+   */
+  cpus?: number;
+
+  /**
    * Dockerfile content. Required if not included in the source tarball.
    */
   dockerfile?: string;
@@ -241,6 +246,11 @@ export interface BuildCreateParams {
    * can populate the shared global cache that all tenant builds read from.
    */
   is_admin_build?: string;
+
+  /**
+   * Memory limit for builder VM in MB (default 2048)
+   */
+  memory_mb?: number;
 
   /**
    * JSON array of secret references to inject during build. Each object has "id"
