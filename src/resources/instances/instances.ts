@@ -470,7 +470,8 @@ export interface InstanceCreateParams {
   gpu?: InstanceCreateParams.GPU;
 
   /**
-   * Additional memory for hotplug (human-readable format like "3GB", "1G")
+   * Additional memory for hotplug (human-readable format like "3GB", "1G"). Omit to
+   * disable hotplug memory.
    */
   hotplug_size?: string;
 
