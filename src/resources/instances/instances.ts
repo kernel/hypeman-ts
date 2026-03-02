@@ -235,7 +235,7 @@ export interface Instance {
   /**
    * Hypervisor running this instance
    */
-  hypervisor?: 'cloud-hypervisor' | 'qemu' | 'vz';
+  hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
 
   /**
    * User-defined key-value metadata
@@ -478,7 +478,7 @@ export interface InstanceCreateParams {
   /**
    * Hypervisor to use for this instance. Defaults to server configuration.
    */
-  hypervisor?: 'cloud-hypervisor' | 'qemu' | 'vz';
+  hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
 
   /**
    * User-defined key-value metadata for the instance
