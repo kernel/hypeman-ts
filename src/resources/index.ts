@@ -34,6 +34,7 @@ export {
 export {
   Instances,
   type Instance,
+  type InstanceStats,
   type PathInfo,
   type PortMapping,
   type VolumeMount,
@@ -41,6 +42,7 @@ export {
   type InstanceLogsResponse,
   type InstanceCreateParams,
   type InstanceListParams,
+  type InstanceForkParams,
   type InstanceLogsParams,
   type InstanceStartParams,
   type InstanceStatParams,
