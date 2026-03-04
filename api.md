@@ -27,6 +27,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/instances/instances.ts">Instance</a></code>
+- <code><a href="./src/resources/instances/instances.ts">InstanceStats</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PathInfo</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PortMapping</a></code>
 - <code><a href="./src/resources/instances/instances.ts">VolumeMount</a></code>
@@ -38,12 +39,14 @@ Methods:
 - <code title="post /instances">client.instances.<a href="./src/resources/instances/instances.ts">create</a>({ ...params }) -> Instance</code>
 - <code title="get /instances">client.instances.<a href="./src/resources/instances/instances.ts">list</a>({ ...params }) -> InstanceListResponse</code>
 - <code title="delete /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">delete</a>(id) -> void</code>
+- <code title="post /instances/{id}/fork">client.instances.<a href="./src/resources/instances/instances.ts">fork</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">get</a>(id) -> Instance</code>
 - <code title="get /instances/{id}/logs">client.instances.<a href="./src/resources/instances/instances.ts">logs</a>(id, { ...params }) -> string</code>
 - <code title="post /instances/{id}/restore">client.instances.<a href="./src/resources/instances/instances.ts">restore</a>(id) -> Instance</code>
 - <code title="post /instances/{id}/standby">client.instances.<a href="./src/resources/instances/instances.ts">standby</a>(id) -> Instance</code>
 - <code title="post /instances/{id}/start">client.instances.<a href="./src/resources/instances/instances.ts">start</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances/{id}/stat">client.instances.<a href="./src/resources/instances/instances.ts">stat</a>(id, { ...params }) -> PathInfo</code>
+- <code title="get /instances/{id}/stats">client.instances.<a href="./src/resources/instances/instances.ts">stats</a>(id) -> InstanceStats</code>
 - <code title="post /instances/{id}/stop">client.instances.<a href="./src/resources/instances/instances.ts">stop</a>(id) -> Instance</code>
 
 ## Volumes

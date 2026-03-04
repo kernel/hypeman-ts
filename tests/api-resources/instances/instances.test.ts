@@ -98,6 +98,27 @@ describe('resource instances', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('fork: only required params', async () => {
+    const responsePromise = client.instances.fork('id', { name: 'my-workload-1-fork' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('fork: required and optional params', async () => {
+    const response = await client.instances.fork('id', {
+      name: 'my-workload-1-fork',
+      from_running: false,
+      target_state: 'Running',
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('get', async () => {
     const responsePromise = client.instances.get('id');
     const rawResponse = await responsePromise.asResponse();
@@ -188,6 +209,18 @@ describe('resource instances', () => {
   // Mock server tests are disabled
   test.skip('stat: required and optional params', async () => {
     const response = await client.instances.stat('id', { path: 'path', follow_links: true });
+  });
+
+  // Mock server tests are disabled
+  test.skip('stats', async () => {
+    const responsePromise = client.instances.stats('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   // Mock server tests are disabled
