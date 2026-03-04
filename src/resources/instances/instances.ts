@@ -58,6 +58,20 @@ export class Instances extends APIResource {
   }
 
   /**
+   * Fork an instance from stopped, standby, or running (with from_running=true)
+   *
+   * @example
+   * ```ts
+   * const instance = await client.instances.fork('id', {
+   *   name: 'my-workload-1-fork',
+   * });
+   * ```
+   */
+  fork(id: string, body: InstanceForkParams, options?: RequestOptions): APIPromise<Instance> {
+    return this._client.post(path`/instances/${id}/fork`, { body, ...options });
+  }
+
+  /**
    * Get instance details
    *
    * @example
@@ -147,6 +161,20 @@ export class Instances extends APIResource {
    */
   stat(id: string, query: InstanceStatParams, options?: RequestOptions): APIPromise<PathInfo> {
     return this._client.get(path`/instances/${id}/stat`, { query, ...options });
+  }
+
+  /**
+   * Returns real-time resource utilization statistics for a running VM instance.
+   * Metrics are collected from /proc/<pid>/stat and /proc/<pid>/statm for CPU and
+   * memory, and from TAP interface statistics for network I/O.
+   *
+   * @example
+   * ```ts
+   * const instanceStats = await client.instances.stats('id');
+   * ```
+   */
+  stats(id: string, options?: RequestOptions): APIPromise<InstanceStats> {
+    return this._client.get(path`/instances/${id}/stats`, options);
   }
 
   /**
@@ -333,6 +361,62 @@ export namespace Instance {
      */
     name?: string;
   }
+}
+
+/**
+ * Real-time resource utilization statistics for a VM instance
+ */
+export interface InstanceStats {
+  /**
+   * Total memory allocated to the VM (Size + HotplugSize) in bytes
+   */
+  allocated_memory_bytes: number;
+
+  /**
+   * Number of vCPUs allocated to the VM
+   */
+  allocated_vcpus: number;
+
+  /**
+   * Total CPU time consumed by the VM hypervisor process in seconds
+   */
+  cpu_seconds: number;
+
+  /**
+   * Instance identifier
+   */
+  instance_id: string;
+
+  /**
+   * Instance name
+   */
+  instance_name: string;
+
+  /**
+   * Resident Set Size - actual physical memory used by the VM in bytes
+   */
+  memory_rss_bytes: number;
+
+  /**
+   * Virtual Memory Size - total virtual memory allocated in bytes
+   */
+  memory_vms_bytes: number;
+
+  /**
+   * Total network bytes received by the VM (from TAP interface)
+   */
+  network_rx_bytes: number;
+
+  /**
+   * Total network bytes transmitted by the VM (from TAP interface)
+   */
+  network_tx_bytes: number;
+
+  /**
+   * Memory utilization ratio (RSS / allocated memory). Only present when
+   * allocated_memory_bytes > 0.
+   */
+  memory_utilization_ratio?: number | null;
 }
 
 export interface PathInfo {
@@ -574,6 +658,27 @@ export interface InstanceListParams {
   state?: 'Created' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 }
 
+export interface InstanceForkParams {
+  /**
+   * Name for the forked instance (lowercase letters, digits, and dashes only; cannot
+   * start or end with a dash)
+   */
+  name: string;
+
+  /**
+   * Allow forking from a running source instance. When true and source is Running,
+   * the source is put into standby, forked, then restored back to Running.
+   */
+  from_running?: boolean;
+
+  /**
+   * Optional final state for the forked instance. Default is the source instance
+   * state at fork time. For example, forking from Running defaults the fork result
+   * to Running.
+   */
+  target_state?: 'Stopped' | 'Standby' | 'Running';
+}
+
 export interface InstanceLogsParams {
   /**
    * Continue streaming new lines after initial output
@@ -624,6 +729,7 @@ Instances.Volumes = Volumes;
 export declare namespace Instances {
   export {
     type Instance as Instance,
+    type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
     type VolumeMount as VolumeMount,
@@ -631,6 +737,7 @@ export declare namespace Instances {
     type InstanceLogsResponse as InstanceLogsResponse,
     type InstanceCreateParams as InstanceCreateParams,
     type InstanceListParams as InstanceListParams,
+    type InstanceForkParams as InstanceForkParams,
     type InstanceLogsParams as InstanceLogsParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
