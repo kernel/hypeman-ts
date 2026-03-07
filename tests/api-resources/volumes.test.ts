@@ -68,7 +68,7 @@ describe('resource volumes', () => {
   // Mock server tests are disabled
   test.skip('createFromArchive: only required params', async () => {
     const responsePromise = client.volumes.createFromArchive(
-      await toFile(Buffer.from('# my file contents'), 'README.md'),
+      await toFile(Buffer.from('Example data'), 'README.md'),
       { name: 'name', size_gb: 0 },
     );
     const rawResponse = await responsePromise.asResponse();
@@ -83,7 +83,7 @@ describe('resource volumes', () => {
   // Mock server tests are disabled
   test.skip('createFromArchive: required and optional params', async () => {
     const response = await client.volumes.createFromArchive(
-      await toFile(Buffer.from('# my file contents'), 'README.md'),
+      await toFile(Buffer.from('Example data'), 'README.md'),
       {
         name: 'name',
         size_gb: 0,
