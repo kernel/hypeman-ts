@@ -56,6 +56,28 @@ Methods:
 - <code title="post /instances/{id}/volumes/{volumeId}">client.instances.volumes.<a href="./src/resources/instances/volumes.ts">attach</a>(volumeID, { ...params }) -> Instance</code>
 - <code title="delete /instances/{id}/volumes/{volumeId}">client.instances.volumes.<a href="./src/resources/instances/volumes.ts">detach</a>(volumeID, { ...params }) -> Instance</code>
 
+## Snapshots
+
+Methods:
+
+- <code title="post /instances/{id}/snapshots">client.instances.snapshots.<a href="./src/resources/instances/snapshots.ts">create</a>(id, { ...params }) -> Snapshot</code>
+- <code title="post /instances/{id}/snapshots/{snapshotId}/restore">client.instances.snapshots.<a href="./src/resources/instances/snapshots.ts">restore</a>(snapshotID, { ...params }) -> Instance</code>
+
+# Snapshots
+
+Types:
+
+- <code><a href="./src/resources/snapshots.ts">Snapshot</a></code>
+- <code><a href="./src/resources/snapshots.ts">SnapshotKind</a></code>
+- <code><a href="./src/resources/snapshots.ts">SnapshotListResponse</a></code>
+
+Methods:
+
+- <code title="get /snapshots">client.snapshots.<a href="./src/resources/snapshots.ts">list</a>({ ...params }) -> SnapshotListResponse</code>
+- <code title="delete /snapshots/{snapshotId}">client.snapshots.<a href="./src/resources/snapshots.ts">delete</a>(snapshotID) -> void</code>
+- <code title="post /snapshots/{snapshotId}/fork">client.snapshots.<a href="./src/resources/snapshots.ts">fork</a>(snapshotID, { ...params }) -> Instance</code>
+- <code title="get /snapshots/{snapshotId}">client.snapshots.<a href="./src/resources/snapshots.ts">get</a>(snapshotID) -> Snapshot</code>
+
 # Volumes
 
 Types:
