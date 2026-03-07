@@ -21,8 +21,11 @@ export class Builds extends APIResource {
   /**
    * List builds
    */
-  list(options?: RequestOptions): APIPromise<BuildListResponse> {
-    return this._client.get('/builds', options);
+  list(
+    query: BuildListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BuildListResponse> {
+    return this._client.get('/builds', { query, ...options });
   }
 
   /**
@@ -110,6 +113,11 @@ export interface Build {
    * Full image reference (only when status is ready)
    */
   image_ref?: string | null;
+
+  /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
 
   provenance?: BuildProvenance;
 
@@ -253,6 +261,11 @@ export interface BuildCreateParams {
   memory_mb?: number;
 
   /**
+   * JSON object of metadata tags. Example: {"team":"backend","env":"staging"}
+   */
+  metadata?: string;
+
+  /**
    * JSON array of secret references to inject during build. Each object has "id"
    * (required) for use with --mount=type=secret,id=... Example: [{"id":
    * "npm_token"}, {"id": "github_token"}]
@@ -263,6 +276,13 @@ export interface BuildCreateParams {
    * Build timeout (default 600)
    */
   timeout_seconds?: number;
+}
+
+export interface BuildListParams {
+  /**
+   * Filter builds by metadata key-value pairs.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export interface BuildEventsParams {
@@ -281,6 +301,7 @@ export declare namespace Builds {
     type BuildStatus as BuildStatus,
     type BuildListResponse as BuildListResponse,
     type BuildCreateParams as BuildCreateParams,
+    type BuildListParams as BuildListParams,
     type BuildEventsParams as BuildEventsParams,
   };
 }

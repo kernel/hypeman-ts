@@ -22,7 +22,11 @@ describe('resource devices', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.devices.create({ pci_address: '0000:a2:00.0', name: 'l4-gpu' });
+    const response = await client.devices.create({
+      pci_address: '0000:a2:00.0',
+      metadata: { team: 'backend', env: 'staging' },
+      name: 'l4-gpu',
+    });
   });
 
   // Mock server tests are disabled
@@ -47,6 +51,17 @@ describe('resource devices', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.devices.list(
+        { metadata: { team: 'backend', env: 'staging' } },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
   // Mock server tests are disabled

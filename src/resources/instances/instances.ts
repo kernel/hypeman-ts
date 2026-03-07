@@ -269,7 +269,7 @@ export interface Instance {
   hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
 
   /**
-   * User-defined key-value metadata
+   * User-defined key-value metadata tags.
    */
   metadata?: { [key: string]: string };
 
@@ -568,7 +568,7 @@ export interface InstanceCreateParams {
   hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
 
   /**
-   * User-defined key-value metadata for the instance
+   * User-defined key-value metadata tags.
    */
   metadata?: { [key: string]: string };
 
