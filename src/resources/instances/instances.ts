@@ -1,6 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as SnapshotsAPI from './snapshots';
+import { SnapshotCreateParams, SnapshotRestoreParams, Snapshots } from './snapshots';
 import * as VolumesAPI from './volumes';
 import { VolumeAttachParams, VolumeDetachParams, Volumes } from './volumes';
 import { APIPromise } from '../../core/api-promise';
@@ -11,6 +13,7 @@ import { path } from '../../internal/utils/path';
 
 export class Instances extends APIResource {
   volumes: VolumesAPI.Volumes = new VolumesAPI.Volumes(this._client);
+  snapshots: SnapshotsAPI.Snapshots = new SnapshotsAPI.Snapshots(this._client);
 
   /**
    * Create and start instance
@@ -725,6 +728,7 @@ export interface InstanceStatParams {
 }
 
 Instances.Volumes = Volumes;
+Instances.Snapshots = Snapshots;
 
 export declare namespace Instances {
   export {
@@ -747,5 +751,11 @@ export declare namespace Instances {
     Volumes as Volumes,
     type VolumeAttachParams as VolumeAttachParams,
     type VolumeDetachParams as VolumeDetachParams,
+  };
+
+  export {
+    Snapshots as Snapshots,
+    type SnapshotCreateParams as SnapshotCreateParams,
+    type SnapshotRestoreParams as SnapshotRestoreParams,
   };
 }

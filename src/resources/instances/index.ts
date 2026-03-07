@@ -16,4 +16,5 @@ export {
   type InstanceStartParams,
   type InstanceStatParams,
 } from './instances';
+export { Snapshots, type SnapshotCreateParams, type SnapshotRestoreParams } from './snapshots';
 export { Volumes, type VolumeAttachParams, type VolumeDetachParams } from './volumes';

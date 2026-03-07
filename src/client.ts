@@ -58,6 +58,14 @@ import {
   Resources,
 } from './resources/resources';
 import {
+  Snapshot,
+  SnapshotForkParams,
+  SnapshotKind,
+  SnapshotListParams,
+  SnapshotListResponse,
+  Snapshots,
+} from './resources/snapshots';
+import {
   Volume,
   VolumeAttachment,
   VolumeCreateFromArchiveParams,
@@ -780,6 +788,7 @@ export class Hypeman {
   health: API.Health = new API.Health(this);
   images: API.Images = new API.Images(this);
   instances: API.Instances = new API.Instances(this);
+  snapshots: API.Snapshots = new API.Snapshots(this);
   volumes: API.Volumes = new API.Volumes(this);
   devices: API.Devices = new API.Devices(this);
   ingresses: API.Ingresses = new API.Ingresses(this);
@@ -790,6 +799,7 @@ export class Hypeman {
 Hypeman.Health = Health;
 Hypeman.Images = Images;
 Hypeman.Instances = Instances;
+Hypeman.Snapshots = Snapshots;
 Hypeman.Volumes = Volumes;
 Hypeman.Devices = Devices;
 Hypeman.Ingresses = Ingresses;
@@ -822,6 +832,15 @@ export declare namespace Hypeman {
     type InstanceLogsParams as InstanceLogsParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
+  };
+
+  export {
+    Snapshots as Snapshots,
+    type Snapshot as Snapshot,
+    type SnapshotKind as SnapshotKind,
+    type SnapshotListResponse as SnapshotListResponse,
+    type SnapshotListParams as SnapshotListParams,
+    type SnapshotForkParams as SnapshotForkParams,
   };
 
   export {

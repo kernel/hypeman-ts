@@ -57,6 +57,14 @@ export {
   type ResourceStatus,
 } from './resources';
 export {
+  Snapshots,
+  type Snapshot,
+  type SnapshotKind,
+  type SnapshotListResponse,
+  type SnapshotListParams,
+  type SnapshotForkParams,
+} from './snapshots';
+export {
   Volumes,
   type Volume,
   type VolumeAttachment,
