@@ -22,7 +22,11 @@ describe('resource snapshots', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.instances.snapshots.create('id', { kind: 'Standby', name: 'pre-upgrade' });
+    const response = await client.instances.snapshots.create('id', {
+      kind: 'Standby',
+      metadata: { team: 'backend', env: 'staging' },
+      name: 'pre-upgrade',
+    });
   });
 
   // Mock server tests are disabled

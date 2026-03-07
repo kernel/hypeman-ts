@@ -106,6 +106,11 @@ export interface Snapshot {
   source_instance_name: string;
 
   /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
+
+  /**
    * Optional human-readable snapshot name (unique per source instance)
    */
   name?: string | null;
@@ -123,6 +128,11 @@ export interface SnapshotListParams {
    * Filter snapshots by kind
    */
   kind?: SnapshotKind;
+
+  /**
+   * Filter snapshots by metadata key-value pairs.
+   */
+  metadata?: { [key: string]: string };
 
   /**
    * Filter snapshots by snapshot name

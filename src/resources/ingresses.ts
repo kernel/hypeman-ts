@@ -35,8 +35,11 @@ export class Ingresses extends APIResource {
    * const ingresses = await client.ingresses.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<IngressListResponse> {
-    return this._client.get('/ingresses', options);
+  list(
+    query: IngressListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<IngressListResponse> {
+    return this._client.get('/ingresses', { query, ...options });
   }
 
   /**
@@ -87,6 +90,11 @@ export interface Ingress {
    * Routing rules for this ingress
    */
   rules: Array<IngressRule>;
+
+  /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export interface IngressMatch {
@@ -157,6 +165,18 @@ export interface IngressCreateParams {
    * Routing rules for this ingress
    */
   rules: Array<IngressRule>;
+
+  /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
+}
+
+export interface IngressListParams {
+  /**
+   * Filter ingresses by metadata key-value pairs.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export declare namespace Ingresses {
@@ -167,5 +187,6 @@ export declare namespace Ingresses {
     type IngressTarget as IngressTarget,
     type IngressListResponse as IngressListResponse,
     type IngressCreateParams as IngressCreateParams,
+    type IngressListParams as IngressListParams,
   };
 }

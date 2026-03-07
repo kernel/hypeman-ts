@@ -27,6 +27,7 @@ describe('resource snapshots', () => {
       client.snapshots.list(
         {
           kind: 'Standby',
+          metadata: { team: 'backend', env: 'staging' },
           name: 'name',
           source_instance_id: 'source_instance_id',
         },
