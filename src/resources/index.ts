@@ -9,6 +9,7 @@ export {
   type BuildStatus,
   type BuildListResponse,
   type BuildCreateParams,
+  type BuildListParams,
   type BuildEventsParams,
 } from './builds';
 export {
@@ -19,9 +20,16 @@ export {
   type DeviceListResponse,
   type DeviceListAvailableResponse,
   type DeviceCreateParams,
+  type DeviceListParams,
 } from './devices';
 export { Health, type HealthCheckResponse } from './health';
-export { Images, type Image, type ImageListResponse, type ImageCreateParams } from './images';
+export {
+  Images,
+  type Image,
+  type ImageListResponse,
+  type ImageCreateParams,
+  type ImageListParams,
+} from './images';
 export {
   Ingresses,
   type Ingress,
@@ -30,6 +38,7 @@ export {
   type IngressTarget,
   type IngressListResponse,
   type IngressCreateParams,
+  type IngressListParams,
 } from './ingresses';
 export {
   Instances,
@@ -70,5 +79,6 @@ export {
   type VolumeAttachment,
   type VolumeListResponse,
   type VolumeCreateParams,
+  type VolumeListParams,
   type VolumeCreateFromArchiveParams,
 } from './volumes';

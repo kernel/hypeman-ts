@@ -30,8 +30,11 @@ export class Volumes extends APIResource {
    * const volumes = await client.volumes.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<VolumeListResponse> {
-    return this._client.get('/volumes', options);
+  list(
+    query: VolumeListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<VolumeListResponse> {
+    return this._client.get('/volumes', { query, ...options });
   }
 
   /**
@@ -66,10 +69,10 @@ export class Volumes extends APIResource {
     params: VolumeCreateFromArchiveParams,
     options?: RequestOptions,
   ): APIPromise<Volume> {
-    const { name, size_gb, id } = params;
+    const { name, size_gb, id, metadata } = params;
     return this._client.post('/volumes/from-archive', {
       body: body,
-      query: { name, size_gb, id },
+      query: { name, size_gb, id, metadata },
       ...options,
       headers: buildHeaders([{ 'Content-Type': 'application/gzip' }, options?.headers]),
     });
@@ -113,6 +116,11 @@ export interface Volume {
    * List of current attachments (empty if not attached)
    */
   attachments?: Array<VolumeAttachment>;
+
+  /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export interface VolumeAttachment {
@@ -149,6 +157,18 @@ export interface VolumeCreateParams {
    * Optional custom identifier (auto-generated if not provided)
    */
   id?: string;
+
+  /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
+}
+
+export interface VolumeListParams {
+  /**
+   * Filter volumes by metadata key-value pairs.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export interface VolumeCreateFromArchiveParams {
@@ -166,6 +186,11 @@ export interface VolumeCreateFromArchiveParams {
    * Query param: Optional custom volume ID (auto-generated if not provided)
    */
   id?: string;
+
+  /**
+   * Query param: Metadata tags for the created volume.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export declare namespace Volumes {
@@ -174,6 +199,7 @@ export declare namespace Volumes {
     type VolumeAttachment as VolumeAttachment,
     type VolumeListResponse as VolumeListResponse,
     type VolumeCreateParams as VolumeCreateParams,
+    type VolumeListParams as VolumeListParams,
     type VolumeCreateFromArchiveParams as VolumeCreateFromArchiveParams,
   };
 }

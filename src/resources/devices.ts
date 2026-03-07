@@ -41,8 +41,11 @@ export class Devices extends APIResource {
    * const devices = await client.devices.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<DeviceListResponse> {
-    return this._client.get('/devices', options);
+  list(
+    query: DeviceListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DeviceListResponse> {
+    return this._client.get('/devices', { query, ...options });
   }
 
   /**
@@ -164,6 +167,11 @@ export interface Device {
   attached_to?: string | null;
 
   /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
+
+  /**
    * Device name (user-provided or auto-generated from PCI address)
    */
   name?: string;
@@ -185,10 +193,22 @@ export interface DeviceCreateParams {
   pci_address: string;
 
   /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
+
+  /**
    * Optional globally unique device name. If not provided, a name is auto-generated
    * from the PCI address (e.g., "pci-0000-a2-00-0")
    */
   name?: string;
+}
+
+export interface DeviceListParams {
+  /**
+   * Filter devices by metadata key-value pairs.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export declare namespace Devices {
@@ -199,5 +219,6 @@ export declare namespace Devices {
     type DeviceListResponse as DeviceListResponse,
     type DeviceListAvailableResponse as DeviceListAvailableResponse,
     type DeviceCreateParams as DeviceCreateParams,
+    type DeviceListParams as DeviceListParams,
   };
 }

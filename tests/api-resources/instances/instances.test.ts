@@ -36,7 +36,7 @@ describe('resource instances', () => {
       gpu: { profile: 'L40S-1Q' },
       hotplug_size: '2GB',
       hypervisor: 'cloud-hypervisor',
-      metadata: { team: 'backend', purpose: 'staging' },
+      metadata: { team: 'backend', env: 'staging' },
       network: {
         bandwidth_download: '1Gbps',
         bandwidth_upload: '1Gbps',
@@ -77,7 +77,7 @@ describe('resource instances', () => {
     await expect(
       client.instances.list(
         {
-          metadata: { foo: 'string' },
+          metadata: { team: 'backend', env: 'staging' },
           state: 'Created',
         },
         { path: '/_stainless_unknown_path' },

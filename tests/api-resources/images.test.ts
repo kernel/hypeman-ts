@@ -22,7 +22,10 @@ describe('resource images', () => {
 
   // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.images.create({ name: 'docker.io/library/nginx:latest' });
+    const response = await client.images.create({
+      name: 'docker.io/library/nginx:latest',
+      metadata: { team: 'backend', env: 'staging' },
+    });
   });
 
   // Mock server tests are disabled
@@ -35,6 +38,17 @@ describe('resource images', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.images.list(
+        { metadata: { team: 'backend', env: 'staging' } },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
   // Mock server tests are disabled

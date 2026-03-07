@@ -26,6 +26,7 @@ describe('resource volumes', () => {
       name: 'my-data-volume',
       size_gb: 10,
       id: 'vol-data-1',
+      metadata: { team: 'backend', env: 'staging' },
     });
   });
 
@@ -39,6 +40,17 @@ describe('resource volumes', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.volumes.list(
+        { metadata: { team: 'backend', env: 'staging' } },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
   // Mock server tests are disabled
@@ -76,6 +88,7 @@ describe('resource volumes', () => {
         name: 'name',
         size_gb: 0,
         id: 'id',
+        metadata: { team: 'backend', env: 'staging' },
       },
     );
   });

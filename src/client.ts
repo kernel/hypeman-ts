@@ -22,6 +22,7 @@ import {
   BuildCreateParams,
   BuildEvent,
   BuildEventsParams,
+  BuildListParams,
   BuildListResponse,
   BuildPolicy,
   BuildProvenance,
@@ -33,15 +34,17 @@ import {
   Device,
   DeviceCreateParams,
   DeviceListAvailableResponse,
+  DeviceListParams,
   DeviceListResponse,
   DeviceType,
   Devices,
 } from './resources/devices';
 import { Health, HealthCheckResponse } from './resources/health';
-import { Image, ImageCreateParams, ImageListResponse, Images } from './resources/images';
+import { Image, ImageCreateParams, ImageListParams, ImageListResponse, Images } from './resources/images';
 import {
   Ingress,
   IngressCreateParams,
+  IngressListParams,
   IngressListResponse,
   IngressMatch,
   IngressRule,
@@ -70,6 +73,7 @@ import {
   VolumeAttachment,
   VolumeCreateFromArchiveParams,
   VolumeCreateParams,
+  VolumeListParams,
   VolumeListResponse,
   Volumes,
 } from './resources/volumes';
@@ -815,6 +819,7 @@ export declare namespace Hypeman {
     type Image as Image,
     type ImageListResponse as ImageListResponse,
     type ImageCreateParams as ImageCreateParams,
+    type ImageListParams as ImageListParams,
   };
 
   export {
@@ -849,6 +854,7 @@ export declare namespace Hypeman {
     type VolumeAttachment as VolumeAttachment,
     type VolumeListResponse as VolumeListResponse,
     type VolumeCreateParams as VolumeCreateParams,
+    type VolumeListParams as VolumeListParams,
     type VolumeCreateFromArchiveParams as VolumeCreateFromArchiveParams,
   };
 
@@ -860,6 +866,7 @@ export declare namespace Hypeman {
     type DeviceListResponse as DeviceListResponse,
     type DeviceListAvailableResponse as DeviceListAvailableResponse,
     type DeviceCreateParams as DeviceCreateParams,
+    type DeviceListParams as DeviceListParams,
   };
 
   export {
@@ -870,6 +877,7 @@ export declare namespace Hypeman {
     type IngressTarget as IngressTarget,
     type IngressListResponse as IngressListResponse,
     type IngressCreateParams as IngressCreateParams,
+    type IngressListParams as IngressListParams,
   };
 
   export {
@@ -891,6 +899,7 @@ export declare namespace Hypeman {
     type BuildStatus as BuildStatus,
     type BuildListResponse as BuildListResponse,
     type BuildCreateParams as BuildCreateParams,
+    type BuildListParams as BuildListParams,
     type BuildEventsParams as BuildEventsParams,
   };
 }

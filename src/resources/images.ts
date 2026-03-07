@@ -29,8 +29,11 @@ export class Images extends APIResource {
    * const images = await client.images.list();
    * ```
    */
-  list(options?: RequestOptions): APIPromise<ImageListResponse> {
-    return this._client.get('/images', options);
+  list(
+    query: ImageListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ImageListResponse> {
+    return this._client.get('/images', { query, ...options });
   }
 
   /**
@@ -103,6 +106,11 @@ export interface Image {
   error?: string | null;
 
   /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
+
+  /**
    * Position in build queue (null if not queued)
    */
   queue_position?: number | null;
@@ -125,6 +133,18 @@ export interface ImageCreateParams {
    * OCI image reference (e.g., docker.io/library/nginx:latest)
    */
   name: string;
+
+  /**
+   * User-defined key-value metadata tags.
+   */
+  metadata?: { [key: string]: string };
+}
+
+export interface ImageListParams {
+  /**
+   * Filter images by metadata key-value pairs.
+   */
+  metadata?: { [key: string]: string };
 }
 
 export declare namespace Images {
@@ -132,5 +152,6 @@ export declare namespace Images {
     type Image as Image,
     type ImageListResponse as ImageListResponse,
     type ImageCreateParams as ImageCreateParams,
+    type ImageListParams as ImageListParams,
   };
 }
