@@ -92,9 +92,9 @@ export interface Ingress {
   rules: Array<IngressRule>;
 
   /**
-   * User-defined key-value metadata tags.
+   * User-defined key-value tags.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export interface IngressMatch {
@@ -167,16 +167,16 @@ export interface IngressCreateParams {
   rules: Array<IngressRule>;
 
   /**
-   * User-defined key-value metadata tags.
+   * User-defined key-value tags.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export interface IngressListParams {
   /**
-   * Filter ingresses by metadata key-value pairs.
+   * Filter ingresses by tag key-value pairs.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export declare namespace Ingresses {

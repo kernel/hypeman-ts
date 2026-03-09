@@ -106,14 +106,14 @@ export interface Snapshot {
   source_instance_name: string;
 
   /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Optional human-readable snapshot name (unique per source instance)
    */
   name?: string | null;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 }
 
 /**
@@ -130,11 +130,6 @@ export interface SnapshotListParams {
   kind?: SnapshotKind;
 
   /**
-   * Filter snapshots by metadata key-value pairs.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Filter snapshots by snapshot name
    */
   name?: string;
@@ -143,6 +138,11 @@ export interface SnapshotListParams {
    * Filter snapshots by source instance ID
    */
   source_instance_id?: string;
+
+  /**
+   * Filter snapshots by tag key-value pairs.
+   */
+  tags?: { [key: string]: string };
 }
 
 export interface SnapshotForkParams {
