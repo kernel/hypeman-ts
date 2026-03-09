@@ -167,14 +167,14 @@ export interface Device {
   attached_to?: string | null;
 
   /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Device name (user-provided or auto-generated from PCI address)
    */
   name?: string;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 }
 
 /**
@@ -193,22 +193,22 @@ export interface DeviceCreateParams {
   pci_address: string;
 
   /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Optional globally unique device name. If not provided, a name is auto-generated
    * from the PCI address (e.g., "pci-0000-a2-00-0")
    */
   name?: string;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 }
 
 export interface DeviceListParams {
   /**
-   * Filter devices by metadata key-value pairs.
+   * Filter devices by tag key-value pairs.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export declare namespace Devices {

@@ -24,8 +24,8 @@ describe('resource snapshots', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.instances.snapshots.create('id', {
       kind: 'Standby',
-      metadata: { team: 'backend', env: 'staging' },
       name: 'pre-upgrade',
+      tags: { team: 'backend', env: 'staging' },
     });
   });
 

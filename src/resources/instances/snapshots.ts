@@ -55,15 +55,15 @@ export interface SnapshotCreateParams {
   kind: SnapshotsAPI.SnapshotKind;
 
   /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Optional snapshot name (lowercase letters, digits, and dashes only; cannot start
    * or end with a dash)
    */
   name?: string;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 }
 
 export interface SnapshotRestoreParams {
