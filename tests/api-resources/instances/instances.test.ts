@@ -36,7 +36,6 @@ describe('resource instances', () => {
       gpu: { profile: 'L40S-1Q' },
       hotplug_size: '2GB',
       hypervisor: 'cloud-hypervisor',
-      metadata: { team: 'backend', env: 'staging' },
       network: {
         bandwidth_download: '1Gbps',
         bandwidth_upload: '1Gbps',
@@ -46,6 +45,7 @@ describe('resource instances', () => {
       size: '2GB',
       skip_guest_agent: false,
       skip_kernel_headers: true,
+      tags: { team: 'backend', env: 'staging' },
       vcpus: 2,
       volumes: [
         {
@@ -77,8 +77,8 @@ describe('resource instances', () => {
     await expect(
       client.instances.list(
         {
-          metadata: { team: 'backend', env: 'staging' },
           state: 'Created',
+          tags: { team: 'backend', env: 'staging' },
         },
         { path: '/_stainless_unknown_path' },
       ),

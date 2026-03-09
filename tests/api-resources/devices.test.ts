@@ -24,8 +24,8 @@ describe('resource devices', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.devices.create({
       pci_address: '0000:a2:00.0',
-      metadata: { team: 'backend', env: 'staging' },
       name: 'l4-gpu',
+      tags: { team: 'backend', env: 'staging' },
     });
   });
 
@@ -58,7 +58,7 @@ describe('resource devices', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.devices.list(
-        { metadata: { team: 'backend', env: 'staging' } },
+        { tags: { team: 'backend', env: 'staging' } },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Hypeman.NotFoundError);

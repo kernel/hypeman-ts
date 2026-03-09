@@ -114,11 +114,6 @@ export interface Build {
    */
   image_ref?: string | null;
 
-  /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
   provenance?: BuildProvenance;
 
   /**
@@ -130,6 +125,11 @@ export interface Build {
    * Build start timestamp
    */
   started_at?: string | null;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 }
 
 export interface BuildEvent {
@@ -261,16 +261,16 @@ export interface BuildCreateParams {
   memory_mb?: number;
 
   /**
-   * JSON object of metadata tags. Example: {"team":"backend","env":"staging"}
-   */
-  metadata?: string;
-
-  /**
    * JSON array of secret references to inject during build. Each object has "id"
    * (required) for use with --mount=type=secret,id=... Example: [{"id":
    * "npm_token"}, {"id": "github_token"}]
    */
   secrets?: string;
+
+  /**
+   * JSON object of tags. Example: {"team":"backend","env":"staging"}
+   */
+  tags?: string;
 
   /**
    * Build timeout (default 600)
@@ -280,9 +280,9 @@ export interface BuildCreateParams {
 
 export interface BuildListParams {
   /**
-   * Filter builds by metadata key-value pairs.
+   * Filter builds by tag key-value pairs.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export interface BuildEventsParams {

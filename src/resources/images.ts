@@ -106,11 +106,6 @@ export interface Image {
   error?: string | null;
 
   /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Position in build queue (null if not queued)
    */
   queue_position?: number | null;
@@ -119,6 +114,11 @@ export interface Image {
    * Disk size in bytes (null until ready)
    */
   size_bytes?: number | null;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 
   /**
    * Working directory from container metadata
@@ -135,16 +135,16 @@ export interface ImageCreateParams {
   name: string;
 
   /**
-   * User-defined key-value metadata tags.
+   * User-defined key-value tags.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export interface ImageListParams {
   /**
-   * Filter images by metadata key-value pairs.
+   * Filter images by tag key-value pairs.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export declare namespace Images {

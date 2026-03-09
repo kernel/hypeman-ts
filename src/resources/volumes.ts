@@ -69,10 +69,10 @@ export class Volumes extends APIResource {
     params: VolumeCreateFromArchiveParams,
     options?: RequestOptions,
   ): APIPromise<Volume> {
-    const { name, size_gb, id, metadata } = params;
+    const { name, size_gb, id, tags } = params;
     return this._client.post('/volumes/from-archive', {
       body: body,
-      query: { name, size_gb, id, metadata },
+      query: { name, size_gb, id, tags },
       ...options,
       headers: buildHeaders([{ 'Content-Type': 'application/gzip' }, options?.headers]),
     });
@@ -118,9 +118,9 @@ export interface Volume {
   attachments?: Array<VolumeAttachment>;
 
   /**
-   * User-defined key-value metadata tags.
+   * User-defined key-value tags.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export interface VolumeAttachment {
@@ -159,16 +159,16 @@ export interface VolumeCreateParams {
   id?: string;
 
   /**
-   * User-defined key-value metadata tags.
+   * User-defined key-value tags.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export interface VolumeListParams {
   /**
-   * Filter volumes by metadata key-value pairs.
+   * Filter volumes by tag key-value pairs.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export interface VolumeCreateFromArchiveParams {
@@ -188,9 +188,9 @@ export interface VolumeCreateFromArchiveParams {
   id?: string;
 
   /**
-   * Query param: Metadata tags for the created volume.
+   * Query param: Tags for the created volume.
    */
-  metadata?: { [key: string]: string };
+  tags?: { [key: string]: string };
 }
 
 export declare namespace Volumes {

@@ -269,11 +269,6 @@ export interface Instance {
   hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
 
   /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Network configuration of the instance
    */
   network?: Instance.Network;
@@ -302,6 +297,11 @@ export interface Instance {
    * Stop timestamp (RFC3339)
    */
   stopped_at?: string | null;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 
   /**
    * Number of virtual CPUs
@@ -568,11 +568,6 @@ export interface InstanceCreateParams {
   hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
 
   /**
-   * User-defined key-value metadata tags.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Network configuration for the instance
    */
   network?: InstanceCreateParams.Network;
@@ -601,6 +596,11 @@ export interface InstanceCreateParams {
    * workloads that don't need kernel module compilation.
    */
   skip_kernel_headers?: boolean;
+
+  /**
+   * User-defined key-value tags.
+   */
+  tags?: { [key: string]: string };
 
   /**
    * Number of virtual CPUs
@@ -649,16 +649,16 @@ export namespace InstanceCreateParams {
 
 export interface InstanceListParams {
   /**
-   * Filter instances by metadata key-value pairs. Uses deepObject style:
-   * ?metadata[team]=backend&metadata[env]=staging Multiple entries are ANDed
-   * together. All specified key-value pairs must match.
-   */
-  metadata?: { [key: string]: string };
-
-  /**
    * Filter instances by state (e.g., Running, Stopped)
    */
   state?: 'Created' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+
+  /**
+   * Filter instances by tag key-value pairs. Uses deepObject style:
+   * ?tags[team]=backend&tags[env]=staging Multiple entries are ANDed together. All
+   * specified key-value pairs must match.
+   */
+  tags?: { [key: string]: string };
 }
 
 export interface InstanceForkParams {

@@ -40,7 +40,7 @@ describe('resource ingresses', () => {
           tls: true,
         },
       ],
-      metadata: { team: 'backend', env: 'staging' },
+      tags: { team: 'backend', env: 'staging' },
     });
   });
 
@@ -61,7 +61,7 @@ describe('resource ingresses', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.ingresses.list(
-        { metadata: { team: 'backend', env: 'staging' } },
+        { tags: { team: 'backend', env: 'staging' } },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Hypeman.NotFoundError);

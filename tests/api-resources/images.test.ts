@@ -24,7 +24,7 @@ describe('resource images', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.images.create({
       name: 'docker.io/library/nginx:latest',
-      metadata: { team: 'backend', env: 'staging' },
+      tags: { team: 'backend', env: 'staging' },
     });
   });
 
@@ -44,10 +44,7 @@ describe('resource images', () => {
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.images.list(
-        { metadata: { team: 'backend', env: 'staging' } },
-        { path: '/_stainless_unknown_path' },
-      ),
+      client.images.list({ tags: { team: 'backend', env: 'staging' } }, { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
