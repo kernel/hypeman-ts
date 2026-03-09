@@ -218,14 +218,15 @@ export interface Instance {
    * Instance state:
    *
    * - Created: VMM created but not started (Cloud Hypervisor native)
-   * - Running: VM is actively running (Cloud Hypervisor native)
+   * - Initializing: VM is running while guest init is still in progress
+   * - Running: Guest program has started and instance is ready
    * - Paused: VM is paused (Cloud Hypervisor native)
    * - Shutdown: VM shut down but VMM exists (Cloud Hypervisor native)
    * - Stopped: No VMM running, no snapshot exists
    * - Standby: No VMM running, snapshot exists (can be restored)
    * - Unknown: Failed to determine state (see state_error for details)
    */
-  state: 'Created' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 
   /**
    * Disk I/O rate limit (human-readable, e.g., "100MB/s")
@@ -651,7 +652,7 @@ export interface InstanceListParams {
   /**
    * Filter instances by state (e.g., Running, Stopped)
    */
-  state?: 'Created' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+  state?: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 
   /**
    * Filter instances by tag key-value pairs. Uses deepObject style:
