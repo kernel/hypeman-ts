@@ -531,6 +531,14 @@ export interface InstanceCreateParams {
   cmd?: Array<string>;
 
   /**
+   * Host-managed credential brokering policies keyed by guest-visible env var name.
+   * Those guest env vars receive mock placeholder values, while the real values
+   * remain host-scoped in the request `env` map and are only materialized on the
+   * mediated egress path according to each credential's `source` and `inject` rules.
+   */
+  credentials?: { [key: string]: InstanceCreateParams.Credentials };
+
+  /**
    * Device IDs or names to attach for GPU/PCI passthrough
    */
   devices?: Array<string>;
@@ -615,6 +623,55 @@ export interface InstanceCreateParams {
 }
 
 export namespace InstanceCreateParams {
+  export interface Credentials {
+    inject: Array<Credentials.Inject>;
+
+    source: Credentials.Source;
+  }
+
+  export namespace Credentials {
+    export interface Inject {
+      /**
+       * Current v1 transform shape. Header templating is supported now; other transform
+       * types (for example request signing) can be added in future revisions.
+       */
+      as: Inject.As;
+
+      /**
+       * Optional destination host patterns (`api.example.com`, `*.example.com`). Omit to
+       * allow injection on all destinations.
+       */
+      hosts?: Array<string>;
+    }
+
+    export namespace Inject {
+      /**
+       * Current v1 transform shape. Header templating is supported now; other transform
+       * types (for example request signing) can be added in future revisions.
+       */
+      export interface As {
+        /**
+         * Template that must include `${value}`.
+         */
+        format: string;
+
+        /**
+         * Header name to set/mutate for matching outbound requests.
+         */
+        header: string;
+      }
+    }
+
+    export interface Source {
+      /**
+       * Name of the real credential in the request `env` map. The guest-visible env var
+       * key can receive a mock placeholder, while the mediated egress path resolves that
+       * placeholder back to this real value only on the host.
+       */
+      env: string;
+    }
+  }
+
   /**
    * GPU configuration for the instance
    */
@@ -642,9 +699,50 @@ export namespace InstanceCreateParams {
     bandwidth_upload?: string;
 
     /**
+     * Host-mediated outbound network policy. Omit this object, or set
+     * `enabled: false`, to preserve normal direct outbound networking when
+     * `network.enabled` is true.
+     */
+    egress?: Network.Egress;
+
+    /**
      * Whether to attach instance to the default network
      */
     enabled?: boolean;
+  }
+
+  export namespace Network {
+    /**
+     * Host-mediated outbound network policy. Omit this object, or set
+     * `enabled: false`, to preserve normal direct outbound networking when
+     * `network.enabled` is true.
+     */
+    export interface Egress {
+      /**
+       * Whether to enable the mediated egress path. When false or omitted, the instance
+       * keeps normal direct outbound networking and host-managed credential rewriting is
+       * disabled.
+       */
+      enabled?: boolean;
+
+      /**
+       * Egress enforcement policy applied when mediation is enabled.
+       */
+      enforcement?: Egress.Enforcement;
+    }
+
+    export namespace Egress {
+      /**
+       * Egress enforcement policy applied when mediation is enabled.
+       */
+      export interface Enforcement {
+        /**
+         * `all` (default) rejects direct non-mediated TCP egress from the VM, while
+         * `http_https_only` rejects direct egress only on TCP ports 80 and 443.
+         */
+        mode?: 'all' | 'http_https_only';
+      }
+    }
   }
 }
 

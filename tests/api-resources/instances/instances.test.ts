@@ -29,6 +29,17 @@ describe('resource instances', () => {
       image: 'docker.io/library/alpine:latest',
       name: 'my-workload-1',
       cmd: ['echo', 'hello'],
+      credentials: {
+        OUTBOUND_OPENAI_KEY: {
+          inject: [
+            {
+              as: { format: 'Bearer ${value}', header: 'Authorization' },
+              hosts: ['api.openai.com', '*.openai.com'],
+            },
+          ],
+          source: { env: 'OUTBOUND_OPENAI_KEY' },
+        },
+      },
       devices: ['l4-gpu'],
       disk_io_bps: '100MB/s',
       entrypoint: ['/bin/sh', '-c'],
@@ -39,6 +50,10 @@ describe('resource instances', () => {
       network: {
         bandwidth_download: '1Gbps',
         bandwidth_upload: '1Gbps',
+        egress: {
+          enabled: true,
+          enforcement: { mode: 'all' },
+        },
         enabled: true,
       },
       overlay_size: '20GB',
