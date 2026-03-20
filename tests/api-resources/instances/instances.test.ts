@@ -75,6 +75,18 @@ describe('resource instances', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('update', async () => {
+    const responsePromise = client.instances.update('id', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.instances.list();
     const rawResponse = await responsePromise.asResponse();
