@@ -10,6 +10,7 @@ export {
   type InstanceListResponse,
   type InstanceLogsResponse,
   type InstanceCreateParams,
+  type InstanceUpdateParams,
   type InstanceListParams,
   type InstanceForkParams,
   type InstanceLogsParams,

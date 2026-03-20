@@ -31,6 +31,20 @@ export class Instances extends APIResource {
   }
 
   /**
+   * Update mutable properties of a running instance. Currently supports updating
+   * only the environment variables referenced by existing credential policies,
+   * enabling secret/key rotation without instance restart.
+   *
+   * @example
+   * ```ts
+   * const instance = await client.instances.update('id');
+   * ```
+   */
+  update(id: string, body: InstanceUpdateParams, options?: RequestOptions): APIPromise<Instance> {
+    return this._client.patch(path`/instances/${id}`, { body, ...options });
+  }
+
+  /**
    * List instances
    *
    * @example
@@ -746,6 +760,15 @@ export namespace InstanceCreateParams {
   }
 }
 
+export interface InstanceUpdateParams {
+  /**
+   * Environment variables to update (merged with existing). Only keys referenced by
+   * the instance's existing credential `source.env` bindings are accepted. Use this
+   * to rotate real credential values without restarting the VM.
+   */
+  env?: { [key: string]: string };
+}
+
 export interface InstanceListParams {
   /**
    * Filter instances by state (e.g., Running, Stopped)
@@ -839,6 +862,7 @@ export declare namespace Instances {
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,
     type InstanceCreateParams as InstanceCreateParams,
+    type InstanceUpdateParams as InstanceUpdateParams,
     type InstanceListParams as InstanceListParams,
     type InstanceForkParams as InstanceForkParams,
     type InstanceLogsParams as InstanceLogsParams,
