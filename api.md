@@ -37,6 +37,7 @@ Types:
 Methods:
 
 - <code title="post /instances">client.instances.<a href="./src/resources/instances/instances.ts">create</a>({ ...params }) -> Instance</code>
+- <code title="patch /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">update</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances">client.instances.<a href="./src/resources/instances/instances.ts">list</a>({ ...params }) -> InstanceListResponse</code>
 - <code title="delete /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">delete</a>(id) -> void</code>
 - <code title="post /instances/{id}/fork">client.instances.<a href="./src/resources/instances/instances.ts">fork</a>(id, { ...params }) -> Instance</code>
