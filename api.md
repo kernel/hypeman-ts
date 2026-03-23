@@ -1,3 +1,9 @@
+# Shared
+
+Types:
+
+- <code><a href="./src/resources/shared.ts">SnapshotCompressionConfig</a></code>
+
 # Health
 
 Types:
@@ -30,6 +36,7 @@ Types:
 - <code><a href="./src/resources/instances/instances.ts">InstanceStats</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PathInfo</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PortMapping</a></code>
+- <code><a href="./src/resources/instances/instances.ts">SnapshotPolicy</a></code>
 - <code><a href="./src/resources/instances/instances.ts">VolumeMount</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceListResponse</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceLogsResponse</a></code>
@@ -44,7 +51,7 @@ Methods:
 - <code title="get /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">get</a>(id) -> Instance</code>
 - <code title="get /instances/{id}/logs">client.instances.<a href="./src/resources/instances/instances.ts">logs</a>(id, { ...params }) -> string</code>
 - <code title="post /instances/{id}/restore">client.instances.<a href="./src/resources/instances/instances.ts">restore</a>(id) -> Instance</code>
-- <code title="post /instances/{id}/standby">client.instances.<a href="./src/resources/instances/instances.ts">standby</a>(id) -> Instance</code>
+- <code title="post /instances/{id}/standby">client.instances.<a href="./src/resources/instances/instances.ts">standby</a>(id, { ...params }) -> Instance</code>
 - <code title="post /instances/{id}/start">client.instances.<a href="./src/resources/instances/instances.ts">start</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances/{id}/stat">client.instances.<a href="./src/resources/instances/instances.ts">stat</a>(id, { ...params }) -> PathInfo</code>
 - <code title="get /instances/{id}/stats">client.instances.<a href="./src/resources/instances/instances.ts">stats</a>(id) -> InstanceStats</code>

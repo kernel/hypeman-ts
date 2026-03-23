@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as Shared from './shared';
 import * as InstancesAPI from './instances/instances';
 import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
@@ -106,6 +107,23 @@ export interface Snapshot {
   source_instance_name: string;
 
   /**
+   * Compressed memory payload size in bytes
+   */
+  compressed_size_bytes?: number | null;
+
+  compression?: Shared.SnapshotCompressionConfig;
+
+  /**
+   * Compression error message when compression_state is error
+   */
+  compression_error?: string | null;
+
+  /**
+   * Compression status of the snapshot payload memory file
+   */
+  compression_state?: 'none' | 'compressing' | 'compressed' | 'error';
+
+  /**
    * Optional human-readable snapshot name (unique per source instance)
    */
   name?: string | null;
@@ -114,6 +132,11 @@ export interface Snapshot {
    * User-defined key-value tags.
    */
   tags?: { [key: string]: string };
+
+  /**
+   * Uncompressed memory payload size in bytes
+   */
+  uncompressed_size_bytes?: number | null;
 }
 
 /**

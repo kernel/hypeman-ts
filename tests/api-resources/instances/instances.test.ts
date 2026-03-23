@@ -60,6 +60,13 @@ describe('resource instances', () => {
       size: '2GB',
       skip_guest_agent: false,
       skip_kernel_headers: true,
+      snapshot_policy: {
+        compression: {
+          enabled: true,
+          algorithm: 'zstd',
+          level: 1,
+        },
+      },
       tags: { team: 'backend', env: 'staging' },
       vcpus: 2,
       volumes: [
@@ -207,6 +214,24 @@ describe('resource instances', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('standby: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.instances.standby(
+        'id',
+        {
+          compression: {
+            enabled: true,
+            algorithm: 'zstd',
+            level: 1,
+          },
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
   // Mock server tests are disabled

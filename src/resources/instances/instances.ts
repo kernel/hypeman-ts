@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as Shared from '../shared';
 import * as SnapshotsAPI from './snapshots';
 import { SnapshotCreateParams, SnapshotRestoreParams, Snapshots } from './snapshots';
 import * as VolumesAPI from './volumes';
@@ -149,8 +150,12 @@ export class Instances extends APIResource {
    * const instance = await client.instances.standby('id');
    * ```
    */
-  standby(id: string, options?: RequestOptions): APIPromise<Instance> {
-    return this._client.post(path`/instances/${id}/standby`, options);
+  standby(
+    id: string,
+    body: InstanceStandbyParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Instance> {
+    return this._client.post(path`/instances/${id}/standby`, { body, ...options });
   }
 
   /**
@@ -297,6 +302,8 @@ export interface Instance {
    * Base memory size (human-readable)
    */
   size?: string;
+
+  snapshot_policy?: SnapshotPolicy;
 
   /**
    * Start timestamp (RFC3339)
@@ -494,6 +501,10 @@ export interface PortMapping {
   protocol?: 'tcp' | 'udp';
 }
 
+export interface SnapshotPolicy {
+  compression?: Shared.SnapshotCompressionConfig;
+}
+
 export interface VolumeMount {
   /**
    * Path where volume is mounted in the guest
@@ -619,6 +630,12 @@ export interface InstanceCreateParams {
    * workloads that don't need kernel module compilation.
    */
   skip_kernel_headers?: boolean;
+
+  /**
+   * Snapshot compression policy for this instance. Controls compression settings
+   * applied when creating snapshots or entering standby.
+   */
+  snapshot_policy?: SnapshotPolicy;
 
   /**
    * User-defined key-value tags.
@@ -825,6 +842,10 @@ export interface InstanceLogsParams {
   tail?: number;
 }
 
+export interface InstanceStandbyParams {
+  compression?: Shared.SnapshotCompressionConfig;
+}
+
 export interface InstanceStartParams {
   /**
    * Override image CMD for this run. Omit to keep previous value.
@@ -858,6 +879,7 @@ export declare namespace Instances {
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
+    type SnapshotPolicy as SnapshotPolicy,
     type VolumeMount as VolumeMount,
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,
@@ -866,6 +888,7 @@ export declare namespace Instances {
     type InstanceListParams as InstanceListParams,
     type InstanceForkParams as InstanceForkParams,
     type InstanceLogsParams as InstanceLogsParams,
+    type InstanceStandbyParams as InstanceStandbyParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
   };
