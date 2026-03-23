@@ -9,9 +9,34 @@ export class Resources extends APIResource {
    * Returns current host resource capacity, allocation status, and per-instance
    * breakdown. Resources include CPU, memory, disk, and network. Oversubscription
    * ratios are applied to calculate effective limits.
+   *
+   * @example
+   * ```ts
+   * const resources = await client.resources.get();
+   * ```
    */
   get(options?: RequestOptions): APIPromise<Resources> {
     return this._client.get('/resources', options);
+  }
+
+  /**
+   * Requests runtime balloon inflation across reclaim-eligible guests. The same
+   * planner used by host-pressure reclaim is applied, including protected floors and
+   * per-VM step limits.
+   *
+   * @example
+   * ```ts
+   * const memoryReclaimResponse =
+   *   await client.resources.reclaimMemory({
+   *     reclaim_bytes: 536870912,
+   *   });
+   * ```
+   */
+  reclaimMemory(
+    body: ResourceReclaimMemoryParams,
+    options?: RequestOptions,
+  ): APIPromise<MemoryReclaimResponse> {
+    return this._client.post('/resources/memory/reclaim', { body, ...options });
   }
 }
 
@@ -85,6 +110,78 @@ export interface GPUResourceStatus {
    * Available vGPU profiles (only in vGPU mode)
    */
   profiles?: Array<GPUProfile>;
+}
+
+export interface MemoryReclaimAction {
+  applied_reclaim_bytes: number;
+
+  assigned_memory_bytes: number;
+
+  hypervisor: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
+
+  instance_id: string;
+
+  instance_name: string;
+
+  planned_target_guest_memory_bytes: number;
+
+  previous_target_guest_memory_bytes: number;
+
+  protected_floor_bytes: number;
+
+  /**
+   * Result of this VM's reclaim step.
+   */
+  status: string;
+
+  target_guest_memory_bytes: number;
+
+  /**
+   * Error message when status is error or unsupported.
+   */
+  error?: string;
+}
+
+export interface MemoryReclaimRequest {
+  /**
+   * Total bytes of guest memory to reclaim across eligible VMs.
+   */
+  reclaim_bytes: number;
+
+  /**
+   * Calculate a reclaim plan without applying balloon changes or creating a hold.
+   */
+  dry_run?: boolean;
+
+  /**
+   * How long to keep the reclaim hold active (Go duration string). Defaults to 5m
+   * when omitted.
+   */
+  hold_for?: string;
+
+  /**
+   * Optional operator-provided reason attached to logs and traces.
+   */
+  reason?: string;
+}
+
+export interface MemoryReclaimResponse {
+  actions: Array<MemoryReclaimAction>;
+
+  applied_reclaim_bytes: number;
+
+  host_available_bytes: number;
+
+  host_pressure_state: 'healthy' | 'pressure';
+
+  planned_reclaim_bytes: number;
+
+  requested_reclaim_bytes: number;
+
+  /**
+   * When the current manual reclaim hold expires.
+   */
+  hold_until?: string;
 }
 
 /**
@@ -202,14 +299,41 @@ export interface Resources {
   gpu?: GPUResourceStatus | null;
 }
 
+export interface ResourceReclaimMemoryParams {
+  /**
+   * Total bytes of guest memory to reclaim across eligible VMs.
+   */
+  reclaim_bytes: number;
+
+  /**
+   * Calculate a reclaim plan without applying balloon changes or creating a hold.
+   */
+  dry_run?: boolean;
+
+  /**
+   * How long to keep the reclaim hold active (Go duration string). Defaults to 5m
+   * when omitted.
+   */
+  hold_for?: string;
+
+  /**
+   * Optional operator-provided reason attached to logs and traces.
+   */
+  reason?: string;
+}
+
 export declare namespace Resources {
   export {
     type DiskBreakdown as DiskBreakdown,
     type GPUProfile as GPUProfile,
     type GPUResourceStatus as GPUResourceStatus,
+    type MemoryReclaimAction as MemoryReclaimAction,
+    type MemoryReclaimRequest as MemoryReclaimRequest,
+    type MemoryReclaimResponse as MemoryReclaimResponse,
     type PassthroughDevice as PassthroughDevice,
     type ResourceAllocation as ResourceAllocation,
     type ResourceStatus as ResourceStatus,
     type Resources as Resources,
+    type ResourceReclaimMemoryParams as ResourceReclaimMemoryParams,
   };
 }

@@ -137,6 +137,9 @@ Types:
 - <code><a href="./src/resources/resources.ts">DiskBreakdown</a></code>
 - <code><a href="./src/resources/resources.ts">GPUProfile</a></code>
 - <code><a href="./src/resources/resources.ts">GPUResourceStatus</a></code>
+- <code><a href="./src/resources/resources.ts">MemoryReclaimAction</a></code>
+- <code><a href="./src/resources/resources.ts">MemoryReclaimRequest</a></code>
+- <code><a href="./src/resources/resources.ts">MemoryReclaimResponse</a></code>
 - <code><a href="./src/resources/resources.ts">PassthroughDevice</a></code>
 - <code><a href="./src/resources/resources.ts">ResourceAllocation</a></code>
 - <code><a href="./src/resources/resources.ts">ResourceStatus</a></code>
@@ -145,6 +148,7 @@ Types:
 Methods:
 
 - <code title="get /resources">client.resources.<a href="./src/resources/resources.ts">get</a>() -> Resources</code>
+- <code title="post /resources/memory/reclaim">client.resources.<a href="./src/resources/resources.ts">reclaimMemory</a>({ ...params }) -> MemoryReclaimResponse</code>
 
 # Builds
 

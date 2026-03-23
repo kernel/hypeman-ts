@@ -55,8 +55,12 @@ import {
   DiskBreakdown,
   GPUProfile,
   GPUResourceStatus,
+  MemoryReclaimAction,
+  MemoryReclaimRequest,
+  MemoryReclaimResponse,
   PassthroughDevice,
   ResourceAllocation,
+  ResourceReclaimMemoryParams,
   ResourceStatus,
   Resources,
 } from './resources/resources';
@@ -888,9 +892,13 @@ export declare namespace Hypeman {
     type DiskBreakdown as DiskBreakdown,
     type GPUProfile as GPUProfile,
     type GPUResourceStatus as GPUResourceStatus,
+    type MemoryReclaimAction as MemoryReclaimAction,
+    type MemoryReclaimRequest as MemoryReclaimRequest,
+    type MemoryReclaimResponse as MemoryReclaimResponse,
     type PassthroughDevice as PassthroughDevice,
     type ResourceAllocation as ResourceAllocation,
     type ResourceStatus as ResourceStatus,
+    type ResourceReclaimMemoryParams as ResourceReclaimMemoryParams,
   };
 
   export {
