@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as Shared from '../shared';
 import * as SnapshotsAPI from '../snapshots';
 import * as InstancesAPI from './instances';
 import { APIPromise } from '../../core/api-promise';
@@ -53,6 +54,12 @@ export interface SnapshotCreateParams {
    * Snapshot capture kind
    */
   kind: SnapshotsAPI.SnapshotKind;
+
+  /**
+   * Compression settings to use for this snapshot. Overrides instance and server
+   * defaults.
+   */
+  compression?: Shared.SnapshotCompressionConfig;
 
   /**
    * Optional snapshot name (lowercase letters, digits, and dashes only; cannot start
