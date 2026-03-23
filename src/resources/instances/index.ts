@@ -6,6 +6,7 @@ export {
   type InstanceStats,
   type PathInfo,
   type PortMapping,
+  type SnapshotPolicy,
   type VolumeMount,
   type InstanceListResponse,
   type InstanceLogsResponse,
@@ -14,6 +15,7 @@ export {
   type InstanceListParams,
   type InstanceForkParams,
   type InstanceLogsParams,
+  type InstanceStandbyParams,
   type InstanceStartParams,
   type InstanceStatParams,
 } from './instances';

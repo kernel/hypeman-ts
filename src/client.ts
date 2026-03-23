@@ -89,6 +89,7 @@ import {
   InstanceListResponse,
   InstanceLogsParams,
   InstanceLogsResponse,
+  InstanceStandbyParams,
   InstanceStartParams,
   InstanceStatParams,
   InstanceStats,
@@ -96,6 +97,7 @@ import {
   Instances,
   PathInfo,
   PortMapping,
+  SnapshotPolicy,
   VolumeMount,
 } from './resources/instances/instances';
 import { type Fetch } from './internal/builtin-types';
@@ -834,6 +836,7 @@ export declare namespace Hypeman {
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
+    type SnapshotPolicy as SnapshotPolicy,
     type VolumeMount as VolumeMount,
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,
@@ -842,6 +845,7 @@ export declare namespace Hypeman {
     type InstanceListParams as InstanceListParams,
     type InstanceForkParams as InstanceForkParams,
     type InstanceLogsParams as InstanceLogsParams,
+    type InstanceStandbyParams as InstanceStandbyParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
   };
@@ -913,4 +917,6 @@ export declare namespace Hypeman {
     type BuildListParams as BuildListParams,
     type BuildEventsParams as BuildEventsParams,
   };
+
+  export type SnapshotCompressionConfig = API.SnapshotCompressionConfig;
 }

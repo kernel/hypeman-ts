@@ -1,5 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export * from './shared';
 export {
   Builds,
   type Build,
@@ -46,6 +47,7 @@ export {
   type InstanceStats,
   type PathInfo,
   type PortMapping,
+  type SnapshotPolicy,
   type VolumeMount,
   type InstanceListResponse,
   type InstanceLogsResponse,
@@ -54,6 +56,7 @@ export {
   type InstanceListParams,
   type InstanceForkParams,
   type InstanceLogsParams,
+  type InstanceStandbyParams,
   type InstanceStartParams,
   type InstanceStatParams,
 } from './instances/instances';
