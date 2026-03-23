@@ -19,4 +19,26 @@ describe('resource resources', () => {
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
   });
+
+  // Mock server tests are disabled
+  test.skip('reclaimMemory: only required params', async () => {
+    const responsePromise = client.resources.reclaimMemory({ reclaim_bytes: 536870912 });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('reclaimMemory: required and optional params', async () => {
+    const response = await client.resources.reclaimMemory({
+      reclaim_bytes: 536870912,
+      dry_run: true,
+      hold_for: '5m',
+      reason: 'prepare for another vm start',
+    });
+  });
 });
