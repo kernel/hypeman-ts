@@ -62,9 +62,13 @@ export {
   type DiskBreakdown,
   type GPUProfile,
   type GPUResourceStatus,
+  type MemoryReclaimAction,
+  type MemoryReclaimRequest,
+  type MemoryReclaimResponse,
   type PassthroughDevice,
   type ResourceAllocation,
   type ResourceStatus,
+  type ResourceReclaimMemoryParams,
 } from './resources';
 export {
   Snapshots,
