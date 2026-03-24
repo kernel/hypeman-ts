@@ -97,7 +97,10 @@ import {
   Instances,
   PathInfo,
   PortMapping,
+  SetSnapshotScheduleRequest,
   SnapshotPolicy,
+  SnapshotSchedule,
+  SnapshotScheduleRetention,
   VolumeMount,
 } from './resources/instances/instances';
 import { type Fetch } from './internal/builtin-types';
@@ -836,7 +839,10 @@ export declare namespace Hypeman {
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
+    type SetSnapshotScheduleRequest as SetSnapshotScheduleRequest,
     type SnapshotPolicy as SnapshotPolicy,
+    type SnapshotSchedule as SnapshotSchedule,
+    type SnapshotScheduleRetention as SnapshotScheduleRetention,
     type VolumeMount as VolumeMount,
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,

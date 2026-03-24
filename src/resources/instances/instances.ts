@@ -2,6 +2,8 @@
 
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
+import * as SnapshotScheduleAPI from './snapshot-schedule';
+import { SnapshotScheduleUpdateParams } from './snapshot-schedule';
 import * as SnapshotsAPI from './snapshots';
 import { SnapshotCreateParams, SnapshotRestoreParams, Snapshots } from './snapshots';
 import * as VolumesAPI from './volumes';
@@ -15,6 +17,9 @@ import { path } from '../../internal/utils/path';
 export class Instances extends APIResource {
   volumes: VolumesAPI.Volumes = new VolumesAPI.Volumes(this._client);
   snapshots: SnapshotsAPI.Snapshots = new SnapshotsAPI.Snapshots(this._client);
+  snapshotSchedule: SnapshotScheduleAPI.SnapshotSchedule = new SnapshotScheduleAPI.SnapshotSchedule(
+    this._client,
+  );
 
   /**
    * Create and start instance
@@ -501,8 +506,103 @@ export interface PortMapping {
   protocol?: 'tcp' | 'udp';
 }
 
+export interface SetSnapshotScheduleRequest {
+  /**
+   * Snapshot interval (Go duration format, minimum 1m).
+   */
+  interval: string;
+
+  /**
+   * At least one of max_count or max_age must be provided.
+   */
+  retention: SnapshotScheduleRetention;
+
+  /**
+   * User-defined key-value tags.
+   */
+  metadata?: { [key: string]: string };
+
+  /**
+   * Optional prefix for auto-generated scheduled snapshot names (max 47 chars).
+   */
+  name_prefix?: string | null;
+}
+
 export interface SnapshotPolicy {
   compression?: Shared.SnapshotCompressionConfig;
+}
+
+export interface SnapshotSchedule {
+  /**
+   * Schedule creation timestamp.
+   */
+  created_at: string;
+
+  /**
+   * Source instance ID.
+   */
+  instance_id: string;
+
+  /**
+   * Snapshot interval (Go duration format).
+   */
+  interval: string;
+
+  /**
+   * Next scheduled run time.
+   */
+  next_run_at: string;
+
+  /**
+   * Automatic cleanup policy for scheduled snapshots.
+   */
+  retention: SnapshotScheduleRetention;
+
+  /**
+   * Schedule update timestamp.
+   */
+  updated_at: string;
+
+  /**
+   * Last schedule run error, if any.
+   */
+  last_error?: string | null;
+
+  /**
+   * Last schedule execution time.
+   */
+  last_run_at?: string | null;
+
+  /**
+   * Snapshot ID produced by the last successful run.
+   */
+  last_snapshot_id?: string | null;
+
+  /**
+   * User-defined key-value tags.
+   */
+  metadata?: { [key: string]: string };
+
+  /**
+   * Optional prefix used for generated scheduled snapshot names.
+   */
+  name_prefix?: string | null;
+}
+
+/**
+ * Automatic cleanup policy for scheduled snapshots.
+ */
+export interface SnapshotScheduleRetention {
+  /**
+   * Delete scheduled snapshots older than this duration (Go duration format).
+   */
+  max_age?: string;
+
+  /**
+   * Keep at most this many scheduled snapshots for the instance (0 disables
+   * count-based cleanup).
+   */
+  max_count?: number;
 }
 
 export interface VolumeMount {
@@ -879,7 +979,10 @@ export declare namespace Instances {
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
+    type SetSnapshotScheduleRequest as SetSnapshotScheduleRequest,
     type SnapshotPolicy as SnapshotPolicy,
+    type SnapshotSchedule as SnapshotSchedule,
+    type SnapshotScheduleRetention as SnapshotScheduleRetention,
     type VolumeMount as VolumeMount,
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,
@@ -904,4 +1007,6 @@ export declare namespace Instances {
     type SnapshotCreateParams as SnapshotCreateParams,
     type SnapshotRestoreParams as SnapshotRestoreParams,
   };
+
+  export { type SnapshotScheduleUpdateParams as SnapshotScheduleUpdateParams };
 }

@@ -6,7 +6,10 @@ export {
   type InstanceStats,
   type PathInfo,
   type PortMapping,
+  type SetSnapshotScheduleRequest,
   type SnapshotPolicy,
+  type SnapshotSchedule,
+  type SnapshotScheduleRetention,
   type VolumeMount,
   type InstanceListResponse,
   type InstanceLogsResponse,
@@ -21,3 +24,4 @@ export {
 } from './instances';
 export { Snapshots, type SnapshotCreateParams, type SnapshotRestoreParams } from './snapshots';
 export { Volumes, type VolumeAttachParams, type VolumeDetachParams } from './volumes';
+export { type SnapshotScheduleUpdateParams } from './snapshot-schedule';

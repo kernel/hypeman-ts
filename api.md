@@ -36,7 +36,10 @@ Types:
 - <code><a href="./src/resources/instances/instances.ts">InstanceStats</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PathInfo</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PortMapping</a></code>
+- <code><a href="./src/resources/instances/instances.ts">SetSnapshotScheduleRequest</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotPolicy</a></code>
+- <code><a href="./src/resources/instances/instances.ts">SnapshotSchedule</a></code>
+- <code><a href="./src/resources/instances/instances.ts">SnapshotScheduleRetention</a></code>
 - <code><a href="./src/resources/instances/instances.ts">VolumeMount</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceListResponse</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceLogsResponse</a></code>
@@ -70,6 +73,14 @@ Methods:
 
 - <code title="post /instances/{id}/snapshots">client.instances.snapshots.<a href="./src/resources/instances/snapshots.ts">create</a>(id, { ...params }) -> Snapshot</code>
 - <code title="post /instances/{id}/snapshots/{snapshotId}/restore">client.instances.snapshots.<a href="./src/resources/instances/snapshots.ts">restore</a>(snapshotID, { ...params }) -> Instance</code>
+
+## SnapshotSchedule
+
+Methods:
+
+- <code title="put /instances/{id}/snapshot-schedule">client.instances.snapshotSchedule.<a href="./src/resources/instances/snapshot-schedule.ts">update</a>(id, { ...params }) -> SnapshotSchedule</code>
+- <code title="delete /instances/{id}/snapshot-schedule">client.instances.snapshotSchedule.<a href="./src/resources/instances/snapshot-schedule.ts">delete</a>(id) -> void</code>
+- <code title="get /instances/{id}/snapshot-schedule">client.instances.snapshotSchedule.<a href="./src/resources/instances/snapshot-schedule.ts">get</a>(id) -> SnapshotSchedule</code>
 
 # Snapshots
 
