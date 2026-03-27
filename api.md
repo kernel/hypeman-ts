@@ -41,6 +41,7 @@ Types:
 - <code><a href="./src/resources/instances/instances.ts">SnapshotSchedule</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotScheduleRetention</a></code>
 - <code><a href="./src/resources/instances/instances.ts">VolumeMount</a></code>
+- <code><a href="./src/resources/instances/instances.ts">WaitForStateResponse</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceListResponse</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceLogsResponse</a></code>
 
@@ -59,6 +60,7 @@ Methods:
 - <code title="get /instances/{id}/stat">client.instances.<a href="./src/resources/instances/instances.ts">stat</a>(id, { ...params }) -> PathInfo</code>
 - <code title="get /instances/{id}/stats">client.instances.<a href="./src/resources/instances/instances.ts">stats</a>(id) -> InstanceStats</code>
 - <code title="post /instances/{id}/stop">client.instances.<a href="./src/resources/instances/instances.ts">stop</a>(id) -> Instance</code>
+- <code title="get /instances/{id}/wait">client.instances.<a href="./src/resources/instances/instances.ts">wait</a>(id, { ...params }) -> WaitForStateResponse</code>
 
 ## Volumes
 

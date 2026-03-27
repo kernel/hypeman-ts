@@ -52,6 +52,7 @@ export {
   type SnapshotSchedule,
   type SnapshotScheduleRetention,
   type VolumeMount,
+  type WaitForStateResponse,
   type InstanceListResponse,
   type InstanceLogsResponse,
   type InstanceCreateParams,
@@ -62,6 +63,7 @@ export {
   type InstanceStandbyParams,
   type InstanceStartParams,
   type InstanceStatParams,
+  type InstanceWaitParams,
 } from './instances/instances';
 export {
   Resources,
