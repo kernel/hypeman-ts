@@ -94,6 +94,7 @@ import {
   InstanceStatParams,
   InstanceStats,
   InstanceUpdateParams,
+  InstanceWaitParams,
   Instances,
   PathInfo,
   PortMapping,
@@ -102,6 +103,7 @@ import {
   SnapshotSchedule,
   SnapshotScheduleRetention,
   VolumeMount,
+  WaitForStateResponse,
 } from './resources/instances/instances';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -844,6 +846,7 @@ export declare namespace Hypeman {
     type SnapshotSchedule as SnapshotSchedule,
     type SnapshotScheduleRetention as SnapshotScheduleRetention,
     type VolumeMount as VolumeMount,
+    type WaitForStateResponse as WaitForStateResponse,
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,
     type InstanceCreateParams as InstanceCreateParams,
@@ -854,6 +857,7 @@ export declare namespace Hypeman {
     type InstanceStandbyParams as InstanceStandbyParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
+    type InstanceWaitParams as InstanceWaitParams,
   };
 
   export {
