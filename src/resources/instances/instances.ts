@@ -215,6 +215,24 @@ export class Instances extends APIResource {
   stop(id: string, options?: RequestOptions): APIPromise<Instance> {
     return this._client.post(path`/instances/${id}/stop`, options);
   }
+
+  /**
+   * Blocks until the instance reaches the specified target state, the timeout
+   * expires, or the instance enters a terminal/error state. Useful for avoiding
+   * client-side polling when waiting for state transitions (e.g. waiting for an
+   * instance to become Running).
+   *
+   * @example
+   * ```ts
+   * const waitForStateResponse = await client.instances.wait(
+   *   'id',
+   *   { state: 'Created' },
+   * );
+   * ```
+   */
+  wait(id: string, query: InstanceWaitParams, options?: RequestOptions): APIPromise<WaitForStateResponse> {
+    return this._client.get(path`/instances/${id}/wait`, { query, ...options });
+  }
 }
 
 export interface Instance {
@@ -633,6 +651,23 @@ export interface VolumeMount {
   readonly?: boolean;
 }
 
+export interface WaitForStateResponse {
+  /**
+   * Current instance state when the wait completed
+   */
+  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+
+  /**
+   * Whether the timeout expired before the target state was reached
+   */
+  timed_out: boolean;
+
+  /**
+   * Error message when derived state is Unknown
+   */
+  state_error?: string | null;
+}
+
 export type InstanceListResponse = Array<Instance>;
 
 export type InstanceLogsResponse = string;
@@ -970,6 +1005,19 @@ export interface InstanceStatParams {
   follow_links?: boolean;
 }
 
+export interface InstanceWaitParams {
+  /**
+   * Target state to wait for
+   */
+  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+
+  /**
+   * Maximum duration to wait (Go duration format, e.g. "30s", "2m"). Capped at 5
+   * minutes. Defaults to 60 seconds.
+   */
+  timeout?: string;
+}
+
 Instances.Volumes = Volumes;
 Instances.Snapshots = Snapshots;
 
@@ -984,6 +1032,7 @@ export declare namespace Instances {
     type SnapshotSchedule as SnapshotSchedule,
     type SnapshotScheduleRetention as SnapshotScheduleRetention,
     type VolumeMount as VolumeMount,
+    type WaitForStateResponse as WaitForStateResponse,
     type InstanceListResponse as InstanceListResponse,
     type InstanceLogsResponse as InstanceLogsResponse,
     type InstanceCreateParams as InstanceCreateParams,
@@ -994,6 +1043,7 @@ export declare namespace Instances {
     type InstanceStandbyParams as InstanceStandbyParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
+    type InstanceWaitParams as InstanceWaitParams,
   };
 
   export {
