@@ -9,6 +9,8 @@ import * as crypto from 'crypto';
 import * as http from 'http';
 import * as https from 'https';
 import * as zlib from 'zlib';
+import Docker from 'dockerode';
+import * as tar from 'tar-stream';
 
 /**
  * Configuration needed to push images to hypeman's registry.
@@ -200,7 +202,6 @@ export async function pushFromURL(
  * @returns An {@link OciImageSource} that can be passed to {@link pushImage}
  */
 export async function loadDockerImage(imageRef: string): Promise<OciImageSource> {
-  const Docker = getDockerode();
   const docker = new Docker();
 
   let stream: NodeJS.ReadableStream;
@@ -264,7 +265,6 @@ async function parseDockerSaveArchive(files: Map<string, Buffer>): Promise<OciIm
 // --- Tar extraction via tar-stream ---
 
 async function extractTarEntries(stream: NodeJS.ReadableStream): Promise<Map<string, Buffer>> {
-  const tar = getTarStream();
   const extract = tar.extract();
   const files = new Map<string, Buffer>();
 
@@ -399,10 +399,3 @@ function gzipBuffer(data: Buffer): Promise<Buffer> {
   });
 }
 
-function getDockerode(): typeof import('dockerode') {
-  return require('dockerode');
-}
-
-function getTarStream(): typeof import('tar-stream') {
-  return require('tar-stream');
-}

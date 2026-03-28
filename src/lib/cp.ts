@@ -7,6 +7,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import WebSocket from 'ws';
 
 /**
  * Configuration for copy operations.
@@ -238,7 +239,7 @@ async function cpSingleFileToInstance(
   opts: CpToInstanceOptions & { isDir: boolean },
 ): Promise<void> {
   // Check if WebSocket is available (Node.js vs browser)
-  const WebSocket = getWebSocket();
+
 
   const wsURL = buildWsURL(cfg.baseURL, opts.instanceId);
 
@@ -372,7 +373,7 @@ async function cpSingleFileToInstance(
  * ```
  */
 export async function cpFromInstance(cfg: CpConfig, opts: CpFromInstanceOptions): Promise<void> {
-  const WebSocket = getWebSocket();
+
   const wsURL = buildWsURL(cfg.baseURL, opts.instanceId);
 
   const ws = new WebSocket(wsURL, {
@@ -604,10 +605,3 @@ function isBinaryData(data: Buffer): boolean {
   return true;
 }
 
-/**
- * Get WebSocket implementation (works in Node.js).
- */
-function getWebSocket(): typeof import('ws') {
-  // In Node.js, we use the 'ws' package
-  return require('ws');
-}
