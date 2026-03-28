@@ -2,7 +2,7 @@
  * Push operations for uploading container images to the hypeman OCI registry.
  *
  * This module provides functions for pushing container images to hypeman's
- * built-in OCI registry.
+ * built-in OCI registry, analogous to the Go SDK's lib/push.go.
  */
 
 import * as crypto from 'crypto';
@@ -11,12 +11,13 @@ import * as https from 'https';
 import * as zlib from 'zlib';
 
 /**
- * Configuration for push operations.
+ * Configuration needed to push images to hypeman's registry.
+ * Extract this from a Hypeman client using {@link extractPushConfig}.
  */
 export interface PushConfig {
-  /** Base URL for the hypeman API */
-  baseURL: string;
-  /** API key (JWT token) for authentication */
+  /** Host:port of the hypeman registry (derived from base URL) */
+  registryHost: string;
+  /** JWT token for authentication */
   apiKey: string;
 }
 
@@ -24,7 +25,7 @@ export interface PushConfig {
  * Represents a container image that can be pushed to a registry.
  *
  * Implement this interface to push images from any source. Use
- * `loadDockerImage()` to create one from the local Docker daemon.
+ * {@link loadDockerImage} to create one from the local Docker daemon.
  */
 export interface OciImageSource {
   /** Get the raw image config JSON */
@@ -46,41 +47,74 @@ export interface OciLayer {
 }
 
 /**
- * Push an OciImageSource to hypeman's OCI registry.
+ * Extract the registry host and API key from a Hypeman client.
+ *
+ * This is needed because the Client struct doesn't expose these values
+ * through a dedicated push configuration. Accepts any object with
+ * `baseURL` and `apiKey` properties (the Hypeman client satisfies this).
+ *
+ * @example
+ * ```typescript
+ * import Hypeman from '@onkernel/hypeman';
+ * import { extractPushConfig, push } from '@onkernel/hypeman/lib/push';
+ *
+ * const client = new Hypeman({ apiKey: '...' });
+ * const cfg = extractPushConfig(client);
+ * await push(cfg, 'myapp:latest');
+ * ```
+ */
+export function extractPushConfig(client: { apiKey: string; baseURL: string }): PushConfig {
+  let host: string;
+  try {
+    host = new URL(client.baseURL).host;
+  } catch {
+    throw new Error(`Invalid base URL: ${client.baseURL}`);
+  }
+  if (!host) {
+    throw new Error('Base URL not configured');
+  }
+  return {
+    registryHost: host,
+    apiKey: client.apiKey,
+  };
+}
+
+/**
+ * Push an {@link OciImageSource} to hypeman's OCI registry.
  *
  * This function works with images from any source that implements the
  * OciImageSource interface:
- * - Images loaded from the Docker daemon via `loadDockerImage()`
- * - Custom image sources
+ * - Images loaded from the Docker daemon via {@link loadDockerImage}
+ * - Custom image sources (tarballs, OCI layouts, build tools, etc.)
  *
  * The targetName parameter specifies how the image will be named in hypeman
  * (e.g., "myapp:latest" or "myorg/myapp:v1.0").
  *
  * @example
  * ```typescript
- * import { pushImage, loadDockerImage } from '@onkernel/hypeman/lib/push';
+ * import { extractPushConfig, pushImage, loadDockerImage } from '@onkernel/hypeman/lib/push';
  *
+ * const cfg = extractPushConfig(client);
  * const image = await loadDockerImage('myapp:latest');
- * await pushImage({
- *   baseURL: 'https://api.hypeman.dev',
- *   apiKey: 'your-api-key',
- * }, image, 'myapp:latest');
+ * await pushImage(cfg, image, 'myapp:latest');
  * ```
  */
 export async function pushImage(cfg: PushConfig, image: OciImageSource, targetName: string): Promise<void> {
-  const registryURL = parseRegistryURL(cfg.baseURL);
-  const { repository, tag } = parseImageReference(targetName);
+  if (!cfg.registryHost) {
+    throw new Error('Registry host not configured');
+  }
 
+  const { repository, tag } = parseImageReference(targetName);
   const [configBuf, imageLayers] = await Promise.all([image.config(), image.layers()]);
 
   // Push layer blobs
   for (const layer of imageLayers) {
-    await pushBlob(registryURL, cfg.apiKey, repository, layer.digest, layer.data);
+    await pushBlob(cfg, repository, layer.digest, layer.data);
   }
 
   // Push config blob
   const configDigest = `sha256:${sha256(configBuf)}`;
-  await pushBlob(registryURL, cfg.apiKey, repository, configDigest, configBuf);
+  await pushBlob(cfg, repository, configDigest, configBuf);
 
   // Construct and push the distribution manifest
   const manifest = JSON.stringify({
@@ -100,8 +134,7 @@ export async function pushImage(cfg: PushConfig, image: OciImageSource, targetNa
 
   const manifestBuf = Buffer.from(manifest);
   const res = await registryRequest(
-    registryURL,
-    cfg.apiKey,
+    cfg,
     'PUT',
     `/v2/${repository}/manifests/${tag}`,
     manifestBuf,
@@ -109,7 +142,7 @@ export async function pushImage(cfg: PushConfig, image: OciImageSource, targetNa
   );
 
   if (res.statusCode !== 201 && res.statusCode !== 200) {
-    throw new Error(`Push manifest failed (HTTP ${res.statusCode}): ${res.body.toString()}`);
+    throw new Error(`Push failed: HTTP ${res.statusCode}: ${res.body.toString()}`);
   }
 }
 
@@ -117,21 +150,19 @@ export async function pushImage(cfg: PushConfig, image: OciImageSource, targetNa
  * Load an image from the local Docker daemon and push it to hypeman's registry.
  *
  * This is a convenience function for local development workflows where images
- * are built using Docker. For images from other sources, use pushImage()
- * directly with a custom OciImageSource.
+ * are built using Docker. For CI/CD pipelines or other image sources,
+ * use {@link pushImage} directly with a custom {@link OciImageSource}.
  *
- * @param cfg - Push configuration
+ * @param cfg - Push configuration (from {@link extractPushConfig})
  * @param sourceImage - Local Docker image reference (e.g., "myapp:latest")
- * @param targetName - Name in hypeman (defaults to sourceImage if omitted)
+ * @param targetName - Name in hypeman (defaults to sourceImage if empty)
  *
  * @example
  * ```typescript
- * import { push } from '@onkernel/hypeman/lib/push';
+ * import { extractPushConfig, push } from '@onkernel/hypeman/lib/push';
  *
- * await push({
- *   baseURL: 'https://api.hypeman.dev',
- *   apiKey: 'your-api-key',
- * }, 'myapp:latest');
+ * const cfg = extractPushConfig(client);
+ * await push(cfg, 'myapp:latest');
  * ```
  */
 export async function push(cfg: PushConfig, sourceImage: string, targetName?: string): Promise<void> {
@@ -141,7 +172,7 @@ export async function push(cfg: PushConfig, sourceImage: string, targetName?: st
 
 /**
  * Convenience function that parses a base URL and API key directly,
- * without needing a PushConfig object. Useful for standalone scripts.
+ * without needing a Hypeman client. Useful for standalone scripts.
  *
  * @param baseURL - The hypeman API base URL
  * @param apiKey - API key for authentication
@@ -154,46 +185,62 @@ export async function pushFromURL(
   image: OciImageSource,
   targetName: string,
 ): Promise<void> {
-  return pushImage({ baseURL, apiKey }, image, targetName);
+  const url = new URL(baseURL);
+  return pushImage({ registryHost: url.host, apiKey }, image, targetName);
 }
 
 /**
  * Load an image from the local Docker daemon.
  *
- * Uses the Docker CLI to export the image, then parses the tar archive
- * to extract the config and layers. Requires Docker to be installed and
- * running locally.
+ * Uses dockerode to export the image (equivalent to `docker save`),
+ * then parses the tar archive with tar-stream to extract the config
+ * and layers. Requires Docker to be installed and running locally.
  *
  * @param imageRef - Docker image reference (e.g., "myapp:latest")
- * @returns An OciImageSource that can be passed to pushImage()
+ * @returns An {@link OciImageSource} that can be passed to {@link pushImage}
  */
 export async function loadDockerImage(imageRef: string): Promise<OciImageSource> {
-  const tarBuf = await dockerSave(imageRef);
-  const files = parseTar(tarBuf);
+  const Docker = getDockerode();
+  const docker = new Docker();
 
-  const manifestJsonBuf = files.get('manifest.json');
-  if (!manifestJsonBuf) {
+  let stream: NodeJS.ReadableStream;
+  try {
+    stream = await docker.getImage(imageRef).get();
+  } catch (err: any) {
+    throw new Error(`Load image from Docker daemon: ${err.message}`);
+  }
+
+  const files = await extractTarEntries(stream);
+  return parseDockerSaveArchive(files);
+}
+
+// --- Docker save archive parsing ---
+
+interface DockerSaveManifestEntry {
+  Config: string;
+  RepoTags: string[];
+  Layers: string[];
+}
+
+async function parseDockerSaveArchive(files: Map<string, Buffer>): Promise<OciImageSource> {
+  const manifestBuf = files.get('manifest.json');
+  if (!manifestBuf) {
     throw new Error('No manifest.json found in docker save output');
   }
 
-  const dockerManifest = JSON.parse(manifestJsonBuf.toString()) as Array<{
-    Config: string;
-    RepoTags: string[];
-    Layers: string[];
-  }>;
-
-  if (dockerManifest.length === 0) {
+  const manifest = JSON.parse(manifestBuf.toString()) as DockerSaveManifestEntry[];
+  if (manifest.length === 0) {
     throw new Error('Empty manifest in docker save output');
   }
 
-  const entry = dockerManifest[0]!;
+  const entry = manifest[0]!;
 
   const configBuf = files.get(entry.Config);
   if (!configBuf) {
     throw new Error(`Config file ${entry.Config} not found in archive`);
   }
 
-  // Compress layers (docker save outputs uncompressed tars)
+  // docker save outputs uncompressed layer tars — gzip them for the registry
   const layers: OciLayer[] = [];
   for (const layerPath of entry.Layers) {
     const layerBuf = files.get(layerPath);
@@ -214,36 +261,37 @@ export async function loadDockerImage(imageRef: string): Promise<OciImageSource>
   };
 }
 
-// --- Internal helpers ---
+// --- Tar extraction via tar-stream ---
 
-interface RegistryURL {
-  protocol: 'http:' | 'https:';
-  hostname: string;
-  port: number;
+async function extractTarEntries(stream: NodeJS.ReadableStream): Promise<Map<string, Buffer>> {
+  const tar = getTarStream();
+  const extract = tar.extract();
+  const files = new Map<string, Buffer>();
+
+  return new Promise((resolve, reject) => {
+    extract.on('entry', (header, entryStream, next) => {
+      if (header.type === 'file') {
+        const chunks: Buffer[] = [];
+        entryStream.on('data', (chunk: Buffer) => chunks.push(chunk));
+        entryStream.on('end', () => {
+          files.set(header.name, Buffer.concat(chunks));
+          next();
+        });
+        entryStream.on('error', reject);
+      } else {
+        entryStream.resume();
+        next();
+      }
+    });
+
+    extract.on('finish', () => resolve(files));
+    extract.on('error', reject);
+
+    stream.pipe(extract);
+  });
 }
 
-function parseRegistryURL(baseURL: string): RegistryURL {
-  const url = new URL(baseURL);
-  const isHTTPS = url.protocol === 'https:';
-  return {
-    protocol: url.protocol as 'http:' | 'https:',
-    hostname: url.hostname,
-    port: url.port ? parseInt(url.port) : isHTTPS ? 443 : 80,
-  };
-}
-
-function parseImageReference(name: string): { repository: string; tag: string } {
-  const cleaned = name.replace(/^\//, '');
-  const lastColon = cleaned.lastIndexOf(':');
-  if (lastColon > 0 && !cleaned.substring(lastColon).includes('/')) {
-    return { repository: cleaned.substring(0, lastColon), tag: cleaned.substring(lastColon + 1) };
-  }
-  return { repository: cleaned, tag: 'latest' };
-}
-
-function sha256(data: Buffer): string {
-  return crypto.createHash('sha256').update(data).digest('hex');
-}
+// --- OCI Distribution push client ---
 
 interface RegistryResponse {
   statusCode: number;
@@ -252,23 +300,32 @@ interface RegistryResponse {
 }
 
 function registryRequest(
-  reg: RegistryURL,
-  apiKey: string,
+  cfg: PushConfig,
   method: string,
   reqPath: string,
   body?: Buffer,
   contentType?: string,
 ): Promise<RegistryResponse> {
   return new Promise((resolve, reject) => {
-    const mod = reg.protocol === 'https:' ? https : http;
+    const [hostname, portStr] = cfg.registryHost.split(':');
+    const secure = !isInsecureHost(hostname!);
+    const mod = secure ? https : http;
+    const defaultPort = secure ? 443 : 80;
+
     const headers: Record<string, string> = {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Bearer ${cfg.apiKey}`,
     };
     if (contentType) headers['Content-Type'] = contentType;
     if (body) headers['Content-Length'] = String(body.length);
 
     const req = mod.request(
-      { hostname: reg.hostname, port: reg.port, method, path: reqPath, headers },
+      {
+        hostname,
+        port: portStr ? parseInt(portStr) : defaultPort,
+        method,
+        path: reqPath,
+        headers,
+      },
       (res) => {
         const chunks: Buffer[] = [];
         res.on('data', (c: Buffer) => chunks.push(c));
@@ -283,25 +340,21 @@ function registryRequest(
   });
 }
 
-async function pushBlob(
-  reg: RegistryURL,
-  apiKey: string,
-  repository: string,
-  digest: string,
-  data: Buffer,
-): Promise<void> {
+async function pushBlob(cfg: PushConfig, repository: string, digest: string, data: Buffer): Promise<void> {
   // Check if blob already exists
-  const head = await registryRequest(reg, apiKey, 'HEAD', `/v2/${repository}/blobs/${digest}`);
+  const head = await registryRequest(cfg, 'HEAD', `/v2/${repository}/blobs/${digest}`);
   if (head.statusCode === 200) return;
 
   // Start monolithic upload
-  const start = await registryRequest(reg, apiKey, 'POST', `/v2/${repository}/blobs/uploads/`);
+  const start = await registryRequest(cfg, 'POST', `/v2/${repository}/blobs/uploads/`);
   if (start.statusCode !== 202) {
     throw new Error(`Start blob upload failed (HTTP ${start.statusCode}): ${start.body.toString()}`);
   }
 
   let location = start.headers.location;
-  if (!location) throw new Error('No Location header in upload response');
+  if (!location) {
+    throw new Error('No Location header in upload response');
+  }
 
   // Location may be an absolute URL or relative path
   if (!location.startsWith('/')) {
@@ -312,58 +365,29 @@ async function pushBlob(
   const sep = location.includes('?') ? '&' : '?';
   const uploadPath = `${location}${sep}digest=${encodeURIComponent(digest)}`;
 
-  const upload = await registryRequest(reg, apiKey, 'PUT', uploadPath, data, 'application/octet-stream');
+  const upload = await registryRequest(cfg, 'PUT', uploadPath, data, 'application/octet-stream');
   if (upload.statusCode !== 201 && upload.statusCode !== 200) {
     throw new Error(`Upload blob failed (HTTP ${upload.statusCode}): ${upload.body.toString()}`);
   }
 }
 
-function dockerSave(imageRef: string): Promise<Buffer> {
-  const { spawn } = require('child_process') as typeof import('child_process');
+// --- Helpers ---
 
-  return new Promise((resolve, reject) => {
-    const proc = spawn('docker', ['save', imageRef]);
-    const chunks: Buffer[] = [];
-
-    proc.stdout.on('data', (chunk: Buffer) => chunks.push(chunk));
-    proc.on('error', (err: Error) => reject(new Error(`Failed to run docker: ${err.message}`)));
-    proc.on('close', (code: number) => {
-      if (code !== 0) reject(new Error(`docker save exited with code ${code}`));
-      else resolve(Buffer.concat(chunks));
-    });
-  });
+function parseImageReference(name: string): { repository: string; tag: string } {
+  const cleaned = name.replace(/^\//, '');
+  const lastColon = cleaned.lastIndexOf(':');
+  if (lastColon > 0 && !cleaned.substring(lastColon).includes('/')) {
+    return { repository: cleaned.substring(0, lastColon), tag: cleaned.substring(lastColon + 1) };
+  }
+  return { repository: cleaned, tag: 'latest' };
 }
 
-/**
- * Minimal tar parser for docker save output.
- * Extracts regular files into a filename -> Buffer map.
- */
-function parseTar(tar: Buffer): Map<string, Buffer> {
-  const files = new Map<string, Buffer>();
-  let offset = 0;
+function sha256(data: Buffer): string {
+  return crypto.createHash('sha256').update(data).digest('hex');
+}
 
-  while (offset + 512 <= tar.length) {
-    const header = tar.subarray(offset, offset + 512);
-    if (header.every((b) => b === 0)) break;
-
-    let name = header.subarray(0, 100).toString('ascii').replace(/\0/g, '');
-    const prefix = header.subarray(345, 500).toString('ascii').replace(/\0/g, '');
-    if (prefix) name = prefix + '/' + name;
-
-    const sizeStr = header.subarray(124, 136).toString('ascii').replace(/\0/g, '').trim();
-    const size = parseInt(sizeStr, 8) || 0;
-    const typeFlag = header[156];
-
-    offset += 512;
-
-    if (typeFlag === 0x30 || typeFlag === 0x00) {
-      files.set(name, size > 0 ? Buffer.from(tar.subarray(offset, offset + size)) : Buffer.alloc(0));
-    }
-
-    offset += Math.ceil(size / 512) * 512;
-  }
-
-  return files;
+function isInsecureHost(hostname: string): boolean {
+  return hostname === 'localhost' || hostname === '127.0.0.1';
 }
 
 function gzipBuffer(data: Buffer): Promise<Buffer> {
@@ -373,4 +397,12 @@ function gzipBuffer(data: Buffer): Promise<Buffer> {
       else resolve(result);
     });
   });
+}
+
+function getDockerode(): typeof import('dockerode') {
+  return require('dockerode');
+}
+
+function getTarStream(): typeof import('tar-stream') {
+  return require('tar-stream');
 }
