@@ -409,9 +409,9 @@ describe('pushFromURL', () => {
 
 // --- Integration tests (require live server) ---
 
-const LIVE_BASE_URL = process.env.HYPEMAN_BASE_URL;
-const LIVE_API_KEY = process.env.HYPEMAN_API_KEY;
-const runIntegration = process.env.HYPEMAN_INTEGRATION_TESTS === '1' && LIVE_BASE_URL && LIVE_API_KEY;
+const LIVE_BASE_URL = process.env['HYPEMAN_BASE_URL'];
+const LIVE_API_KEY = process.env['HYPEMAN_API_KEY'];
+const runIntegration = process.env['HYPEMAN_INTEGRATION_TESTS'] === '1' && LIVE_BASE_URL && LIVE_API_KEY;
 
 const describeIntegration = runIntegration ? describe : describe.skip;
 
