@@ -398,4 +398,3 @@ function gzipBuffer(data: Buffer): Promise<Buffer> {
     });
   });
 }
-

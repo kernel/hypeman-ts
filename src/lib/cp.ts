@@ -240,7 +240,6 @@ async function cpSingleFileToInstance(
 ): Promise<void> {
   // Check if WebSocket is available (Node.js vs browser)
 
-
   const wsURL = buildWsURL(cfg.baseURL, opts.instanceId);
 
   // Get file stats
@@ -373,7 +372,6 @@ async function cpSingleFileToInstance(
  * ```
  */
 export async function cpFromInstance(cfg: CpConfig, opts: CpFromInstanceOptions): Promise<void> {
-
   const wsURL = buildWsURL(cfg.baseURL, opts.instanceId);
 
   const ws = new WebSocket(wsURL, {
@@ -604,4 +602,3 @@ function isBinaryData(data: Buffer): boolean {
   }
   return true;
 }
-
