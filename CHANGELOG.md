@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 (2026-03-28)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/kernel/hypeman-ts/compare/v0.2.0...v0.2.1)
+
+### Features
+
+* Use OIDC for Stainless npm publishing ([31bca82](https://github.com/kernel/hypeman-ts/commit/31bca82b2de443407301f6944b8cd2cc8a6633d6))
+
 ## 0.2.0 (2026-03-28)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/kernel/hypeman-ts/compare/v0.1.0...v0.2.0)
