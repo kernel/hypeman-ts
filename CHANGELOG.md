@@ -1,5 +1,80 @@
 # Changelog
 
+## 0.2.0 (2026-03-28)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/kernel/hypeman-ts/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* add active ballooning reclaim controller ([d5dc028](https://github.com/kernel/hypeman-ts/commit/d5dc0286ee9626e5881a550cf74bd569416f65c2))
+* Add always-on /metrics endpoint with dual pull/push telemetry ([41556a9](https://github.com/kernel/hypeman-ts/commit/41556a922b51d2de413fd4486e86a2ff107cdd48))
+* add boot time optimizations for faster VM startup ([20a98ea](https://github.com/kernel/hypeman-ts/commit/20a98ea15491dc399f57ea5cc5d10f2549d1c4bd))
+* Add cloud hypervisor VM forking helpers ([2bdda88](https://github.com/kernel/hypeman-ts/commit/2bdda88d46adce289f72f5f18eb5f1329651cd33))
+* add Firecracker hypervisor support ([cb6868a](https://github.com/kernel/hypeman-ts/commit/cb6868a04419ca033fe96515928147ef88dde0dd))
+* Add fork operation to stainless config ([051910e](https://github.com/kernel/hypeman-ts/commit/051910e5467911261afc3961bcdeb817f473cd17))
+* Add image_name parameter to builds ([53f6062](https://github.com/kernel/hypeman-ts/commit/53f60623433c9eead1742967fcd31644e4b0c2fe))
+* add metadata and state filtering to GET /instances ([a242835](https://github.com/kernel/hypeman-ts/commit/a242835a76f4fcdc6e2bba1d6d2190831f5f90c0))
+* Add metadata field to instances ([705fa54](https://github.com/kernel/hypeman-ts/commit/705fa54813ccae1f18473ba4b30c27b0646519ca))
+* Add optional snapshot compression defaults and standby integration ([1733abb](https://github.com/kernel/hypeman-ts/commit/1733abbd763aaea69a3c1e418e9edd64f895d71f))
+* add optional VM egress MITM proxy with mock-secret header rewriting ([99c8182](https://github.com/kernel/hypeman-ts/commit/99c818225c466f8ca53ceb64f11a4c631082e2a9))
+* Add scheduled instance snapshots with retention cleanup ([c753e7d](https://github.com/kernel/hypeman-ts/commit/c753e7d8db7c6f364915240fec01ca32e808d26a))
+* Add strict metadata tags across mutable resources ([968bb7c](https://github.com/kernel/hypeman-ts/commit/968bb7c4dc2843612c943024033fbfd32f4ea771))
+* Add to stainless config new API endpoints ([72cbe88](https://github.com/kernel/hypeman-ts/commit/72cbe8848676023c5cc9c270d5936c37ddf3e3f3))
+* Add vGPU support ([4eade24](https://github.com/kernel/hypeman-ts/commit/4eade24f03d1e9ef5d62757ae8a9bc3a0f446f13))
+* Add waitForState endpoint for blocking state transitions ([8480bcf](https://github.com/kernel/hypeman-ts/commit/8480bcf5d69de2b0ec82891c57386fddd049f497))
+* **api:** manual updates ([5534841](https://github.com/kernel/hypeman-ts/commit/5534841c1706682c4a75e502afafb3f1f399069c))
+* Better stop behavior ([9f37284](https://github.com/kernel/hypeman-ts/commit/9f372846f08ec591342f525498449861990821c5))
+* **builds:** implement two-tier build cache with per-repo token scopes ([53c9b24](https://github.com/kernel/hypeman-ts/commit/53c9b248c245c1cb5f1e0dae46a1448de430c283))
+* Disable default hotplug memory allocation ([faf4dc6](https://github.com/kernel/hypeman-ts/commit/faf4dc61986551605bed903ed26a12a8a6991b6c))
+* Rename tag fields from metadata to tags ([e2ce0c6](https://github.com/kernel/hypeman-ts/commit/e2ce0c62c14252dcb12c81a4dec69a7a247b6dc6))
+* Resource accounting ([57ff511](https://github.com/kernel/hypeman-ts/commit/57ff511aa73bbc08b67496d7b807418b9342dc87))
+* Snapshot ([ecb2c76](https://github.com/kernel/hypeman-ts/commit/ecb2c7652e4180b6bbb87c2f564ba7759c1c792b))
+* support updating egress proxy secret envs for key rotation ([f5bc12b](https://github.com/kernel/hypeman-ts/commit/f5bc12b81b0bda445d8feab08f665d1b6438b1f9))
+* Use resources module for input validation ([8dc08a4](https://github.com/kernel/hypeman-ts/commit/8dc08a468794e1fead711c5c1b538d02cd7f49c9))
+* wire up memory_mb and cpus in builds API ([2622949](https://github.com/kernel/hypeman-ts/commit/262294908012266f80a4ac22e90bd716f140bf4a))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([c7d1058](https://github.com/kernel/hypeman-ts/commit/c7d1058f991d4282d2992491c5858c296530b34d))
+* **client:** avoid removing abort listener too early ([cac5859](https://github.com/kernel/hypeman-ts/commit/cac585933f34e0cad58e6d6b423f7f611f1dddb9))
+* **client:** preserve URL params already embedded in path ([5672cd5](https://github.com/kernel/hypeman-ts/commit/5672cd55c2badc43bb64560460bb8ade4388f222))
+* **docs/contributing:** correct pnpm link command ([9ead7e9](https://github.com/kernel/hypeman-ts/commit/9ead7e98cc683f1f74d62943e0e5a134ecba19f5))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([48ae7b9](https://github.com/kernel/hypeman-ts/commit/48ae7b93d321533d96fc9e5be246450fb93eb725))
+* **ci:** skip lint on metadata-only changes ([59a02df](https://github.com/kernel/hypeman-ts/commit/59a02dff62de2763cc82c69f5d166ef50cae1977))
+* **ci:** skip uploading artifacts on stainless-internal branches ([0c2aa7b](https://github.com/kernel/hypeman-ts/commit/0c2aa7b581f7f994a194ed6d213ac14c61067186))
+* **ci:** upgrade `actions/github-script` ([46d5e26](https://github.com/kernel/hypeman-ts/commit/46d5e26a7c2d5f53b4a9d88558d0f96561cf1b7d))
+* **client:** do not parse responses with empty content-length ([e1a8e7d](https://github.com/kernel/hypeman-ts/commit/e1a8e7ddce0e0b78639288823d893440dc01262e))
+* **client:** restructure abort controller binding ([c340384](https://github.com/kernel/hypeman-ts/commit/c34038491bbad4e864a82aec0a21673cbad5e614))
+* **internal/client:** fix form-urlencoded requests ([71179bd](https://github.com/kernel/hypeman-ts/commit/71179bd2f8052d73b16906ed61a94f72c9c3355c))
+* **internal:** avoid type checking errors with ts-reset ([4111306](https://github.com/kernel/hypeman-ts/commit/411130694b4769df7881b902ed70500bdccf4022))
+* **internal:** codegen related update ([b66ff6c](https://github.com/kernel/hypeman-ts/commit/b66ff6c6fb7e26284f478d8aa13dd808e998565d))
+* **internal:** move stringifyQuery implementation to internal function ([0c0a780](https://github.com/kernel/hypeman-ts/commit/0c0a780fa787b84dd065731bafec44e826677b9f))
+* **internal:** remove mock server code ([a1f66de](https://github.com/kernel/hypeman-ts/commit/a1f66deac705256152e54e04dcb389a0be3f18bb))
+* **internal:** tweak CI branches ([0955bb8](https://github.com/kernel/hypeman-ts/commit/0955bb8d343f0c20a411c17959950ac275498686))
+* **internal:** update `actions/checkout` version ([ba20375](https://github.com/kernel/hypeman-ts/commit/ba2037568735937bda37a9ca386c781eb00e723a))
+* **internal:** update dependencies to address dependabot vulnerabilities ([abd4d6d](https://github.com/kernel/hypeman-ts/commit/abd4d6d38b8acf6d153a286242a58661086519b0))
+* **internal:** update gitignore ([6cf0c0e](https://github.com/kernel/hypeman-ts/commit/6cf0c0eb832481431a961745aa82b3c3e05f69e5))
+* **internal:** update lock file ([8593b7c](https://github.com/kernel/hypeman-ts/commit/8593b7c196af2b6b63121135a5a3dc18edfec04e))
+* **internal:** upgrade babel, qs, js-yaml ([cad9e24](https://github.com/kernel/hypeman-ts/commit/cad9e2468b82a08e525c728e61a1e7266e1fc1b7))
+* **internal:** upgrade brace-expansion and @babel/helpers ([bef9226](https://github.com/kernel/hypeman-ts/commit/bef9226de43a88d06e8a9688b7701e44c311ebf4))
+* **internal:** upgrade pnpm ([1c71418](https://github.com/kernel/hypeman-ts/commit/1c714185893f1a686b2ea003fb4eae636a2fba33))
+* **internal:** upgrade pnpm version ([afc35ed](https://github.com/kernel/hypeman-ts/commit/afc35edd4af9a0fe863142f701223e8f3d604d0d))
+* **stainless:** update SDKs for PR [#116](https://github.com/kernel/hypeman-ts/issues/116) ([43903dc](https://github.com/kernel/hypeman-ts/commit/43903dc9fb481fc794c1eddbfc74bb89d0bbd474))
+* **test:** update skip reason message ([bd159ea](https://github.com/kernel/hypeman-ts/commit/bd159ea40dae40b191dd4f8399466f57dca472ad))
+* update mock server docs ([96f81df](https://github.com/kernel/hypeman-ts/commit/96f81dfe6dca9164b6bc3a4c219ac4eab1808fc9))
+* update placeholder string ([aacc63d](https://github.com/kernel/hypeman-ts/commit/aacc63d90b58ab4f158960f17a114c3766f54249))
+* update SDK settings ([96c209c](https://github.com/kernel/hypeman-ts/commit/96c209cdb9d3b8ef4f86cdae630d1f5a7dc1a273))
+
+
+### Refactors
+
+* cross-platform foundation for macOS support ([da5e553](https://github.com/kernel/hypeman-ts/commit/da5e5532f852ace9a21fb273fd2d73f8b643db2e))
+
 ## 0.1.0 (2025-12-23)
 
 Full Changelog: [v0.0.2...v0.1.0](https://github.com/onkernel/hypeman-ts/compare/v0.0.2...v0.1.0)
