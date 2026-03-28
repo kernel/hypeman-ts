@@ -415,15 +415,17 @@ const runIntegration = process.env['HYPEMAN_INTEGRATION_TESTS'] === '1' && LIVE_
 
 const describeIntegration = runIntegration ? describe : describe.skip;
 
+const LIVE_TARGET_REPO = process.env['HYPEMAN_TEST_REPO'] || 'hypeman-test';
+
 describeIntegration('integration: live server push', () => {
   test('pushImage to live server', async () => {
     const cfg = extractPushConfig({ baseURL: LIVE_BASE_URL!, apiKey: LIVE_API_KEY! });
     const image = createSyntheticImage(`integration-test-${Date.now()}`);
-    await pushImage(cfg, image, `test-ts-integration/push:${Date.now()}`);
+    await pushImage(cfg, image, `${LIVE_TARGET_REPO}:push-${Date.now()}`);
   }, 30000);
 
   test('pushFromURL to live server', async () => {
     const image = createSyntheticImage(`integration-test-url-${Date.now()}`);
-    await pushFromURL(LIVE_BASE_URL!, LIVE_API_KEY!, image, `test-ts-integration/from-url:${Date.now()}`);
+    await pushFromURL(LIVE_BASE_URL!, LIVE_API_KEY!, image, `${LIVE_TARGET_REPO}:from-url-${Date.now()}`);
   }, 30000);
 });
