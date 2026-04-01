@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.3 (2026-04-01)
+
+Full Changelog: [v0.2.2...v0.2.3](https://github.com/kernel/hypeman-ts/compare/v0.2.2...v0.2.3)
+
+### Bug Fixes
+
+* **internal:** gitignore generated `oidc` dir ([c734bc1](https://github.com/kernel/hypeman-ts/commit/c734bc160d0d464b7a54b54b96d4e14a8c587c00))
+
 ## 0.2.2 (2026-03-28)
 
 Full Changelog: [v0.2.1...v0.2.2](https://github.com/kernel/hypeman-ts/compare/v0.2.1...v0.2.2)
