@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0 (2026-04-07)
+
+Full Changelog: [v0.2.2...v0.3.0](https://github.com/kernel/hypeman-ts/compare/v0.2.2...v0.3.0)
+
+### Features
+
+* Add Linux auto-standby controller and E2E coverage ([ebdbe6e](https://github.com/kernel/hypeman-ts/commit/ebdbe6ed58801ccd8e9a4324aaf7eb1e0a9abe8e))
+
+
+### Bug Fixes
+
+* **internal:** gitignore generated `oidc` dir ([c734bc1](https://github.com/kernel/hypeman-ts/commit/c734bc160d0d464b7a54b54b96d4e14a8c587c00))
+
 ## 0.2.2 (2026-03-28)
 
 Full Changelog: [v0.2.1...v0.2.2](https://github.com/kernel/hypeman-ts/compare/v0.2.1...v0.2.2)
