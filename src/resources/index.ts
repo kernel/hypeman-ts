@@ -43,6 +43,8 @@ export {
 } from './ingresses';
 export {
   Instances,
+  type AutoStandbyPolicy,
+  type AutoStandbyStatus,
   type Instance,
   type InstanceStats,
   type PathInfo,

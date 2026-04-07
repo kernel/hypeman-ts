@@ -28,6 +28,12 @@ describe('resource instances', () => {
     const response = await client.instances.create({
       image: 'docker.io/library/alpine:latest',
       name: 'my-workload-1',
+      auto_standby: {
+        enabled: true,
+        idle_timeout: '5m',
+        ignore_destination_ports: [22, 9000],
+        ignore_source_cidrs: ['10.0.0.0/8', '192.168.0.0/16'],
+      },
       cmd: ['echo', 'hello'],
       credentials: {
         OUTBOUND_OPENAI_KEY: {
