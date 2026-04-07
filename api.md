@@ -32,6 +32,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/instances/instances.ts">AutoStandbyPolicy</a></code>
+- <code><a href="./src/resources/instances/instances.ts">AutoStandbyStatus</a></code>
 - <code><a href="./src/resources/instances/instances.ts">Instance</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceStats</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PathInfo</a></code>
@@ -61,6 +63,12 @@ Methods:
 - <code title="get /instances/{id}/stats">client.instances.<a href="./src/resources/instances/instances.ts">stats</a>(id) -> InstanceStats</code>
 - <code title="post /instances/{id}/stop">client.instances.<a href="./src/resources/instances/instances.ts">stop</a>(id) -> Instance</code>
 - <code title="get /instances/{id}/wait">client.instances.<a href="./src/resources/instances/instances.ts">wait</a>(id, { ...params }) -> WaitForStateResponse</code>
+
+## AutoStandby
+
+Methods:
+
+- <code title="get /instances/{id}/auto-standby/status">client.instances.autoStandby.<a href="./src/resources/instances/auto-standby.ts">status</a>(id) -> AutoStandbyStatus</code>
 
 ## Volumes
 

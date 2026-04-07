@@ -2,6 +2,8 @@
 
 import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
+import * as AutoStandbyAPI from './auto-standby';
+import { AutoStandby } from './auto-standby';
 import * as SnapshotScheduleAPI from './snapshot-schedule';
 import { SnapshotScheduleUpdateParams } from './snapshot-schedule';
 import * as SnapshotsAPI from './snapshots';
@@ -15,6 +17,7 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Instances extends APIResource {
+  autoStandby: AutoStandbyAPI.AutoStandby = new AutoStandbyAPI.AutoStandby(this._client);
   volumes: VolumesAPI.Volumes = new VolumesAPI.Volumes(this._client);
   snapshots: SnapshotsAPI.Snapshots = new SnapshotsAPI.Snapshots(this._client);
   snapshotSchedule: SnapshotScheduleAPI.SnapshotSchedule = new SnapshotScheduleAPI.SnapshotSchedule(
@@ -235,6 +238,114 @@ export class Instances extends APIResource {
   }
 }
 
+/**
+ * Linux-only automatic standby policy based on active inbound TCP connections
+ * observed from the host conntrack table.
+ */
+export interface AutoStandbyPolicy {
+  /**
+   * Whether automatic standby is enabled for this instance.
+   */
+  enabled?: boolean;
+
+  /**
+   * How long the instance must have zero qualifying inbound TCP connections before
+   * Hypeman places it into standby.
+   */
+  idle_timeout?: string;
+
+  /**
+   * Optional destination TCP ports that should not keep the instance awake.
+   */
+  ignore_destination_ports?: Array<number>;
+
+  /**
+   * Optional client CIDRs that should not keep the instance awake.
+   */
+  ignore_source_cidrs?: Array<string>;
+}
+
+export interface AutoStandbyStatus {
+  /**
+   * Number of currently tracked qualifying inbound TCP connections.
+   */
+  active_inbound_connections: number;
+
+  /**
+   * Whether the instance has any auto-standby policy configured.
+   */
+  configured: boolean;
+
+  /**
+   * Whether the instance is currently eligible to enter standby.
+   */
+  eligible: boolean;
+
+  /**
+   * Whether the configured auto-standby policy is enabled.
+   */
+  enabled: boolean;
+
+  reason:
+    | 'unsupported_platform'
+    | 'policy_missing'
+    | 'policy_disabled'
+    | 'instance_not_running'
+    | 'network_disabled'
+    | 'missing_ip'
+    | 'has_vgpu'
+    | 'active_inbound_connections'
+    | 'idle_timeout_not_elapsed'
+    | 'observer_error'
+    | 'ready_for_standby';
+
+  status:
+    | 'unsupported'
+    | 'disabled'
+    | 'ineligible'
+    | 'active'
+    | 'idle_countdown'
+    | 'ready_for_standby'
+    | 'standby_requested'
+    | 'error';
+
+  /**
+   * Whether the current host platform supports auto-standby diagnostics.
+   */
+  supported: boolean;
+
+  /**
+   * Diagnostic identifier for the runtime tracking mode in use.
+   */
+  tracking_mode: string;
+
+  /**
+   * Remaining time before the controller attempts standby, when applicable.
+   */
+  countdown_remaining?: string | null;
+
+  /**
+   * When the controller most recently observed the instance become idle.
+   */
+  idle_since?: string | null;
+
+  /**
+   * Configured idle timeout from the auto-standby policy.
+   */
+  idle_timeout?: string | null;
+
+  /**
+   * Timestamp of the most recent qualifying inbound TCP activity the controller
+   * observed.
+   */
+  last_inbound_activity_at?: string | null;
+
+  /**
+   * When the controller expects to attempt standby next, if a countdown is active.
+   */
+  next_standby_at?: string | null;
+}
+
 export interface Instance {
   /**
    * Auto-generated unique identifier (CUID2 format)
@@ -269,6 +380,12 @@ export interface Instance {
    * - Unknown: Failed to determine state (see state_error for details)
    */
   state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+
+  /**
+   * Linux-only automatic standby policy based on active inbound TCP connections
+   * observed from the host conntrack table.
+   */
+  auto_standby?: AutoStandbyPolicy;
 
   /**
    * Disk I/O rate limit (human-readable, e.g., "100MB/s")
@@ -685,6 +802,12 @@ export interface InstanceCreateParams {
   name: string;
 
   /**
+   * Linux-only automatic standby policy based on active inbound TCP connections
+   * observed from the host conntrack table.
+   */
+  auto_standby?: AutoStandbyPolicy;
+
+  /**
    * Override image CMD (like docker run <image> <command>). Omit to use image
    * default.
    */
@@ -914,6 +1037,12 @@ export namespace InstanceCreateParams {
 
 export interface InstanceUpdateParams {
   /**
+   * Linux-only automatic standby policy based on active inbound TCP connections
+   * observed from the host conntrack table.
+   */
+  auto_standby?: AutoStandbyPolicy;
+
+  /**
    * Environment variables to update (merged with existing). Only keys referenced by
    * the instance's existing credential `source.env` bindings are accepted. Use this
    * to rotate real credential values without restarting the VM.
@@ -1018,11 +1147,14 @@ export interface InstanceWaitParams {
   timeout?: string;
 }
 
+Instances.AutoStandby = AutoStandby;
 Instances.Volumes = Volumes;
 Instances.Snapshots = Snapshots;
 
 export declare namespace Instances {
   export {
+    type AutoStandbyPolicy as AutoStandbyPolicy,
+    type AutoStandbyStatus as AutoStandbyStatus,
     type Instance as Instance,
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
@@ -1045,6 +1177,8 @@ export declare namespace Instances {
     type InstanceStatParams as InstanceStatParams,
     type InstanceWaitParams as InstanceWaitParams,
   };
+
+  export { AutoStandby as AutoStandby };
 
   export {
     Volumes as Volumes,

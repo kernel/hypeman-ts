@@ -82,6 +82,8 @@ import {
   Volumes,
 } from './resources/volumes';
 import {
+  AutoStandbyPolicy,
+  AutoStandbyStatus,
   Instance,
   InstanceCreateParams,
   InstanceForkParams,
@@ -837,6 +839,8 @@ export declare namespace Hypeman {
 
   export {
     Instances as Instances,
+    type AutoStandbyPolicy as AutoStandbyPolicy,
+    type AutoStandbyStatus as AutoStandbyStatus,
     type Instance as Instance,
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,

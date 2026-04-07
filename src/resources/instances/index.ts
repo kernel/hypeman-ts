@@ -1,7 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export { AutoStandby } from './auto-standby';
 export {
   Instances,
+  type AutoStandbyPolicy,
+  type AutoStandbyStatus,
   type Instance,
   type InstanceStats,
   type PathInfo,
