@@ -13,6 +13,7 @@ export {
   type SnapshotPolicy,
   type SnapshotSchedule,
   type SnapshotScheduleRetention,
+  type StandbyInstanceRequest,
   type VolumeMount,
   type WaitForStateResponse,
   type InstanceListResponse,
