@@ -104,6 +104,7 @@ import {
   SnapshotPolicy,
   SnapshotSchedule,
   SnapshotScheduleRetention,
+  StandbyInstanceRequest,
   VolumeMount,
   WaitForStateResponse,
 } from './resources/instances/instances';
@@ -849,6 +850,7 @@ export declare namespace Hypeman {
     type SnapshotPolicy as SnapshotPolicy,
     type SnapshotSchedule as SnapshotSchedule,
     type SnapshotScheduleRetention as SnapshotScheduleRetention,
+    type StandbyInstanceRequest as StandbyInstanceRequest,
     type VolumeMount as VolumeMount,
     type WaitForStateResponse as WaitForStateResponse,
     type InstanceListResponse as InstanceListResponse,
