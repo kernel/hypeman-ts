@@ -42,6 +42,7 @@ Types:
 - <code><a href="./src/resources/instances/instances.ts">SnapshotPolicy</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotSchedule</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotScheduleRetention</a></code>
+- <code><a href="./src/resources/instances/instances.ts">StandbyInstanceRequest</a></code>
 - <code><a href="./src/resources/instances/instances.ts">VolumeMount</a></code>
 - <code><a href="./src/resources/instances/instances.ts">WaitForStateResponse</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceListResponse</a></code>

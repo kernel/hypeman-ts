@@ -665,6 +665,13 @@ export interface SetSnapshotScheduleRequest {
 
 export interface SnapshotPolicy {
   compression?: Shared.SnapshotCompressionConfig;
+
+  /**
+   * Delay before standby snapshot compression begins, expressed as a Go duration
+   * like "30s" or "5m". Applies only to standby compression and defaults to
+   * immediate start when omitted.
+   */
+  standby_compression_delay?: string;
 }
 
 export interface SnapshotSchedule {
@@ -738,6 +745,20 @@ export interface SnapshotScheduleRetention {
    * count-based cleanup).
    */
   max_count?: number;
+}
+
+export interface StandbyInstanceRequest {
+  /**
+   * Compression settings for standby snapshot memory. Overrides instance defaults.
+   */
+  compression?: Shared.SnapshotCompressionConfig;
+
+  /**
+   * Delay before standby snapshot compression begins, expressed as a Go duration
+   * like "30s" or "5m". Overrides the instance default for this standby operation
+   * only.
+   */
+  compression_delay?: string;
 }
 
 export interface VolumeMount {
@@ -890,8 +911,9 @@ export interface InstanceCreateParams {
   skip_kernel_headers?: boolean;
 
   /**
-   * Snapshot compression policy for this instance. Controls compression settings
-   * applied when creating snapshots or entering standby.
+   * Snapshot policy for this instance. Controls compression settings applied when
+   * creating snapshots or entering standby, plus any default standby-only
+   * compression delay.
    */
   snapshot_policy?: SnapshotPolicy;
 
@@ -1107,7 +1129,17 @@ export interface InstanceLogsParams {
 }
 
 export interface InstanceStandbyParams {
+  /**
+   * Compression settings for standby snapshot memory. Overrides instance defaults.
+   */
   compression?: Shared.SnapshotCompressionConfig;
+
+  /**
+   * Delay before standby snapshot compression begins, expressed as a Go duration
+   * like "30s" or "5m". Overrides the instance default for this standby operation
+   * only.
+   */
+  compression_delay?: string;
 }
 
 export interface InstanceStartParams {
@@ -1163,6 +1195,7 @@ export declare namespace Instances {
     type SnapshotPolicy as SnapshotPolicy,
     type SnapshotSchedule as SnapshotSchedule,
     type SnapshotScheduleRetention as SnapshotScheduleRetention,
+    type StandbyInstanceRequest as StandbyInstanceRequest,
     type VolumeMount as VolumeMount,
     type WaitForStateResponse as WaitForStateResponse,
     type InstanceListResponse as InstanceListResponse,
