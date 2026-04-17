@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0 (2026-04-17)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/kernel/hypeman-ts/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* Add standby compression start delay ([17ba616](https://github.com/kernel/hypeman-ts/commit/17ba61619c5c6d8112c06cc371d54f6206d1b650))
+
+
+### Chores
+
+* **internal:** codegen related update ([335e04d](https://github.com/kernel/hypeman-ts/commit/335e04dd5938e5b26b47a8f55bf7311661a0d9a5))
+
 ## 0.3.0 (2026-04-07)
 
 Full Changelog: [v0.2.2...v0.3.0](https://github.com/kernel/hypeman-ts/compare/v0.2.2...v0.3.0)
