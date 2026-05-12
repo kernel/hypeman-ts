@@ -388,6 +388,16 @@ export interface Instance {
   auto_standby?: AutoStandbyPolicy;
 
   /**
+   * The lifecycle phase the instance is currently in.
+   */
+  current_phase?: string;
+
+  /**
+   * When the instance entered current_phase.
+   */
+  current_phase_since?: string;
+
+  /**
    * Disk I/O rate limit (human-readable, e.g., "100MB/s")
    */
   disk_io_bps?: string;
@@ -437,6 +447,15 @@ export interface Instance {
    * Writable overlay disk size (human-readable)
    */
   overlay_size?: string;
+
+  /**
+   * Cumulative milliseconds the instance has spent in each lifecycle phase,
+   * including time accrued in the current phase up to the response time. Keys mirror
+   * instance states lowercased (running, standby, paused, stopped, created,
+   * initializing, shutdown). Consumers (e.g. billing) sum the phases they consider
+   * billable.
+   */
+  phase_durations_ms?: { [key: string]: number };
 
   /**
    * Base memory size (human-readable)
