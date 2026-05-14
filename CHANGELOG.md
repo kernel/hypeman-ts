@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.5.0 (2026-05-14)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/kernel/hypeman-ts/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* Model template as an instance state instead of a separate registry ([09a28d5](https://github.com/kernel/hypeman-ts/commit/09a28d5ec8879ae327779f36731634f21a9d2f23))
+* support setting headers via env ([8c41637](https://github.com/kernel/hypeman-ts/commit/8c41637dbd676b249430413051bdadfe92201a60))
+* Track per-phase duration on each instance ([8da2e87](https://github.com/kernel/hypeman-ts/commit/8da2e876d19cd768aa959b86fcbfd052e926acd4))
+
+
+### Bug Fixes
+
+* remove incorrect setup-bun input — project uses pnpm ([2c9abc9](https://github.com/kernel/hypeman-ts/commit/2c9abc9e051679ae26fbac542a517ac850478f55))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([035aa83](https://github.com/kernel/hypeman-ts/commit/035aa836b91de2a9cecadd9fafa1e4e23da3332d))
+* **internal:** codegen related update ([c8083ea](https://github.com/kernel/hypeman-ts/commit/c8083eae34e271fdb6f3d50e75d4a2069d26565b))
+* **internal:** more robust bootstrap script ([a369af6](https://github.com/kernel/hypeman-ts/commit/a369af6d536e7ba7baf93220e94e4d3183a48899))
+* redact api-key headers in debug logs ([a985151](https://github.com/kernel/hypeman-ts/commit/a985151f67754cc519c31a24382c299a373d193b))
+
 ## 0.4.0 (2026-04-17)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/kernel/hypeman-ts/compare/v0.3.0...v0.4.0)

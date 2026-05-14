@@ -54,9 +54,11 @@ Methods:
 - <code title="patch /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">update</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances">client.instances.<a href="./src/resources/instances/instances.ts">list</a>({ ...params }) -> InstanceListResponse</code>
 - <code title="delete /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">delete</a>(id) -> void</code>
+- <code title="post /instances/{id}/demote-template">client.instances.<a href="./src/resources/instances/instances.ts">demoteTemplate</a>(id) -> Instance</code>
 - <code title="post /instances/{id}/fork">client.instances.<a href="./src/resources/instances/instances.ts">fork</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances/{id}">client.instances.<a href="./src/resources/instances/instances.ts">get</a>(id) -> Instance</code>
 - <code title="get /instances/{id}/logs">client.instances.<a href="./src/resources/instances/instances.ts">logs</a>(id, { ...params }) -> string</code>
+- <code title="post /instances/{id}/promote-template">client.instances.<a href="./src/resources/instances/instances.ts">promoteTemplate</a>(id) -> Instance</code>
 - <code title="post /instances/{id}/restore">client.instances.<a href="./src/resources/instances/instances.ts">restore</a>(id) -> Instance</code>
 - <code title="post /instances/{id}/standby">client.instances.<a href="./src/resources/instances/instances.ts">standby</a>(id, { ...params }) -> Instance</code>
 - <code title="post /instances/{id}/start">client.instances.<a href="./src/resources/instances/instances.ts">start</a>(id, { ...params }) -> Instance</code>

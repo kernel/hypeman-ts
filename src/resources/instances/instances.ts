@@ -84,6 +84,20 @@ export class Instances extends APIResource {
   }
 
   /**
+   * Demote a template back to standby so it can be restored or deleted
+   *
+   * @example
+   * ```ts
+   * const instance = await client.instances.demoteTemplate(
+   *   'id',
+   * );
+   * ```
+   */
+  demoteTemplate(id: string, options?: RequestOptions): APIPromise<Instance> {
+    return this._client.post(path`/instances/${id}/demote-template`, options);
+  }
+
+  /**
    * Fork an instance from stopped, standby, or running (with from_running=true)
    *
    * @example
@@ -136,6 +150,20 @@ export class Instances extends APIResource {
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
     }) as APIPromise<Stream<InstanceLogsResponse>>;
+  }
+
+  /**
+   * Promote a standby instance into a fork-only template
+   *
+   * @example
+   * ```ts
+   * const instance = await client.instances.promoteTemplate(
+   *   'id',
+   * );
+   * ```
+   */
+  promoteTemplate(id: string, options?: RequestOptions): APIPromise<Instance> {
+    return this._client.post(path`/instances/${id}/promote-template`, options);
   }
 
   /**
@@ -377,15 +405,36 @@ export interface Instance {
    * - Shutdown: VM shut down but VMM exists (Cloud Hypervisor native)
    * - Stopped: No VMM running, no snapshot exists
    * - Standby: No VMM running, snapshot exists (can be restored)
+   * - Template: Standby snapshot promoted to a fork-only parent; cannot wake while
+   *   forks exist
    * - Unknown: Failed to determine state (see state_error for details)
    */
-  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+  state:
+    | 'Created'
+    | 'Initializing'
+    | 'Running'
+    | 'Paused'
+    | 'Shutdown'
+    | 'Stopped'
+    | 'Standby'
+    | 'Template'
+    | 'Unknown';
 
   /**
    * Linux-only automatic standby policy based on active inbound TCP connections
    * observed from the host conntrack table.
    */
   auto_standby?: AutoStandbyPolicy;
+
+  /**
+   * The lifecycle phase the instance is currently in.
+   */
+  current_phase?: string;
+
+  /**
+   * When the instance entered current_phase.
+   */
+  current_phase_since?: string;
 
   /**
    * Disk I/O rate limit (human-readable, e.g., "100MB/s")
@@ -437,6 +486,15 @@ export interface Instance {
    * Writable overlay disk size (human-readable)
    */
   overlay_size?: string;
+
+  /**
+   * Cumulative milliseconds the instance has spent in each lifecycle phase,
+   * including time accrued in the current phase up to the response time. Keys mirror
+   * instance states lowercased (running, standby, paused, stopped, created,
+   * initializing, shutdown). Consumers (e.g. billing) sum the phases they consider
+   * billable.
+   */
+  phase_durations_ms?: { [key: string]: number };
 
   /**
    * Base memory size (human-readable)
@@ -793,7 +851,16 @@ export interface WaitForStateResponse {
   /**
    * Current instance state when the wait completed
    */
-  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+  state:
+    | 'Created'
+    | 'Initializing'
+    | 'Running'
+    | 'Paused'
+    | 'Shutdown'
+    | 'Stopped'
+    | 'Standby'
+    | 'Template'
+    | 'Unknown';
 
   /**
    * Whether the timeout expired before the target state was reached
@@ -1076,7 +1143,16 @@ export interface InstanceListParams {
   /**
    * Filter instances by state (e.g., Running, Stopped)
    */
-  state?: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+  state?:
+    | 'Created'
+    | 'Initializing'
+    | 'Running'
+    | 'Paused'
+    | 'Shutdown'
+    | 'Stopped'
+    | 'Standby'
+    | 'Template'
+    | 'Unknown';
 
   /**
    * Filter instances by tag key-value pairs. Uses deepObject style:
@@ -1170,7 +1246,16 @@ export interface InstanceWaitParams {
   /**
    * Target state to wait for
    */
-  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
+  state:
+    | 'Created'
+    | 'Initializing'
+    | 'Running'
+    | 'Paused'
+    | 'Shutdown'
+    | 'Stopped'
+    | 'Standby'
+    | 'Template'
+    | 'Unknown';
 
   /**
    * Maximum duration to wait (Go duration format, e.g. "30s", "2m"). Capped at 5
