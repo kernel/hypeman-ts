@@ -139,6 +139,18 @@ describe('resource instances', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('demoteTemplate', async () => {
+    const responsePromise = client.instances.demoteTemplate('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
   test.skip('fork: only required params', async () => {
     const responsePromise = client.instances.fork('id', { name: 'my-workload-1-fork' });
     const rawResponse = await responsePromise.asResponse();
@@ -197,6 +209,18 @@ describe('resource instances', () => {
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Hypeman.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('promoteTemplate', async () => {
+    const responsePromise = client.instances.promoteTemplate('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
   });
 
   // Mock server tests are disabled
