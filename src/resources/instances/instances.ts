@@ -84,20 +84,6 @@ export class Instances extends APIResource {
   }
 
   /**
-   * Demote a template back to standby so it can be restored or deleted
-   *
-   * @example
-   * ```ts
-   * const instance = await client.instances.demoteTemplate(
-   *   'id',
-   * );
-   * ```
-   */
-  demoteTemplate(id: string, options?: RequestOptions): APIPromise<Instance> {
-    return this._client.post(path`/instances/${id}/demote-template`, options);
-  }
-
-  /**
    * Fork an instance from stopped, standby, or running (with from_running=true)
    *
    * @example
@@ -150,20 +136,6 @@ export class Instances extends APIResource {
       headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
       stream: true,
     }) as APIPromise<Stream<InstanceLogsResponse>>;
-  }
-
-  /**
-   * Promote a standby instance into a fork-only template
-   *
-   * @example
-   * ```ts
-   * const instance = await client.instances.promoteTemplate(
-   *   'id',
-   * );
-   * ```
-   */
-  promoteTemplate(id: string, options?: RequestOptions): APIPromise<Instance> {
-    return this._client.post(path`/instances/${id}/promote-template`, options);
   }
 
   /**
@@ -405,20 +377,9 @@ export interface Instance {
    * - Shutdown: VM shut down but VMM exists (Cloud Hypervisor native)
    * - Stopped: No VMM running, no snapshot exists
    * - Standby: No VMM running, snapshot exists (can be restored)
-   * - Template: Standby snapshot promoted to a fork-only parent; cannot wake while
-   *   forks exist
    * - Unknown: Failed to determine state (see state_error for details)
    */
-  state:
-    | 'Created'
-    | 'Initializing'
-    | 'Running'
-    | 'Paused'
-    | 'Shutdown'
-    | 'Stopped'
-    | 'Standby'
-    | 'Template'
-    | 'Unknown';
+  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 
   /**
    * Linux-only automatic standby policy based on active inbound TCP connections
@@ -851,16 +812,7 @@ export interface WaitForStateResponse {
   /**
    * Current instance state when the wait completed
    */
-  state:
-    | 'Created'
-    | 'Initializing'
-    | 'Running'
-    | 'Paused'
-    | 'Shutdown'
-    | 'Stopped'
-    | 'Standby'
-    | 'Template'
-    | 'Unknown';
+  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 
   /**
    * Whether the timeout expired before the target state was reached
@@ -1143,16 +1095,7 @@ export interface InstanceListParams {
   /**
    * Filter instances by state (e.g., Running, Stopped)
    */
-  state?:
-    | 'Created'
-    | 'Initializing'
-    | 'Running'
-    | 'Paused'
-    | 'Shutdown'
-    | 'Stopped'
-    | 'Standby'
-    | 'Template'
-    | 'Unknown';
+  state?: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 
   /**
    * Filter instances by tag key-value pairs. Uses deepObject style:
@@ -1246,16 +1189,7 @@ export interface InstanceWaitParams {
   /**
    * Target state to wait for
    */
-  state:
-    | 'Created'
-    | 'Initializing'
-    | 'Running'
-    | 'Paused'
-    | 'Shutdown'
-    | 'Stopped'
-    | 'Standby'
-    | 'Template'
-    | 'Unknown';
+  state: 'Created' | 'Initializing' | 'Running' | 'Paused' | 'Shutdown' | 'Stopped' | 'Standby' | 'Unknown';
 
   /**
    * Maximum duration to wait (Go duration format, e.g. "30s", "2m"). Capped at 5
