@@ -346,6 +346,89 @@ export interface AutoStandbyStatus {
   next_standby_at?: string | null;
 }
 
+/**
+ * Workload health check policy. Health is reported separately from instance
+ * lifecycle state.
+ */
+export interface HealthCheck {
+  exec?: HealthCheckExec;
+
+  /**
+   * Consecutive failed checks required to mark the workload unhealthy.
+   */
+  failure_threshold?: number;
+
+  http?: HealthCheckHTTP;
+
+  /**
+   * Delay between checks as a Go duration.
+   */
+  interval?: string;
+
+  /**
+   * Startup grace period before failures can mark the workload unhealthy.
+   */
+  start_period?: string;
+
+  /**
+   * Consecutive successful checks required to mark the workload healthy.
+   */
+  success_threshold?: number;
+
+  tcp?: HealthCheckTcp;
+
+  /**
+   * Per-check timeout as a Go duration.
+   */
+  timeout?: string;
+
+  /**
+   * Probe type. Omit health_check or set type=none to disable health checks.
+   */
+  type?: 'none' | 'http' | 'tcp' | 'exec';
+}
+
+export interface HealthCheckExec {
+  /**
+   * Command and arguments to run inside the guest after guest-agent readiness.
+   */
+  command: Array<string>;
+
+  /**
+   * Optional working directory for the command.
+   */
+  working_dir?: string;
+}
+
+export interface HealthCheckHTTP {
+  /**
+   * Port to probe on the instance network address.
+   */
+  port: number;
+
+  /**
+   * Exact status code required for a successful probe.
+   */
+  expected_status?: number;
+
+  /**
+   * HTTP path to request.
+   */
+  path?: string;
+
+  /**
+   * HTTP scheme to use for the probe.
+   */
+  scheme?: 'http' | 'https';
+}
+
+export interface HealthCheckTcp {
+  /**
+   * Port to open on the instance network address.
+   */
+  port: number;
+}
+
 export interface Instance {
   /**
    * Auto-generated unique identifier (CUID2 format)
@@ -427,6 +510,14 @@ export interface Instance {
    * Whether a snapshot exists for this instance
    */
   has_snapshot?: boolean;
+
+  /**
+   * Workload health check policy. Health is reported separately from instance
+   * lifecycle state.
+   */
+  health_check?: HealthCheck;
+
+  health_status?: InstanceHealthStatus;
 
   /**
    * Hotplug memory size (human-readable)
@@ -545,6 +636,43 @@ export namespace Instance {
      */
     name?: string;
   }
+}
+
+export interface InstanceHealthStatus {
+  /**
+   * Consecutive failed checks in the current health window.
+   */
+  consecutive_failures: number;
+
+  /**
+   * Consecutive successful checks in the current health window.
+   */
+  consecutive_successes: number;
+
+  /**
+   * Current workload health status.
+   */
+  status: 'disabled' | 'starting' | 'healthy' | 'unhealthy' | 'unknown';
+
+  /**
+   * Most recent check completion time.
+   */
+  last_checked_at?: string | null;
+
+  /**
+   * Truncated error from the most recent failed check.
+   */
+  last_error?: string | null;
+
+  /**
+   * Most recent failed check completion time.
+   */
+  last_failure_at?: string | null;
+
+  /**
+   * Most recent successful check completion time.
+   */
+  last_success_at?: string | null;
 }
 
 /**
@@ -889,6 +1017,12 @@ export interface InstanceCreateParams {
   gpu?: InstanceCreateParams.GPU;
 
   /**
+   * Workload health check policy. Health is reported separately from instance
+   * lifecycle state.
+   */
+  health_check?: HealthCheck;
+
+  /**
    * Additional memory for hotplug (human-readable format like "3GB", "1G"). Omit to
    * disable hotplug memory.
    */
@@ -1089,6 +1223,12 @@ export interface InstanceUpdateParams {
    * to rotate real credential values without restarting the VM.
    */
   env?: { [key: string]: string };
+
+  /**
+   * Workload health check policy. Health is reported separately from instance
+   * lifecycle state.
+   */
+  health_check?: HealthCheck;
 }
 
 export interface InstanceListParams {
@@ -1206,7 +1346,12 @@ export declare namespace Instances {
   export {
     type AutoStandbyPolicy as AutoStandbyPolicy,
     type AutoStandbyStatus as AutoStandbyStatus,
+    type HealthCheck as HealthCheck,
+    type HealthCheckExec as HealthCheckExec,
+    type HealthCheckHTTP as HealthCheckHTTP,
+    type HealthCheckTcp as HealthCheckTcp,
     type Instance as Instance,
+    type InstanceHealthStatus as InstanceHealthStatus,
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
