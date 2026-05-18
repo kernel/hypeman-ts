@@ -54,6 +54,8 @@ export {
   type InstanceStats,
   type PathInfo,
   type PortMapping,
+  type RestartPolicy,
+  type RestartStatus,
   type SetSnapshotScheduleRequest,
   type SnapshotPolicy,
   type SnapshotSchedule,

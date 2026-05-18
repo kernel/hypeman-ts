@@ -549,6 +549,16 @@ export interface Instance {
   phase_durations_ms?: { [key: string]: number };
 
   /**
+   * Whole-instance restart supervision policy.
+   */
+  restart_policy?: RestartPolicy;
+
+  /**
+   * Runtime status for restart policy decisions.
+   */
+  restart_status?: RestartStatus;
+
+  /**
    * Base memory size (human-readable)
    */
   size?: string;
@@ -786,6 +796,66 @@ export interface PortMapping {
   host_port: number;
 
   protocol?: 'tcp' | 'udp';
+}
+
+/**
+ * Whole-instance restart supervision policy.
+ */
+export interface RestartPolicy {
+  /**
+   * Delay before each restart attempt, expressed as a Go duration like "5s" or "1m".
+   */
+  backoff?: string;
+
+  /**
+   * Consecutive automatic restart attempts before blocking retries. 0 means
+   * unlimited.
+   */
+  max_attempts?: number;
+
+  /**
+   * Restart behavior when the guest program exits:
+   *
+   * - never: do not automatically restart
+   * - always: restart after any guest exit
+   * - on_failure: restart only for nonzero, signaled, OOM, or unknown exits
+   */
+  policy?: 'never' | 'always' | 'on_failure';
+
+  /**
+   * Running this long resets the consecutive restart attempt count.
+   */
+  stable_after?: string;
+}
+
+/**
+ * Runtime status for restart policy decisions.
+ */
+export interface RestartStatus {
+  /**
+   * Consecutive automatic restart attempts in the current failure window.
+   */
+  attempts?: number;
+
+  /**
+   * Reason automatic restarts are currently blocked.
+   */
+  blocked_reason?: 'manual_stop' | 'max_attempts_exceeded' | null;
+
+  /**
+   * Last time Hypeman attempted an automatic restart.
+   */
+  last_attempt_at?: string | null;
+
+  /**
+   * Most recent non-exit failure signal that entered restart policy.
+   */
+  last_reason?: 'health_check_failed' | null;
+
+  /**
+   * Next scheduled automatic restart attempt after backoff.
+   */
+  next_attempt_at?: string | null;
 }
 
 export interface SetSnapshotScheduleRequest {
@@ -1044,6 +1114,11 @@ export interface InstanceCreateParams {
   overlay_size?: string;
 
   /**
+   * Whole-instance restart supervision policy.
+   */
+  restart_policy?: RestartPolicy;
+
+  /**
    * Base memory size (human-readable format like "1GB", "512MB", "2G")
    */
   size?: string;
@@ -1229,6 +1304,11 @@ export interface InstanceUpdateParams {
    * lifecycle state.
    */
   health_check?: HealthCheck;
+
+  /**
+   * Whole-instance restart supervision policy.
+   */
+  restart_policy?: RestartPolicy;
 }
 
 export interface InstanceListParams {
@@ -1355,6 +1435,8 @@ export declare namespace Instances {
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
+    type RestartPolicy as RestartPolicy,
+    type RestartStatus as RestartStatus,
     type SetSnapshotScheduleRequest as SetSnapshotScheduleRequest,
     type SnapshotPolicy as SnapshotPolicy,
     type SnapshotSchedule as SnapshotSchedule,

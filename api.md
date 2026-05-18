@@ -43,6 +43,8 @@ Types:
 - <code><a href="./src/resources/instances/instances.ts">InstanceStats</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PathInfo</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PortMapping</a></code>
+- <code><a href="./src/resources/instances/instances.ts">RestartPolicy</a></code>
+- <code><a href="./src/resources/instances/instances.ts">RestartStatus</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SetSnapshotScheduleRequest</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotPolicy</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotSchedule</a></code>
