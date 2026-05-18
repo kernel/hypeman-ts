@@ -79,6 +79,12 @@ describe('resource instances', () => {
         enabled: true,
       },
       overlay_size: '20GB',
+      restart_policy: {
+        backoff: '5s',
+        max_attempts: 10,
+        policy: 'on_failure',
+        stable_after: '10m',
+      },
       size: '2GB',
       skip_guest_agent: false,
       skip_kernel_headers: true,
