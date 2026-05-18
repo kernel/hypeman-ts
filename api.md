@@ -34,7 +34,12 @@ Types:
 
 - <code><a href="./src/resources/instances/instances.ts">AutoStandbyPolicy</a></code>
 - <code><a href="./src/resources/instances/instances.ts">AutoStandbyStatus</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheck</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheckExec</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheckHTTP</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheckTcp</a></code>
 - <code><a href="./src/resources/instances/instances.ts">Instance</a></code>
+- <code><a href="./src/resources/instances/instances.ts">InstanceHealthStatus</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceStats</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PathInfo</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PortMapping</a></code>

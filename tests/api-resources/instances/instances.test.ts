@@ -51,6 +51,22 @@ describe('resource instances', () => {
       entrypoint: ['/bin/sh', '-c'],
       env: { PORT: '3000', NODE_ENV: 'production' },
       gpu: { profile: 'L40S-1Q' },
+      health_check: {
+        exec: { command: ['curl', '-f', 'http://localhost:4318/'], working_dir: '/app' },
+        failure_threshold: 3,
+        http: {
+          port: 8080,
+          expected_status: 200,
+          path: '/healthz',
+          scheme: 'http',
+        },
+        interval: '10s',
+        start_period: '30s',
+        success_threshold: 1,
+        tcp: { port: 5432 },
+        timeout: '2s',
+        type: 'none',
+      },
       hotplug_size: '2GB',
       hypervisor: 'cloud-hypervisor',
       network: {
