@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from '@onkernel/hypeman/internal/to-file';
 import { toFile } from '@onkernel/hypeman/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';
