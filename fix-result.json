@@ -1,0 +1,22 @@
+{
+  "fixed": [
+    {
+      "cve": "CVE-2026-41242",
+      "package": "protobufjs",
+      "ecosystem": "npm",
+      "old_version": "7.5.4",
+      "new_version": "7.6.0",
+      "manifest": "pnpm-lock.yaml"
+    },
+    {
+      "cve": "CVE-2026-41242",
+      "package": "protobufjs",
+      "ecosystem": "npm",
+      "old_version": "7.5.4",
+      "new_version": "7.6.0",
+      "manifest": "package-lock.json"
+    }
+  ],
+  "reverted": [],
+  "summary": "2 fixed, 0 reverted"
+}
