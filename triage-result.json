@@ -1,0 +1,27 @@
+{
+  "alerts": [
+    {
+      "category": "fix",
+      "type": "criticalCVE",
+      "severity": "warn",
+      "package": "protobufjs",
+      "version": "7.5.4",
+      "ecosystem": "npm",
+      "cve": null,
+      "manifest": "package-lock.json",
+      "reason": "CVE alert in runtime dependency chain (via dockerode); newer 7.x versions exist, so remediation is likely available without a major bump"
+    },
+    {
+      "category": "dismiss",
+      "type": "criticalCVE",
+      "severity": "warn",
+      "package": "handlebars",
+      "version": "4.7.8",
+      "ecosystem": "npm",
+      "cve": null,
+      "manifest": "pnpm-lock.yaml",
+      "reason": "Development-only dependency through ts-jest (dev dependency), not part of production runtime"
+    }
+  ],
+  "summary": "2 alerts triaged: 1 fix, 0 defer, 1 dismiss"
+}
