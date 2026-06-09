@@ -549,6 +549,12 @@ export interface Instance {
   phase_durations_ms?: { [key: string]: number };
 
   /**
+   * Resolved image platform as os/arch[/variant] (e.g. "linux/amd64"). amd64 images
+   * on an arm64 host run under Rosetta emulation.
+   */
+  platform?: string;
+
+  /**
    * Whole-instance restart supervision policy.
    */
   restart_policy?: RestartPolicy;
@@ -1112,6 +1118,14 @@ export interface InstanceCreateParams {
    * Writable overlay disk size (human-readable format like "10GB", "50G")
    */
   overlay_size?: string;
+
+  /**
+   * Target platform as os/arch[/variant] (e.g. "linux/amd64"), matching Docker
+   * --platform. Omit for the host platform. Not a fixed enum: the os/arch[/variant]
+   * grammar is validated server-side and invalid values return 400 invalid_platform.
+   * Only os "linux" with arch amd64 or arm64 is accepted today.
+   */
+  platform?: string;
 
   /**
    * Whole-instance restart supervision policy.

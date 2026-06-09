@@ -79,6 +79,7 @@ describe('resource instances', () => {
         enabled: true,
       },
       overlay_size: '20GB',
+      platform: 'linux/amd64',
       restart_policy: {
         backoff: '5s',
         max_attempts: 10,
