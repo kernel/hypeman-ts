@@ -325,6 +325,11 @@ export interface AutoStandbyStatus {
   countdown_remaining?: string | null;
 
   /**
+   * Until when auto-standby is held off, if a hold is active.
+   */
+  hold_until?: string | null;
+
+  /**
    * When the controller most recently observed the instance become idle.
    */
   idle_since?: string | null;
