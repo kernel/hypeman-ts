@@ -76,6 +76,7 @@ Methods:
 
 Methods:
 
+- <code title="post /instances/{id}/auto-standby/hold">client.instances.autoStandby.<a href="./src/resources/instances/auto-standby.ts">hold</a>(id) -> AutoStandbyStatus</code>
 - <code title="get /instances/{id}/auto-standby/status">client.instances.autoStandby.<a href="./src/resources/instances/auto-standby.ts">status</a>(id) -> AutoStandbyStatus</code>
 
 ## Volumes
