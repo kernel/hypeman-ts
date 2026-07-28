@@ -9,6 +9,18 @@ const client = new Hypeman({
 
 describe('resource autoStandby', () => {
   // Mock server tests are disabled
+  test.skip('hold', async () => {
+    const responsePromise = client.instances.autoStandby.hold('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
   test.skip('status', async () => {
     const responsePromise = client.instances.autoStandby.status('id');
     const rawResponse = await responsePromise.asResponse();
