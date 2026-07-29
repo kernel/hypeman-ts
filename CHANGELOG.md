@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.5.0 (2026-07-29)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/kernel/hypeman-ts/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* Add design proposal: Rosetta x86-64 emulation for vz Linux guests ([4ed6797](https://github.com/kernel/hypeman-ts/commit/4ed67979a2ec71e383a4b57c8c25dab014e3b1fa))
+* Add instance health checks ([a14bf8c](https://github.com/kernel/hypeman-ts/commit/a14bf8c33cbb1da1b31985ae07287741dd03fd7c))
+* Add instance restart policy ([adb5d8c](https://github.com/kernel/hypeman-ts/commit/adb5d8c01a4fc8a651846220783a2d18cfab155b))
+* Add POST /instances/{id}/auto-standby/reset ([588987e](https://github.com/kernel/hypeman-ts/commit/588987e7671660512f4ce9662952d7b7d568680f))
+* Make an auto-standby hold replace the previous deadline ([4c90b67](https://github.com/kernel/hypeman-ts/commit/4c90b67f2dfb826f6c33421124d3f9aac2fd8b6c))
+* Model template as an instance state instead of a separate registry ([09a28d5](https://github.com/kernel/hypeman-ts/commit/09a28d5ec8879ae327779f36731634f21a9d2f23))
+* Revert template state model ([549ddec](https://github.com/kernel/hypeman-ts/commit/549ddec949eaba175f8e4c7815cc746c7df07d0d))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([ffbb89c](https://github.com/kernel/hypeman-ts/commit/ffbb89c12646f69d6ceaaf30b0cbb5cb76609f10))
+* support setting headers via env ([8c41637](https://github.com/kernel/hypeman-ts/commit/8c41637dbd676b249430413051bdadfe92201a60))
+* Track per-phase duration on each instance ([8da2e87](https://github.com/kernel/hypeman-ts/commit/8da2e876d19cd768aa959b86fcbfd052e926acd4))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([4db99ac](https://github.com/kernel/hypeman-ts/commit/4db99acc7c4cf0fa1e8a303d663d89ac060d9de1))
+* **client:** send content-type header for requests with an omitted optional body ([0b1bd07](https://github.com/kernel/hypeman-ts/commit/0b1bd07d39c4c8f0b199bb175222e124467ca3ef))
+* remove incorrect setup-bun input — project uses pnpm ([2c9abc9](https://github.com/kernel/hypeman-ts/commit/2c9abc9e051679ae26fbac542a517ac850478f55))
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([c543e44](https://github.com/kernel/hypeman-ts/commit/c543e4487ce62b3f2f8d2d7efe1b3f11d9b4908d))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([035aa83](https://github.com/kernel/hypeman-ts/commit/035aa836b91de2a9cecadd9fafa1e4e23da3332d))
+* **internal:** codegen related update ([c8083ea](https://github.com/kernel/hypeman-ts/commit/c8083eae34e271fdb6f3d50e75d4a2069d26565b))
+* **internal:** more robust bootstrap script ([a369af6](https://github.com/kernel/hypeman-ts/commit/a369af6d536e7ba7baf93220e94e4d3183a48899))
+* redact api-key headers in debug logs ([a985151](https://github.com/kernel/hypeman-ts/commit/a985151f67754cc519c31a24382c299a373d193b))
+* **tests:** remove redundant File import ([85aa1c8](https://github.com/kernel/hypeman-ts/commit/85aa1c842515acb545294eda5626538aee5c27d4))
+
 ## 0.4.0 (2026-04-17)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/kernel/hypeman-ts/compare/v0.3.0...v0.4.0)
