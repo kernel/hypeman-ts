@@ -325,6 +325,11 @@ export interface AutoStandbyStatus {
   countdown_remaining?: string | null;
 
   /**
+   * Until when auto-standby is held off, if a hold is active.
+   */
+  hold_until?: string | null;
+
+  /**
    * When the controller most recently observed the instance become idle.
    */
   idle_since?: string | null;
@@ -344,6 +349,89 @@ export interface AutoStandbyStatus {
    * When the controller expects to attempt standby next, if a countdown is active.
    */
   next_standby_at?: string | null;
+}
+
+/**
+ * Workload health check policy. Health is reported separately from instance
+ * lifecycle state.
+ */
+export interface HealthCheck {
+  exec?: HealthCheckExec;
+
+  /**
+   * Consecutive failed checks required to mark the workload unhealthy.
+   */
+  failure_threshold?: number;
+
+  http?: HealthCheckHTTP;
+
+  /**
+   * Delay between checks as a Go duration.
+   */
+  interval?: string;
+
+  /**
+   * Startup grace period before failures can mark the workload unhealthy.
+   */
+  start_period?: string;
+
+  /**
+   * Consecutive successful checks required to mark the workload healthy.
+   */
+  success_threshold?: number;
+
+  tcp?: HealthCheckTcp;
+
+  /**
+   * Per-check timeout as a Go duration.
+   */
+  timeout?: string;
+
+  /**
+   * Probe type. Omit health_check or set type=none to disable health checks.
+   */
+  type?: 'none' | 'http' | 'tcp' | 'exec';
+}
+
+export interface HealthCheckExec {
+  /**
+   * Command and arguments to run inside the guest after guest-agent readiness.
+   */
+  command: Array<string>;
+
+  /**
+   * Optional working directory for the command.
+   */
+  working_dir?: string;
+}
+
+export interface HealthCheckHTTP {
+  /**
+   * Port to probe on the instance network address.
+   */
+  port: number;
+
+  /**
+   * Exact status code required for a successful probe.
+   */
+  expected_status?: number;
+
+  /**
+   * HTTP path to request.
+   */
+  path?: string;
+
+  /**
+   * HTTP scheme to use for the probe.
+   */
+  scheme?: 'http' | 'https';
+}
+
+export interface HealthCheckTcp {
+  /**
+   * Port to open on the instance network address.
+   */
+  port: number;
 }
 
 export interface Instance {
@@ -388,6 +476,16 @@ export interface Instance {
   auto_standby?: AutoStandbyPolicy;
 
   /**
+   * The lifecycle phase the instance is currently in.
+   */
+  current_phase?: string;
+
+  /**
+   * When the instance entered current_phase.
+   */
+  current_phase_since?: string;
+
+  /**
    * Disk I/O rate limit (human-readable, e.g., "100MB/s")
    */
   disk_io_bps?: string;
@@ -419,6 +517,14 @@ export interface Instance {
   has_snapshot?: boolean;
 
   /**
+   * Workload health check policy. Health is reported separately from instance
+   * lifecycle state.
+   */
+  health_check?: HealthCheck;
+
+  health_status?: InstanceHealthStatus;
+
+  /**
    * Hotplug memory size (human-readable)
    */
   hotplug_size?: string;
@@ -437,6 +543,31 @@ export interface Instance {
    * Writable overlay disk size (human-readable)
    */
   overlay_size?: string;
+
+  /**
+   * Cumulative milliseconds the instance has spent in each lifecycle phase,
+   * including time accrued in the current phase up to the response time. Keys mirror
+   * instance states lowercased (running, standby, paused, stopped, created,
+   * initializing, shutdown). Consumers (e.g. billing) sum the phases they consider
+   * billable.
+   */
+  phase_durations_ms?: { [key: string]: number };
+
+  /**
+   * Resolved image platform as os/arch[/variant] (e.g. "linux/amd64"). amd64 images
+   * on an arm64 host run under Rosetta emulation.
+   */
+  platform?: string;
+
+  /**
+   * Whole-instance restart supervision policy.
+   */
+  restart_policy?: RestartPolicy;
+
+  /**
+   * Runtime status for restart policy decisions.
+   */
+  restart_status?: RestartStatus;
 
   /**
    * Base memory size (human-readable)
@@ -526,6 +657,43 @@ export namespace Instance {
      */
     name?: string;
   }
+}
+
+export interface InstanceHealthStatus {
+  /**
+   * Consecutive failed checks in the current health window.
+   */
+  consecutive_failures: number;
+
+  /**
+   * Consecutive successful checks in the current health window.
+   */
+  consecutive_successes: number;
+
+  /**
+   * Current workload health status.
+   */
+  status: 'disabled' | 'starting' | 'healthy' | 'unhealthy' | 'unknown';
+
+  /**
+   * Most recent check completion time.
+   */
+  last_checked_at?: string | null;
+
+  /**
+   * Truncated error from the most recent failed check.
+   */
+  last_error?: string | null;
+
+  /**
+   * Most recent failed check completion time.
+   */
+  last_failure_at?: string | null;
+
+  /**
+   * Most recent successful check completion time.
+   */
+  last_success_at?: string | null;
 }
 
 /**
@@ -639,6 +807,66 @@ export interface PortMapping {
   host_port: number;
 
   protocol?: 'tcp' | 'udp';
+}
+
+/**
+ * Whole-instance restart supervision policy.
+ */
+export interface RestartPolicy {
+  /**
+   * Delay before each restart attempt, expressed as a Go duration like "5s" or "1m".
+   */
+  backoff?: string;
+
+  /**
+   * Consecutive automatic restart attempts before blocking retries. 0 means
+   * unlimited.
+   */
+  max_attempts?: number;
+
+  /**
+   * Restart behavior when the guest program exits:
+   *
+   * - never: do not automatically restart
+   * - always: restart after any guest exit
+   * - on_failure: restart only for nonzero, signaled, OOM, or unknown exits
+   */
+  policy?: 'never' | 'always' | 'on_failure';
+
+  /**
+   * Running this long resets the consecutive restart attempt count.
+   */
+  stable_after?: string;
+}
+
+/**
+ * Runtime status for restart policy decisions.
+ */
+export interface RestartStatus {
+  /**
+   * Consecutive automatic restart attempts in the current failure window.
+   */
+  attempts?: number;
+
+  /**
+   * Reason automatic restarts are currently blocked.
+   */
+  blocked_reason?: 'manual_stop' | 'max_attempts_exceeded' | null;
+
+  /**
+   * Last time Hypeman attempted an automatic restart.
+   */
+  last_attempt_at?: string | null;
+
+  /**
+   * Most recent non-exit failure signal that entered restart policy.
+   */
+  last_reason?: 'health_check_failed' | null;
+
+  /**
+   * Next scheduled automatic restart attempt after backoff.
+   */
+  next_attempt_at?: string | null;
 }
 
 export interface SetSnapshotScheduleRequest {
@@ -870,6 +1098,12 @@ export interface InstanceCreateParams {
   gpu?: InstanceCreateParams.GPU;
 
   /**
+   * Workload health check policy. Health is reported separately from instance
+   * lifecycle state.
+   */
+  health_check?: HealthCheck;
+
+  /**
    * Additional memory for hotplug (human-readable format like "3GB", "1G"). Omit to
    * disable hotplug memory.
    */
@@ -889,6 +1123,19 @@ export interface InstanceCreateParams {
    * Writable overlay disk size (human-readable format like "10GB", "50G")
    */
   overlay_size?: string;
+
+  /**
+   * Target platform as os/arch[/variant] (e.g. "linux/amd64"), matching Docker
+   * --platform. Omit for the host platform. Not a fixed enum: the os/arch[/variant]
+   * grammar is validated server-side and invalid values return 400 invalid_platform.
+   * Only os "linux" with arch amd64 or arm64 is accepted today.
+   */
+  platform?: string;
+
+  /**
+   * Whole-instance restart supervision policy.
+   */
+  restart_policy?: RestartPolicy;
 
   /**
    * Base memory size (human-readable format like "1GB", "512MB", "2G")
@@ -1070,6 +1317,17 @@ export interface InstanceUpdateParams {
    * to rotate real credential values without restarting the VM.
    */
   env?: { [key: string]: string };
+
+  /**
+   * Workload health check policy. Health is reported separately from instance
+   * lifecycle state.
+   */
+  health_check?: HealthCheck;
+
+  /**
+   * Whole-instance restart supervision policy.
+   */
+  restart_policy?: RestartPolicy;
 }
 
 export interface InstanceListParams {
@@ -1187,10 +1445,17 @@ export declare namespace Instances {
   export {
     type AutoStandbyPolicy as AutoStandbyPolicy,
     type AutoStandbyStatus as AutoStandbyStatus,
+    type HealthCheck as HealthCheck,
+    type HealthCheckExec as HealthCheckExec,
+    type HealthCheckHTTP as HealthCheckHTTP,
+    type HealthCheckTcp as HealthCheckTcp,
     type Instance as Instance,
+    type InstanceHealthStatus as InstanceHealthStatus,
     type InstanceStats as InstanceStats,
     type PathInfo as PathInfo,
     type PortMapping as PortMapping,
+    type RestartPolicy as RestartPolicy,
+    type RestartStatus as RestartStatus,
     type SetSnapshotScheduleRequest as SetSnapshotScheduleRequest,
     type SnapshotPolicy as SnapshotPolicy,
     type SnapshotSchedule as SnapshotSchedule,

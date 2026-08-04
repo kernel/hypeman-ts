@@ -106,6 +106,11 @@ export interface Image {
   error?: string | null;
 
   /**
+   * Resolved image platform as os/arch[/variant] (e.g. "linux/amd64")
+   */
+  platform?: string;
+
+  /**
    * Position in build queue (null if not queued)
    */
   queue_position?: number | null;
@@ -133,6 +138,14 @@ export interface ImageCreateParams {
    * OCI image reference (e.g., docker.io/library/nginx:latest)
    */
   name: string;
+
+  /**
+   * Target platform as os/arch[/variant] (e.g. "linux/amd64"), matching Docker
+   * --platform. Omit for the host platform. Not a fixed enum: the os/arch[/variant]
+   * grammar is validated server-side and invalid values return 400 invalid_platform.
+   * Only os "linux" with arch amd64 or arm64 is accepted today.
+   */
+  platform?: string;
 
   /**
    * User-defined key-value tags.
