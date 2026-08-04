@@ -34,10 +34,17 @@ Types:
 
 - <code><a href="./src/resources/instances/instances.ts">AutoStandbyPolicy</a></code>
 - <code><a href="./src/resources/instances/instances.ts">AutoStandbyStatus</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheck</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheckExec</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheckHTTP</a></code>
+- <code><a href="./src/resources/instances/instances.ts">HealthCheckTcp</a></code>
 - <code><a href="./src/resources/instances/instances.ts">Instance</a></code>
+- <code><a href="./src/resources/instances/instances.ts">InstanceHealthStatus</a></code>
 - <code><a href="./src/resources/instances/instances.ts">InstanceStats</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PathInfo</a></code>
 - <code><a href="./src/resources/instances/instances.ts">PortMapping</a></code>
+- <code><a href="./src/resources/instances/instances.ts">RestartPolicy</a></code>
+- <code><a href="./src/resources/instances/instances.ts">RestartStatus</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SetSnapshotScheduleRequest</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotPolicy</a></code>
 - <code><a href="./src/resources/instances/instances.ts">SnapshotSchedule</a></code>
@@ -69,6 +76,7 @@ Methods:
 
 Methods:
 
+- <code title="post /instances/{id}/auto-standby/hold">client.instances.autoStandby.<a href="./src/resources/instances/auto-standby.ts">hold</a>(id) -> AutoStandbyStatus</code>
 - <code title="get /instances/{id}/auto-standby/status">client.instances.autoStandby.<a href="./src/resources/instances/auto-standby.ts">status</a>(id) -> AutoStandbyStatus</code>
 
 ## Volumes
