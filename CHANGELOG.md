@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1 (2026-08-06)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/kernel/hypeman-ts/compare/v0.5.0...v0.5.1)
+
 ## 0.5.0 (2026-07-29)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/kernel/hypeman-ts/compare/v0.4.0...v0.5.0)
