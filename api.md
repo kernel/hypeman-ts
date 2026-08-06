@@ -187,6 +187,22 @@ Methods:
 - <code title="get /resources">client.resources.<a href="./src/resources/resources.ts">get</a>() -> Resources</code>
 - <code title="post /resources/memory/reclaim">client.resources.<a href="./src/resources/resources.ts">reclaimMemory</a>({ ...params }) -> MemoryReclaimResponse</code>
 
+# Builders
+
+Types:
+
+- <code><a href="./src/resources/builders.ts">Builder</a></code>
+- <code><a href="./src/resources/builders.ts">BuilderStatus</a></code>
+- <code><a href="./src/resources/builders.ts">BuilderListResponse</a></code>
+
+Methods:
+
+- <code title="post /builders">client.builders.<a href="./src/resources/builders.ts">create</a>({ ...params }) -> Builder</code>
+- <code title="get /builders">client.builders.<a href="./src/resources/builders.ts">list</a>({ ...params }) -> BuilderListResponse</code>
+- <code title="delete /builders/{id}">client.builders.<a href="./src/resources/builders.ts">delete</a>(id) -> void</code>
+- <code title="get /builders/{id}">client.builders.<a href="./src/resources/builders.ts">get</a>(id) -> Builder</code>
+- <code title="post /builders/{id}/prune">client.builders.<a href="./src/resources/builders.ts">prune</a>(id) -> Builder</code>
+
 # Builds
 
 Types:

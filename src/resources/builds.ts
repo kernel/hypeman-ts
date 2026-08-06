@@ -85,7 +85,12 @@ export interface Build {
   status: BuildStatus;
 
   /**
-   * Instance ID of the builder VM (for debugging)
+   * Persistent Builder resource whose cache backed this build
+   */
+  builder_id?: string | null;
+
+  /**
+   * Disposable VM instance that executed this build; distinct from builder_id
    */
   builder_instance_id?: string | null;
 
@@ -220,6 +225,13 @@ export interface BuildCreateParams {
    * Optional pinned base image digest
    */
   base_image_digest?: string;
+
+  /**
+   * Optional Builder ID whose persistent cache disk backs this build. This is the
+   * only builder selector. One build at a time runs on a builder; builds for the
+   * same builder are serialized.
+   */
+  builder_id?: string;
 
   /**
    * Tenant-specific cache key prefix

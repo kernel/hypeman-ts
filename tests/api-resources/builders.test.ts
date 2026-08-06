@@ -1,18 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Hypeman, { toFile } from '@onkernel/hypeman';
+import Hypeman from '@onkernel/hypeman';
 
 const client = new Hypeman({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource builds', () => {
+describe('resource builders', () => {
   // Mock server tests are disabled
-  test.skip('create: only required params', async () => {
-    const responsePromise = client.builds.create({
-      source: await toFile(Buffer.from('Example data'), 'README.md'),
-    });
+  test.skip('create', async () => {
+    const responsePromise = client.builders.create({});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,27 +21,8 @@ describe('resource builds', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('create: required and optional params', async () => {
-    const response = await client.builds.create({
-      source: await toFile(Buffer.from('Example data'), 'README.md'),
-      base_image_digest: 'base_image_digest',
-      builder_id: 'builder_id',
-      cache_scope: 'cache_scope',
-      cpus: 0,
-      dockerfile: 'dockerfile',
-      global_cache_key: 'global_cache_key',
-      image_name: 'image_name',
-      is_admin_build: 'is_admin_build',
-      memory_mb: 0,
-      secrets: 'secrets',
-      tags: 'tags',
-      timeout_seconds: 0,
-    });
-  });
-
-  // Mock server tests are disabled
   test.skip('list', async () => {
-    const responsePromise = client.builds.list();
+    const responsePromise = client.builders.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -57,13 +36,16 @@ describe('resource builds', () => {
   test.skip('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.builds.list({ tags: { team: 'backend', env: 'staging' } }, { path: '/_stainless_unknown_path' }),
+      client.builders.list(
+        { tags: { team: 'backend', env: 'staging' } },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
   // Mock server tests are disabled
-  test.skip('cancel', async () => {
-    const responsePromise = client.builds.cancel('id');
+  test.skip('delete', async () => {
+    const responsePromise = client.builders.delete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -71,31 +53,23 @@ describe('resource builds', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('events', async () => {
-    const responsePromise = client.builds.events('id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('events: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.builds.events('id', { follow: true }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Hypeman.NotFoundError);
   });
 
   // Mock server tests are disabled
   test.skip('get', async () => {
-    const responsePromise = client.builds.get('id');
+    const responsePromise = client.builders.get('id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('prune', async () => {
+    const responsePromise = client.builders.prune('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

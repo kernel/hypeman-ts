@@ -18,6 +18,14 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  Builder,
+  BuilderCreateParams,
+  BuilderListParams,
+  BuilderListResponse,
+  BuilderStatus,
+  Builders,
+} from './resources/builders';
+import {
   Build,
   BuildCreateParams,
   BuildEvent,
@@ -225,7 +233,7 @@ export class Hypeman {
    * API Client for interfacing with the Hypeman API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['HYPEMAN_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['HYPEMAN_BASE_URL'] ?? http://localhost:8080] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['HYPEMAN_BASE_URL'] ?? http://localhost:4973] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -247,7 +255,7 @@ export class Hypeman {
     const options: ClientOptions = {
       apiKey,
       ...opts,
-      baseURL: baseURL || `http://localhost:8080`,
+      baseURL: baseURL || `http://localhost:4973`,
     };
 
     this.baseURL = options.baseURL!;
@@ -305,7 +313,7 @@ export class Hypeman {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'http://localhost:8080';
+    return this.baseURL !== 'http://localhost:4973';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -840,6 +848,7 @@ export class Hypeman {
   devices: API.Devices = new API.Devices(this);
   ingresses: API.Ingresses = new API.Ingresses(this);
   resources: API.Resources = new API.Resources(this);
+  builders: API.Builders = new API.Builders(this);
   builds: API.Builds = new API.Builds(this);
 }
 
@@ -850,6 +859,7 @@ Hypeman.Snapshots = Snapshots;
 Hypeman.Volumes = Volumes;
 Hypeman.Devices = Devices;
 Hypeman.Ingresses = Ingresses;
+Hypeman.Builders = Builders;
 Hypeman.Builds = Builds;
 
 export declare namespace Hypeman {
@@ -953,6 +963,15 @@ export declare namespace Hypeman {
     type ResourceAllocation as ResourceAllocation,
     type ResourceStatus as ResourceStatus,
     type ResourceReclaimMemoryParams as ResourceReclaimMemoryParams,
+  };
+
+  export {
+    Builders as Builders,
+    type Builder as Builder,
+    type BuilderStatus as BuilderStatus,
+    type BuilderListResponse as BuilderListResponse,
+    type BuilderCreateParams as BuilderCreateParams,
+    type BuilderListParams as BuilderListParams,
   };
 
   export {

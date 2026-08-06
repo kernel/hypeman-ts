@@ -2,6 +2,14 @@
 
 export * from './shared';
 export {
+  Builders,
+  type Builder,
+  type BuilderStatus,
+  type BuilderListResponse,
+  type BuilderCreateParams,
+  type BuilderListParams,
+} from './builders';
+export {
   Builds,
   type Build,
   type BuildEvent,

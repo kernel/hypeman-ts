@@ -322,13 +322,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['HYPEMAN_BASE_URL'] = ''; // empty
       const client = new Hypeman({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('http://localhost:8080');
+      expect(client.baseURL).toEqual('http://localhost:4973');
     });
 
     test('blank env variable', () => {
       process.env['HYPEMAN_BASE_URL'] = '  '; // blank
       const client = new Hypeman({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('http://localhost:8080');
+      expect(client.baseURL).toEqual('http://localhost:4973');
     });
 
     test('in request options', () => {
