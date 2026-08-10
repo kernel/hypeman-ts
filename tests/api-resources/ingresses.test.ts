@@ -37,6 +37,10 @@ describe('resource ingresses', () => {
           match: { hostname: '{instance}.example.com', port: 8080 },
           target: { instance: '{instance}', port: 8080 },
           redirect_http: true,
+          request_header_auth: {
+            header: 'X-Ingress-Verification',
+            value: '0123456789abcdef0123456789abcdef',
+          },
           tls: true,
         },
       ],

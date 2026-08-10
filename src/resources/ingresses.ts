@@ -127,10 +127,30 @@ export interface IngressRule {
    */
   redirect_http?: boolean;
 
+  request_header_auth?: IngressRule.RequestHeaderAuth;
+
   /**
    * Enable TLS termination (certificate auto-issued via ACME).
    */
   tls?: boolean;
+}
+
+export namespace IngressRule {
+  export interface RequestHeaderAuth {
+    /**
+     * Dedicated request header that must match before proxying. Reserved
+     * authentication, cookie, host, framing, proxy, and hop-by-hop headers are not
+     * allowed.
+     */
+    header: string;
+
+    /**
+     * Exact header value required before proxying. This sensitive value is persisted
+     * and returned by the API like instance environment variables; clients should hide
+     * it by default.
+     */
+    value: string;
+  }
 }
 
 export interface IngressTarget {
