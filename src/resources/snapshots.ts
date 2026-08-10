@@ -94,7 +94,7 @@ export interface Snapshot {
   /**
    * Source instance hypervisor at snapshot creation time
    */
-  source_hypervisor: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
+  source_hypervisor: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'qemu-microvm' | 'vz';
 
   /**
    * Source instance ID at snapshot creation time
@@ -179,7 +179,7 @@ export interface SnapshotForkParams {
    * Optional hypervisor override. Allowed only when forking from a Stopped snapshot.
    * Standby snapshots must fork with their original hypervisor.
    */
-  target_hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
+  target_hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'qemu-microvm' | 'vz';
 
   /**
    * Optional final state for the forked instance. Defaults by snapshot kind:

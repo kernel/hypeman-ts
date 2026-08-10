@@ -83,7 +83,7 @@ export interface SnapshotRestoreParams {
    * Body param: Optional hypervisor override. Allowed only when restoring from a
    * Stopped snapshot. Standby snapshots must restore with their original hypervisor.
    */
-  target_hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
+  target_hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'qemu-microvm' | 'vz';
 
   /**
    * Body param: Optional final state after restore. Defaults by snapshot kind:
