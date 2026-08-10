@@ -1,8 +1,10 @@
 name: Promote SDKs
 
-# Manually fast-forwards production main to the reviewed staging main. The
-# ancestor check refuses divergent histories; this workflow never force-pushes.
+# Staging changes are promoted through one persistent production PR. Merge this
+# PR with a merge commit so production and staging retain shared history.
 on:
+  push:
+    branches: [main]
   workflow_dispatch: {}
 
 permissions:
@@ -12,7 +14,9 @@ jobs:
   promote:
     if: github.repository == 'kernel/hypeman-ts-staging'
     runs-on: ${{ vars.STLC_RUNNER || 'ubuntu-latest' }}
-    environment: production
+    concurrency:
+      group: stlc-promote
+      cancel-in-progress: true
     steps:
       - name: Check out staging
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -30,13 +34,15 @@ jobs:
           repositories: hypeman-ts
           permission-contents: write
           permission-workflows: write
+          permission-pull-requests: write
 
       - name: Fetch production main
         env:
           GH_TOKEN: ${{ steps.production-token.outputs.token }}
           PRODUCTION_REPO: kernel/hypeman-ts
         run: |
-          git remote add production             "https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
+          git remote add production \
+            "https://x-access-token:${GH_TOKEN}@github.com/${PRODUCTION_REPO}.git"
           git fetch production main
 
       - name: Check whether production already has staging's content
@@ -51,11 +57,31 @@ jobs:
             echo "synced=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Promote staging to production
+      - name: Push the production release branch
         if: steps.diff.outputs.synced == 'false'
+        env:
+          GH_TOKEN: ${{ steps.production-token.outputs.token }}
+          PRODUCTION_REPO: kernel/hypeman-ts
+        run: git push production origin/main:refs/heads/stainless/release --force
+
+      - name: Open or update the promotion PR
+        if: steps.diff.outputs.synced == 'false'
+        env:
+          GH_TOKEN: ${{ steps.production-token.outputs.token }}
+          PRODUCTION_REPO: kernel/hypeman-ts
         run: |
-          if ! git merge-base --is-ancestor production/main origin/main; then
-            echo "::error title=Promote blocked::production/main is not an ancestor of staging main. Back-sync production first."
-            exit 1
+          body=$(mktemp)
+          git log --oneline production/main..origin/main > "$body"
+          printf '\nMerge this PR with a merge commit. Do not squash or rebase.\n' >> "$body"
+
+          existing=$(gh pr list --repo "$PRODUCTION_REPO" --head stainless/release \
+            --state open --json number --jq '.[0].number // empty')
+          if [ -z "$existing" ]; then
+            url=$(gh pr create --repo "$PRODUCTION_REPO" --base main \
+              --head stainless/release --title "Release SDK updates" --body-file "$body")
+          else
+            gh pr edit "$existing" --repo "$PRODUCTION_REPO" \
+              --title "Release SDK updates" --body-file "$body" >/dev/null
+            url=$(gh pr view "$existing" --repo "$PRODUCTION_REPO" --json url --jq .url)
           fi
-          git push production origin/main:refs/heads/main
+          echo "Review and merge with a merge commit: $url" >> "$GITHUB_STEP_SUMMARY"
