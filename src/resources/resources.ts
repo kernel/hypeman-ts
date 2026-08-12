@@ -117,7 +117,7 @@ export interface MemoryReclaimAction {
 
   assigned_memory_bytes: number;
 
-  hypervisor: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
+  hypervisor: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'qemu-microvm' | 'vz';
 
   instance_id: string;
 

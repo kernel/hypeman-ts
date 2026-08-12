@@ -84,6 +84,15 @@ export {
   type InstanceWaitParams,
 } from './instances/instances';
 export {
+  Pushes,
+  type CreatePushRequest,
+  type Push,
+  type PushCredentials,
+  type PushStatus,
+  type PushListResponse,
+  type PushCreateParams,
+} from './pushes';
+export {
   Resources,
   type DiskBreakdown,
   type GPUProfile,

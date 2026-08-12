@@ -530,9 +530,9 @@ export interface Instance {
   hotplug_size?: string;
 
   /**
-   * Hypervisor running this instance
+   * Hypervisor backend running this instance
    */
-  hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
+  hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'qemu-microvm' | 'vz';
 
   /**
    * Network configuration of the instance
@@ -1110,9 +1110,12 @@ export interface InstanceCreateParams {
   hotplug_size?: string;
 
   /**
-   * Hypervisor to use for this instance. Defaults to server configuration.
+   * Hypervisor backend to use for this instance. qemu uses the architecture-native
+   * standard board; qemu-microvm uses QEMU's minimal Linux amd64 board and does not
+   * support PCI devices, hotplug memory, or more than eight virtio-mmio devices.
+   * Defaults to server configuration.
    */
-  hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'vz';
+  hypervisor?: 'cloud-hypervisor' | 'firecracker' | 'qemu' | 'qemu-microvm' | 'vz';
 
   /**
    * Network configuration for the instance

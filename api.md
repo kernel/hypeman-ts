@@ -221,3 +221,19 @@ Methods:
 - <code title="delete /builds/{id}">client.builds.<a href="./src/resources/builds.ts">cancel</a>(id) -> void</code>
 - <code title="get /builds/{id}/events">client.builds.<a href="./src/resources/builds.ts">events</a>(id, { ...params }) -> BuildEvent</code>
 - <code title="get /builds/{id}">client.builds.<a href="./src/resources/builds.ts">get</a>(id) -> Build</code>
+
+# Pushes
+
+Types:
+
+- <code><a href="./src/resources/pushes.ts">CreatePushRequest</a></code>
+- <code><a href="./src/resources/pushes.ts">Push</a></code>
+- <code><a href="./src/resources/pushes.ts">PushCredentials</a></code>
+- <code><a href="./src/resources/pushes.ts">PushStatus</a></code>
+- <code><a href="./src/resources/pushes.ts">PushListResponse</a></code>
+
+Methods:
+
+- <code title="post /pushes">client.pushes.<a href="./src/resources/pushes.ts">create</a>({ ...params }) -> Push</code>
+- <code title="get /pushes">client.pushes.<a href="./src/resources/pushes.ts">list</a>() -> PushListResponse</code>
+- <code title="get /pushes/{id}">client.pushes.<a href="./src/resources/pushes.ts">get</a>(id) -> Push</code>

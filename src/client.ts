@@ -60,6 +60,15 @@ import {
   Ingresses,
 } from './resources/ingresses';
 import {
+  CreatePushRequest,
+  Push,
+  PushCreateParams,
+  PushCredentials,
+  PushListResponse,
+  PushStatus,
+  Pushes,
+} from './resources/pushes';
+import {
   DiskBreakdown,
   GPUProfile,
   GPUResourceStatus,
@@ -850,6 +859,7 @@ export class Hypeman {
   resources: API.Resources = new API.Resources(this);
   builders: API.Builders = new API.Builders(this);
   builds: API.Builds = new API.Builds(this);
+  pushes: API.Pushes = new API.Pushes(this);
 }
 
 Hypeman.Health = Health;
@@ -861,6 +871,7 @@ Hypeman.Devices = Devices;
 Hypeman.Ingresses = Ingresses;
 Hypeman.Builders = Builders;
 Hypeman.Builds = Builds;
+Hypeman.Pushes = Pushes;
 
 export declare namespace Hypeman {
   export type RequestOptions = Opts.RequestOptions;
@@ -985,6 +996,16 @@ export declare namespace Hypeman {
     type BuildCreateParams as BuildCreateParams,
     type BuildListParams as BuildListParams,
     type BuildEventsParams as BuildEventsParams,
+  };
+
+  export {
+    Pushes as Pushes,
+    type CreatePushRequest as CreatePushRequest,
+    type Push as Push,
+    type PushCredentials as PushCredentials,
+    type PushStatus as PushStatus,
+    type PushListResponse as PushListResponse,
+    type PushCreateParams as PushCreateParams,
   };
 
   export type SnapshotCompressionConfig = API.SnapshotCompressionConfig;
