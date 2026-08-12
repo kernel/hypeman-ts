@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.0](https://github.com/kernel/hypeman-ts/compare/v0.5.1...v0.6.0) (2026-08-12)
+
+
+### Features
+
+* Add QEMU microvm hypervisor backend ([f8c18cf](https://github.com/kernel/hypeman-ts/commit/f8c18cf81953831bf2464f08c9e19a918ffdfb0c))
+* Add request header authorization to ingress rules ([2fb6855](https://github.com/kernel/hypeman-ts/commit/2fb68550870bace083b8636cc32e5d92255e527b))
+* chore(stlc): seal custom-code tracking files ([fd74279](https://github.com/kernel/hypeman-ts/commit/fd74279abdea5b466a4c5b031150aba1b0d0cdc0))
+
 ## 0.5.1 (2026-08-06)
 
 Full Changelog: [v0.5.0...v0.5.1](https://github.com/kernel/hypeman-ts/compare/v0.5.0...v0.5.1)
