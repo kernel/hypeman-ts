@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as PushesAPI from './pushes';
 import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
@@ -138,6 +139,14 @@ export interface ImageCreateParams {
    * OCI image reference (e.g., docker.io/library/nginx:latest)
    */
   name: string;
+
+  /**
+   * Docker-style registry credentials borrowed for one image pull or push request.
+   * They remain in memory and are never persisted or logged. When omitted or empty,
+   * the server's own registry credentials are used. An interrupted credentialed
+   * operation must be retried with fresh credentials.
+   */
+  credentials?: PushesAPI.PushCredentials;
 
   /**
    * Target platform as os/arch[/variant] (e.g. "linux/amd64"), matching Docker
