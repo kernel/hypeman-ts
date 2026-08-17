@@ -38,6 +38,15 @@ import {
   Builds,
 } from './resources/builds';
 import {
+  Capabilities,
+  CapabilitiesDefaultRuntime,
+  CapabilitiesHost,
+  CapabilitiesImages,
+  CapabilitiesNetwork,
+  CapabilitiesRuntime,
+  CapabilitiesServer,
+} from './resources/capabilities';
+import {
   AvailableDevice,
   Device,
   DeviceCreateParams,
@@ -850,6 +859,7 @@ export class Hypeman {
   static toFile = Uploads.toFile;
 
   health: API.Health = new API.Health(this);
+  capabilities: API.Capabilities = new API.Capabilities(this);
   images: API.Images = new API.Images(this);
   instances: API.Instances = new API.Instances(this);
   snapshots: API.Snapshots = new API.Snapshots(this);
@@ -877,6 +887,16 @@ export declare namespace Hypeman {
   export type RequestOptions = Opts.RequestOptions;
 
   export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
+
+  export {
+    type Capabilities as Capabilities,
+    type CapabilitiesDefaultRuntime as CapabilitiesDefaultRuntime,
+    type CapabilitiesHost as CapabilitiesHost,
+    type CapabilitiesImages as CapabilitiesImages,
+    type CapabilitiesNetwork as CapabilitiesNetwork,
+    type CapabilitiesRuntime as CapabilitiesRuntime,
+    type CapabilitiesServer as CapabilitiesServer,
+  };
 
   export {
     Images as Images,
