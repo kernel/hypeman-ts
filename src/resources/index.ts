@@ -22,6 +22,15 @@ export {
   type BuildEventsParams,
 } from './builds';
 export {
+  Capabilities,
+  type CapabilitiesDefaultRuntime,
+  type CapabilitiesHost,
+  type CapabilitiesImages,
+  type CapabilitiesNetwork,
+  type CapabilitiesRuntime,
+  type CapabilitiesServer,
+} from './capabilities';
+export {
   Devices,
   type AvailableDevice,
   type Device,

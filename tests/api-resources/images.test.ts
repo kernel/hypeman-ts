@@ -24,6 +24,11 @@ describe('resource images', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.images.create({
       name: 'docker.io/library/nginx:latest',
+      credentials: {
+        password: 'password',
+        registry_token: 'registry_token',
+        username: 'username',
+      },
       platform: 'linux/amd64',
       tags: { team: 'backend', env: 'staging' },
     });

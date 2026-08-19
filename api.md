@@ -14,6 +14,22 @@ Methods:
 
 - <code title="get /health">client.health.<a href="./src/resources/health.ts">check</a>() -> HealthCheckResponse</code>
 
+# Capabilities
+
+Types:
+
+- <code><a href="./src/resources/capabilities.ts">Capabilities</a></code>
+- <code><a href="./src/resources/capabilities.ts">CapabilitiesDefaultRuntime</a></code>
+- <code><a href="./src/resources/capabilities.ts">CapabilitiesHost</a></code>
+- <code><a href="./src/resources/capabilities.ts">CapabilitiesImages</a></code>
+- <code><a href="./src/resources/capabilities.ts">CapabilitiesNetwork</a></code>
+- <code><a href="./src/resources/capabilities.ts">CapabilitiesRuntime</a></code>
+- <code><a href="./src/resources/capabilities.ts">CapabilitiesServer</a></code>
+
+Methods:
+
+- <code title="get /capabilities">client.capabilities.<a href="./src/resources/capabilities.ts">get</a>() -> Capabilities</code>
+
 # Images
 
 Types:
