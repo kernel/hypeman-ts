@@ -50,6 +50,7 @@ describe('resource instances', () => {
       disk_io_bps: '100MB/s',
       entrypoint: ['/bin/sh', '-c'],
       env: { PORT: '3000', NODE_ENV: 'production' },
+      expires_at: '2026-08-21T18:00:00Z',
       gpu: { profile: 'L40S-1Q' },
       health_check: {
         exec: { command: ['curl', '-f', 'http://localhost:4318/'], working_dir: '/app' },
@@ -98,6 +99,7 @@ describe('resource instances', () => {
         standby_compression_delay: '2m',
       },
       tags: { team: 'backend', env: 'staging' },
+      ttl: '24h',
       vcpus: 2,
       volumes: [
         {
