@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/kernel/hypeman-ts/compare/v0.7.0...v0.8.0) (2026-08-21)
+
+
+### Features
+
+* Repair SDK tracking generation ([a6716d0](https://github.com/kernel/hypeman-ts/commit/a6716d0c0b912758dd05cdafa826b9ba35657aca))
+
 ## [0.7.0](https://github.com/kernel/hypeman-ts/compare/v0.6.0...v0.7.0) (2026-08-17)
 
 
