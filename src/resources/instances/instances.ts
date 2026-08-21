@@ -40,9 +40,8 @@ export class Instances extends APIResource {
   }
 
   /**
-   * Update mutable properties of a running instance. Currently supports updating
-   * only the environment variables referenced by existing credential policies,
-   * enabling secret/key rotation without instance restart.
+   * Update mutable instance properties. TTL values are relative to when the update
+   * is committed. Expiration updates are rejected after the current deadline passes.
    *
    * @example
    * ```ts
@@ -444,6 +443,12 @@ export interface Instance {
    * Creation timestamp (RFC3339)
    */
   created_at: string;
+
+  /**
+   * Absolute expiration time, or null when automatic expiration is disabled.
+   * Instance TTL is cleared on fork.
+   */
+  expires_at: string | null;
 
   /**
    * OCI image reference
@@ -1093,6 +1098,12 @@ export interface InstanceCreateParams {
   env?: { [key: string]: string };
 
   /**
+   * Absolute expiration time. Must be in the future and is mutually exclusive with
+   * ttl.
+   */
+  expires_at?: string;
+
+  /**
    * GPU configuration for the instance
    */
   gpu?: InstanceCreateParams.GPU;
@@ -1171,6 +1182,13 @@ export interface InstanceCreateParams {
    * User-defined key-value tags.
    */
   tags?: { [key: string]: string };
+
+  /**
+   * Relative lifetime from instance creation, in Go duration format. Use "0s" or
+   * omit both expiration fields to disable automatic expiration. Mutually exclusive
+   * with expires_at.
+   */
+  ttl?: string;
 
   /**
    * Number of virtual CPUs
@@ -1322,6 +1340,12 @@ export interface InstanceUpdateParams {
   env?: { [key: string]: string };
 
   /**
+   * Absolute expiration time. Must be in the future and is mutually exclusive with
+   * ttl.
+   */
+  expires_at?: string;
+
+  /**
    * Workload health check policy. Health is reported separately from instance
    * lifecycle state.
    */
@@ -1331,6 +1355,12 @@ export interface InstanceUpdateParams {
    * Whole-instance restart supervision policy.
    */
   restart_policy?: RestartPolicy;
+
+  /**
+   * Relative lifetime from when this update is committed, in Go duration format. Use
+   * "0s" to disable automatic expiration. Mutually exclusive with expires_at.
+   */
+  ttl?: string;
 }
 
 export interface InstanceListParams {
