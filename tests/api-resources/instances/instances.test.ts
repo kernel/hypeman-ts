@@ -164,6 +164,14 @@ describe('resource instances', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('delete: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.instances.delete('id', { graceful_shutdown: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Hypeman.NotFoundError);
+  });
+
+  // Mock server tests are disabled
   test.skip('fork: only required params', async () => {
     const responsePromise = client.instances.fork('id', { name: 'my-workload-1-fork' });
     const rawResponse = await responsePromise.asResponse();

@@ -75,8 +75,14 @@ export class Instances extends APIResource {
    * await client.instances.delete('id');
    * ```
    */
-  delete(id: string, options?: RequestOptions): APIPromise<void> {
+  delete(
+    id: string,
+    params: InstanceDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { graceful_shutdown } = params ?? {};
     return this._client.delete(path`/instances/${id}`, {
+      query: { graceful_shutdown },
       ...options,
       headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
@@ -1377,6 +1383,13 @@ export interface InstanceListParams {
   tags?: { [key: string]: string };
 }
 
+export interface InstanceDeleteParams {
+  /**
+   * Whether to attempt graceful guest shutdown before deleting the instance
+   */
+  graceful_shutdown?: boolean;
+}
+
 export interface InstanceForkParams {
   /**
    * Name for the forked instance (lowercase letters, digits, and dashes only; cannot
@@ -1501,6 +1514,7 @@ export declare namespace Instances {
     type InstanceCreateParams as InstanceCreateParams,
     type InstanceUpdateParams as InstanceUpdateParams,
     type InstanceListParams as InstanceListParams,
+    type InstanceDeleteParams as InstanceDeleteParams,
     type InstanceForkParams as InstanceForkParams,
     type InstanceLogsParams as InstanceLogsParams,
     type InstanceStandbyParams as InstanceStandbyParams,

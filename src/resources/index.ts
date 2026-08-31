@@ -85,6 +85,7 @@ export {
   type InstanceCreateParams,
   type InstanceUpdateParams,
   type InstanceListParams,
+  type InstanceDeleteParams,
   type InstanceForkParams,
   type InstanceLogsParams,
   type InstanceStandbyParams,
