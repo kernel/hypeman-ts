@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.27.0](https://github.com/kernel/hypeman-ts/compare/v0.8.0...v0.27.0) (2026-08-31)
+
+
+### Features
+
+* Allow skipping graceful shutdown on instance delete ([4cd1153](https://github.com/kernel/hypeman-ts/commit/4cd115310104722fe9ce8ab2b307d535c16d25dd))
+
+
+### Chores
+
+* align release version ([59d7dc7](https://github.com/kernel/hypeman-ts/commit/59d7dc750c194dc450922e97f8c6231bf1c73742))
+
 ## [0.8.0](https://github.com/kernel/hypeman-ts/compare/v0.7.0...v0.8.0) (2026-08-21)
 
 
