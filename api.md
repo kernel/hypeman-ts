@@ -35,6 +35,7 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/images.ts">Image</a></code>
+- <code><a href="./src/resources/images.ts">TagImageRequest</a></code>
 - <code><a href="./src/resources/images.ts">ImageListResponse</a></code>
 
 Methods:
@@ -43,6 +44,7 @@ Methods:
 - <code title="get /images">client.images.<a href="./src/resources/images.ts">list</a>({ ...params }) -> ImageListResponse</code>
 - <code title="delete /images/{name}">client.images.<a href="./src/resources/images.ts">delete</a>(name) -> void</code>
 - <code title="get /images/{name}">client.images.<a href="./src/resources/images.ts">get</a>(name) -> Image</code>
+- <code title="post /images/{name}/tag">client.images.<a href="./src/resources/images.ts">tag</a>(name, { ...params }) -> Image</code>
 
 # Instances
 
