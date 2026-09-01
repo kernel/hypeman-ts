@@ -63,6 +63,20 @@ export class Images extends APIResource {
   get(name: string, options?: RequestOptions): APIPromise<Image> {
     return this._client.get(path`/images/${name}`, options);
   }
+
+  /**
+   * Create or update a local image tag
+   *
+   * @example
+   * ```ts
+   * const image = await client.images.tag('name', {
+   *   target: 'docker.io/library/nginx:stable',
+   * });
+   * ```
+   */
+  tag(name: string, body: ImageTagParams, options?: RequestOptions): APIPromise<Image> {
+    return this._client.post(path`/images/${name}/tag`, { body, ...options });
+  }
 }
 
 export interface Image {
@@ -132,6 +146,14 @@ export interface Image {
   working_dir?: string | null;
 }
 
+export interface TagImageRequest {
+  /**
+   * Target OCI image reference with a tag. The local tag points to the source image
+   * without pulling it again.
+   */
+  target: string;
+}
+
 export type ImageListResponse = Array<Image>;
 
 export interface ImageCreateParams {
@@ -169,11 +191,21 @@ export interface ImageListParams {
   tags?: { [key: string]: string };
 }
 
+export interface ImageTagParams {
+  /**
+   * Target OCI image reference with a tag. The local tag points to the source image
+   * without pulling it again.
+   */
+  target: string;
+}
+
 export declare namespace Images {
   export {
     type Image as Image,
+    type TagImageRequest as TagImageRequest,
     type ImageListResponse as ImageListResponse,
     type ImageCreateParams as ImageCreateParams,
     type ImageListParams as ImageListParams,
+    type ImageTagParams as ImageTagParams,
   };
 }

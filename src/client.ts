@@ -57,7 +57,15 @@ import {
   Devices,
 } from './resources/devices';
 import { Health, HealthCheckResponse } from './resources/health';
-import { Image, ImageCreateParams, ImageListParams, ImageListResponse, Images } from './resources/images';
+import {
+  Image,
+  ImageCreateParams,
+  ImageListParams,
+  ImageListResponse,
+  ImageTagParams,
+  Images,
+  TagImageRequest,
+} from './resources/images';
 import {
   Ingress,
   IngressCreateParams,
@@ -902,9 +910,11 @@ export declare namespace Hypeman {
   export {
     Images as Images,
     type Image as Image,
+    type TagImageRequest as TagImageRequest,
     type ImageListResponse as ImageListResponse,
     type ImageCreateParams as ImageCreateParams,
     type ImageListParams as ImageListParams,
+    type ImageTagParams as ImageTagParams,
   };
 
   export {

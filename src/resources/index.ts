@@ -44,9 +44,11 @@ export { Health, type HealthCheckResponse } from './health';
 export {
   Images,
   type Image,
+  type TagImageRequest,
   type ImageListResponse,
   type ImageCreateParams,
   type ImageListParams,
+  type ImageTagParams,
 } from './images';
 export {
   Ingresses,
