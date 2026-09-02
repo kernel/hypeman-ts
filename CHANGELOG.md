@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.29.0](https://github.com/kernel/hypeman-ts/compare/v0.28.0...v0.29.0) (2026-09-02)
+
+
+### Features
+
+* Add Windows hypervisor primitives ([a0b69e9](https://github.com/kernel/hypeman-ts/commit/a0b69e995022e8f39d2df180f7b71cdd9dc5231d))
+* Integrate vendor VFIO vGPUs into the instance lifecycle ([2222034](https://github.com/kernel/hypeman-ts/commit/2222034d8980f9052f1b29774d3417bcbce8b05b))
+
 ## [0.28.0](https://github.com/kernel/hypeman-ts/compare/v0.27.0...v0.28.0) (2026-09-01)
 
 
