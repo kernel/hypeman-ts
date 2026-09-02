@@ -67,7 +67,9 @@ export interface DiskBreakdown {
  */
 export interface GPUProfile {
   /**
-   * Number of instances that can be created with this profile
+   * Number of virtual functions currently able to create this profile. Best-effort:
+   * creating an instance may reduce availability on sibling functions sharing GPU
+   * framebuffer.
    */
   available: number;
 

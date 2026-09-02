@@ -624,7 +624,12 @@ export namespace Instance {
    */
   export interface GPU {
     /**
-     * mdev device UUID
+     * sysfs path of the assigned vGPU device
+     */
+    device_path?: string;
+
+    /**
+     * mdev device UUID (mdev hosts only)
      */
     mdev_uuid?: string;
 
