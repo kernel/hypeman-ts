@@ -1429,7 +1429,7 @@ export interface InstanceLogsParams {
    * - vmm: Cloud Hypervisor VMM logs (hypervisor stdout+stderr)
    * - hypeman: Hypeman operations log (actions taken on this instance)
    */
-  source?: 'app' | 'vmm' | 'hypeman';
+  source?: 'app' | 'vmm' | 'hypeman' | 'swtpm';
 
   /**
    * Number of lines to return from end
