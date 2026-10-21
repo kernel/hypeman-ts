@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.29.0](https://github.com/kernel/hypeman-ts/compare/v0.28.0...v0.29.0) (2026-10-21)
+
+
+### Features
+
+* Add Windows hypervisor primitives ([a0b69e9](https://github.com/kernel/hypeman-ts/commit/a0b69e995022e8f39d2df180f7b71cdd9dc5231d))
+* Integrate vendor VFIO vGPUs into the instance lifecycle ([2222034](https://github.com/kernel/hypeman-ts/commit/2222034d8980f9052f1b29774d3417bcbce8b05b))
+* Place vGPU profiles the driver hides from creatable lists ([e7f429c](https://github.com/kernel/hypeman-ts/commit/e7f429c3dcf2021f62ee13ef5f036da064d668d3))
+* Update Hypeman build toolchains to Go 1.26.10 ([26e9bdb](https://github.com/kernel/hypeman-ts/commit/26e9bdb59bd86802771ffde0289e2f96b0ffebc4))
+
 ## [0.28.0](https://github.com/kernel/hypeman-ts/compare/v0.27.0...v0.28.0) (2026-09-01)
 
 

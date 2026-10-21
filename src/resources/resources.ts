@@ -67,7 +67,9 @@ export interface DiskBreakdown {
  */
 export interface GPUProfile {
   /**
-   * Number of instances that can be created with this profile
+   * Number of additional instances of this profile the host can take if only this
+   * profile is added. Counts for different profiles are not additive: an instance of
+   * one profile can reduce availability of others on the same GPU.
    */
   available: number;
 
@@ -87,9 +89,21 @@ export interface GPUProfile {
  */
 export interface GPUResourceStatus {
   /**
+   * Free slots eligible for placement, matching admission control (excludes
+   * quarantined VFs; 0 while VF health state is unavailable)
+   */
+  allocatable_slots: number;
+
+  /**
    * GPU mode (vgpu for SR-IOV/mdev, passthrough for whole GPU)
    */
   mode: 'vgpu' | 'passthrough';
+
+  /**
+   * VFs quarantined after guest driver init failures (vGPU mode only). May overlap
+   * used_slots until the affected instance releases its VF.
+   */
+  quarantined_slots: number;
 
   /**
    * Total slots (VFs for vGPU, physical GPUs for passthrough)
@@ -97,7 +111,8 @@ export interface GPUResourceStatus {
   total_slots: number;
 
   /**
-   * Slots currently in use
+   * Slots currently in use. Includes quarantined VFs that are still assigned, so
+   * this can overlap quarantined_slots.
    */
   used_slots: number;
 
@@ -105,6 +120,13 @@ export interface GPUResourceStatus {
    * Physical GPUs (only in passthrough mode)
    */
   devices?: Array<PassthroughDevice>;
+
+  /**
+   * Present when allocatable_slots is 0 because the VF health state could not be
+   * read or written rather than because the host is full. vGPU placement is refused
+   * until the state file is repaired or the next write succeeds.
+   */
+  placement_disabled_reason?: string;
 
   /**
    * Available vGPU profiles (only in vGPU mode)
