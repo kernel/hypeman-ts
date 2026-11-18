@@ -13,6 +13,13 @@ export class Builds extends APIResource {
   /**
    * Creates a new build job. Source code should be uploaded as a tar.gz archive in
    * the multipart form data.
+   *
+   * @example
+   * ```ts
+   * const build = await client.builds.create({
+   *   source: fs.createReadStream('path/to/file'),
+   * });
+   * ```
    */
   create(body: BuildCreateParams, options?: RequestOptions): APIPromise<Build> {
     return this._client.post('/builds', multipartFormRequestOptions({ body, ...options }, this._client));
@@ -20,6 +27,11 @@ export class Builds extends APIResource {
 
   /**
    * List builds
+   *
+   * @example
+   * ```ts
+   * const builds = await client.builds.list();
+   * ```
    */
   list(
     query: BuildListParams | null | undefined = {},
@@ -30,6 +42,11 @@ export class Builds extends APIResource {
 
   /**
    * Cancel build
+   *
+   * @example
+   * ```ts
+   * await client.builds.cancel('id');
+   * ```
    */
   cancel(id: string, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/builds/${id}`, {
@@ -46,6 +63,11 @@ export class Builds extends APIResource {
    * - `heartbeat`: Keep-alive events sent every 30s to prevent connection timeouts
    *
    * Returns existing logs as events, then continues streaming if follow=true.
+   *
+   * @example
+   * ```ts
+   * const buildEvent = await client.builds.events('id');
+   * ```
    */
   events(
     id: string,
@@ -62,6 +84,11 @@ export class Builds extends APIResource {
 
   /**
    * Get build details
+   *
+   * @example
+   * ```ts
+   * const build = await client.builds.get('id');
+   * ```
    */
   get(id: string, options?: RequestOptions): APIPromise<Build> {
     return this._client.get(path`/builds/${id}`, options);
@@ -271,6 +298,20 @@ export interface BuildCreateParams {
    * Memory limit for builder VM in MB (default 2048)
    */
   memory_mb?: number;
+
+  /**
+   * JSON object mapping exact registry hosts (no scheme or path) to objects with
+   * required username/password strings and optional RFC3339 expires_at. At most 16
+   * registries; credentials cannot override Hypeman's local output registry. No
+   * CR/LF in values. Held in host memory for at most 30 minutes from submission, or
+   * the earliest expires_at, including queue time. Passed to the ephemeral builder's
+   * Docker auth config over vsock, never saved in host build metadata/config, and
+   * removed at build completion/cancellation. Requires an updated builder image. No
+   * automatic refresh or restart recovery: resubmit interrupted/expired builds with
+   * fresh credentials. Credentialed builds pull directly in BuildKit rather than
+   * populating the shared base-image mirror. Omit or use {} for existing behavior.
+   */
+  registry_credentials?: string;
 
   /**
    * JSON array of secret references to inject during build. Each object has "id"
