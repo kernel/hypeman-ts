@@ -213,15 +213,19 @@ export class Instances extends APIResource {
   }
 
   /**
-   * Stop instance (graceful shutdown)
+   * Stop instance (graceful shutdown, or forced power-off)
    *
    * @example
    * ```ts
    * const instance = await client.instances.stop('id');
    * ```
    */
-  stop(id: string, options?: RequestOptions): APIPromise<Instance> {
-    return this._client.post(path`/instances/${id}/stop`, options);
+  stop(
+    id: string,
+    body: InstanceStopParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Instance> {
+    return this._client.post(path`/instances/${id}/stop`, { body, ...options });
   }
 
   /**
@@ -1480,6 +1484,16 @@ export interface InstanceStatParams {
   follow_links?: boolean;
 }
 
+export interface InstanceStopParams {
+  /**
+   * Power the VM off without asking the guest to shut down. Use when the guest state
+   * will be discarded, for example before restoring a snapshot. A forced stop of a
+   * macOS guest is never graceful, so it cannot be used for a stopped snapshot or
+   * fork until the guest is booted and stopped gracefully again.
+   */
+  force?: boolean;
+}
+
 export interface InstanceWaitParams {
   /**
    * Target state to wait for
@@ -1530,6 +1544,7 @@ export declare namespace Instances {
     type InstanceStandbyParams as InstanceStandbyParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
+    type InstanceStopParams as InstanceStopParams,
     type InstanceWaitParams as InstanceWaitParams,
   };
 

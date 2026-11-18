@@ -87,7 +87,7 @@ Methods:
 - <code title="post /instances/{id}/start">client.instances.<a href="./src/resources/instances/instances.ts">start</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances/{id}/stat">client.instances.<a href="./src/resources/instances/instances.ts">stat</a>(id, { ...params }) -> PathInfo</code>
 - <code title="get /instances/{id}/stats">client.instances.<a href="./src/resources/instances/instances.ts">stats</a>(id) -> InstanceStats</code>
-- <code title="post /instances/{id}/stop">client.instances.<a href="./src/resources/instances/instances.ts">stop</a>(id) -> Instance</code>
+- <code title="post /instances/{id}/stop">client.instances.<a href="./src/resources/instances/instances.ts">stop</a>(id, { ...params }) -> Instance</code>
 - <code title="get /instances/{id}/wait">client.instances.<a href="./src/resources/instances/instances.ts">wait</a>(id, { ...params }) -> WaitForStateResponse</code>
 
 ## AutoStandby

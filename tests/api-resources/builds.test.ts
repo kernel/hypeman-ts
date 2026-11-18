@@ -35,6 +35,7 @@ describe('resource builds', () => {
       image_name: 'image_name',
       is_admin_build: 'is_admin_build',
       memory_mb: 0,
+      registry_credentials: '{"registry.example":{"username":"AWS","password":"<temporary-token>"}}',
       secrets: 'secrets',
       tags: 'tags',
       timeout_seconds: 0,

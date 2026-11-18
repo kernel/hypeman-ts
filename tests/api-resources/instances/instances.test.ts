@@ -329,6 +329,14 @@ describe('resource instances', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('stop: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.instances.stop('id', { force: true }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Hypeman.NotFoundError);
+  });
+
+  // Mock server tests are disabled
   test.skip('wait: only required params', async () => {
     const responsePromise = client.instances.wait('id', { state: 'Created' });
     const rawResponse = await responsePromise.asResponse();

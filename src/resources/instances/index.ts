@@ -34,6 +34,7 @@ export {
   type InstanceStandbyParams,
   type InstanceStartParams,
   type InstanceStatParams,
+  type InstanceStopParams,
   type InstanceWaitParams,
 } from './instances';
 export { Snapshots, type SnapshotCreateParams, type SnapshotRestoreParams } from './snapshots';

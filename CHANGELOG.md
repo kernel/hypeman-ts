@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.30.0](https://github.com/kernel/hypeman-ts/compare/v0.29.0...v0.30.0) (2026-11-18)
+
+
+### Features
+
+* Add force option to instance stop ([7407da4](https://github.com/kernel/hypeman-ts/commit/7407da4fcd7fe38763ce44aa16a5efdb3f70b4bf))
+* Support per-build registry credentials ([7472b60](https://github.com/kernel/hypeman-ts/commit/7472b604ba98707d81d41d02f493db46e6f66e7d))
+
 ## [0.29.0](https://github.com/kernel/hypeman-ts/compare/v0.28.0...v0.29.0) (2026-11-09)
 
 
