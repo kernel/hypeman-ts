@@ -135,6 +135,7 @@ import {
   InstanceStartParams,
   InstanceStatParams,
   InstanceStats,
+  InstanceStopParams,
   InstanceUpdateParams,
   InstanceWaitParams,
   Instances,
@@ -950,6 +951,7 @@ export declare namespace Hypeman {
     type InstanceStandbyParams as InstanceStandbyParams,
     type InstanceStartParams as InstanceStartParams,
     type InstanceStatParams as InstanceStatParams,
+    type InstanceStopParams as InstanceStopParams,
     type InstanceWaitParams as InstanceWaitParams,
   };
 
